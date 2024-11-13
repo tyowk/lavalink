@@ -1,6 +1,6 @@
 const Dispatcher = require('./Dispatcher.js');
 
-module.exports = class Queue extends Map {
+exports.ClientQueue = class Queue extends Map {
     constructor(client, options) {
         super();
         this.client = client;
