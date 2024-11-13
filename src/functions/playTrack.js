@@ -1,5 +1,4 @@
 const { LoadType } = require('shoukaku');
-const { EmbedBuilder } = require('discord.js');
 
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
@@ -17,7 +16,6 @@ module.exports = async (d) => {
        );
     
     const res = await d.client.queue.search(query, type);
-    const embed = new EmbedBuilder();
     switch (res.loadType) {
         case LoadType.ERROR: return d.aoiError.fnError(d, "custom", {}, `There was an error while searching.`);
         case LoadType.EMPTY: return d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
