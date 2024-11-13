@@ -1,5 +1,6 @@
 {
     "name": "aoi.lavalink",
+    "version": "0.0.1",
     "description": "Lavalink implementation in Aoi.js",
     "dependencies": {
         "shoukaku": "^4.1.1"
