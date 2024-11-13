@@ -2,7 +2,7 @@ const { Connectors, Shoukaku } = require('shoukaku');
 const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
 
-exports.MusicClient = class Client extends Shoukaku {
+exports.Client = class Client extends Shoukaku {
     constructor(client, options) {
         if (!options || !options.nodes) throw new Error('There is no nodes provided to connect on!');
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
