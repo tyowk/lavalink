@@ -4,6 +4,7 @@
     "description": "A lavalink music player extension for aoi.js",
     "main": "src/index.js",
     "dependencies": {
+        "chalk": "^4.1.2",
         "shoukaku": "^4.1.1"
     },
     "devDependencies": {
