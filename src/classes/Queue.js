@@ -51,12 +51,12 @@ module.exports = class Queue extends Map {
         }
     }
 
-    async search(query) {
+    async search(query, type) {
         const node = this.client.shoukaku.options.nodeResolver(this.client.shoukaku.nodes);
         const regex = /^https?:\/\//;
         let result;
         try {
-            result = await node.rest.resolve(regex.test(query) ? query : `${this.options.searchEngine || 'ytsearch'}:${query}`);
+            result = await node.rest.resolve(regex.test(query) ? query : `${(type ? type : this.options.searchEngine) || 'ytsearch'}:${query}`);
         } catch (err) {
             return null;
         }
