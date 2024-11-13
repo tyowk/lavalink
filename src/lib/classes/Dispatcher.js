@@ -16,7 +16,6 @@ module.exports = class Dispatcher {
         this.paused = false;
         this.filters = [];
         this.autoplay = false;
-        this.nowPlayingMessage = null;
         this.player
             .on('start', () => this.client.shoukaku.emit('trackStart', this.player, this.current, this))
             .on('end', () => {
