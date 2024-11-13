@@ -1,9 +1,10 @@
 const Dispatcher = require('./Dispatcher.js');
 
 module.exports = class Queue extends Map {
-    constructor(client) {
+    constructor(client, options) {
         super();
         this.client = client;
+        this.options = options;
     }
 
     get(guildId) {
@@ -55,7 +56,7 @@ module.exports = class Queue extends Map {
         const regex = /^https?:\/\//;
         let result;
         try {
-            result = await node.rest.resolve(regex.test(query) ? query : `${this.client.config.searchEngine}:${query}`);
+            result = await node.rest.resolve(regex.test(query) ? query : `${this.options.searchEngine || 'ytsearch'}:${query}`);
         } catch (err) {
             return null;
         }
