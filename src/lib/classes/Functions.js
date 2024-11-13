@@ -8,7 +8,7 @@ exports.CustomFunctions =  class Functions {
             const files = fs.readdirSync(basePath);
             for (const file of files) {
                 const filePath = path.join(basePath, file);
-                const func = require(filePath);
+                const func = require(path.join('..', 'functions', file));
                 if (fs.statSync(filePath).isDirectory()) {
                     this.constructor(client, filePath);
                 } else {
