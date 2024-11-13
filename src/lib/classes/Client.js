@@ -21,7 +21,7 @@ exports.MusicClient = class Client extends Shoukaku {
         this.client = client;
         this.client.shoukaku = this;
         this.client.queue = new ClientQueue(this);
-        new CustomFunctions(this.client);
+        new CustomFunctions(this.client, options.debug);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 }
