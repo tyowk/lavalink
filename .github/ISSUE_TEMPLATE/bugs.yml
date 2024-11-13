@@ -1,1 +1,36 @@
+name: Bug Report
+description: Report us the issue.
+title: "Bug: "
+labels: "bug"
+body:
+  - type: textarea
+    id: code
+    attributes:
+      label: BUGS
+      render: markdown
+      placeholder: There is a bugs at...
+    validations:
+      required: true
 
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version of Aoi.MySQL
+      description: What version of aoi.mysql are you using?
+      options:
+        - v1.0.0 [deprecated]
+        - v1.0.1
+        - v2.0.0
+        - v2.0.5
+        - v3.0.0 [latest]
+    validations:
+      required: false
+      
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output.
+      render: shell
+    validations:
+      required: false
