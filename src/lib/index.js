@@ -1,8 +1,8 @@
-const { Client } = require('discord.js');
-const { ShoukakuClient } = require('./Shoukaku.js');
+const { Shoukaku } = require('./Shoukaku.js');
 
-exports.Music = class Music extends ShoukakuClient {
+exports.Music = class Music extends Shoukaku {
     constructor(client, options) {
+        super(client, options);
         
     }
 }
