@@ -138,12 +138,7 @@ module.exports = class Dispatcher {
             encoded: track.encoded,
             info: {
                 ...track.info,
-                requester: {
-                    username: user.username || 'unknown',
-                    globalName: user.globalName || 'unknown',
-                    avatar: user.avatar || 'unknown',
-                    id: user.id || 'unknown'
-                }
+                requester: { ...user }
             }
         };
     }
