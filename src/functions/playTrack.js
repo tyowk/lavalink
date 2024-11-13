@@ -5,6 +5,7 @@ module.exports = async (d) => {
     if (data.err) return d.error(data.err);
     let [query, type] = data.inside.splits;
     if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title or link of the song you want to play!`);
+    if (!type) type = 'youtube';
     type = type?.toLowerCase()?.replace('youtube', 'ytsearch')?.replace('spotify', 'spsearch')?.replace('soundcloud', 'scsearch');
 
     let player = d.client.queue.get(d.guild.id);
