@@ -30,9 +30,9 @@ exports.Client = class Client extends Shoukaku {
             },
         });
         
-        this.#client = client;
-        this.#client.shoukaku = this;
-        this.#client.music = options;
+        this.client = client;
+        this.client.shoukaku = this;
+        this.client.music = options;
 
         this.cmds = {
             trackStart: new Collection(),
@@ -44,7 +44,7 @@ exports.Client = class Client extends Shoukaku {
             trackResumed: new Collection(),
         };
 
-        this.#client.music.events = [
+        this.client.music.events = [
             'trackStart',
             'trackEnd',
             'trackStuck',
@@ -54,19 +54,17 @@ exports.Client = class Client extends Shoukaku {
             'queueEnd',
         ];
 
-        this.#client.music.cmds = this.cmds;
-        this.#client.queue = new ClientQueue(this.#client, options);
-        
-        new CustomFunctions(this.#client, options.debug);
-        new MusicEvents(this.#client);
-
+        this.client.music.cmds = this.cmds;
+        this.client.queue = new ClientQueue(this.client, options);
+        new CustomFunctions(this.client, options.debug);
+        new MusicEvents(this.client);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
     async loadMusicEvents(dir, debug = false) {
-        const loader = new LoadCommands(this.#client);
+        const loader = new LoadCommands(this.client);
         await loader.load(this.cmds, dir, debug);
-        this.#client.music.events.forEach(event => this.#bindEvents(event));
+        this.client.music.events.forEach(event => this.#bindEvents(event));
     }
 
     #bindEvents(event) {
@@ -79,11 +77,11 @@ exports.Client = class Client extends Shoukaku {
                     let channel;
                     if (cmd.channel.startsWith("$")) {
                         const guildId = player.guildId;
-                        const guild = this.#client.guilds.cache.get(guildId);
+                        const guild = this.client.guilds.cache.get(guildId);
                         const channelId = dispatcher.channelId;
-                        const channelData = await this.#client.functionManager.interpreter(
-                            this.#client,
-                            { guild, channel: this.#client.channels.cache.get(channelId) },
+                        const channelData = await this.client.functionManager.interpreter(
+                            this.client,
+                            { guild, channel: this.client.channels.cache.get(channelId) },
                             [],
                             { code: cmd.channel, name: "NameParser" },
                             undefined,
@@ -93,10 +91,10 @@ exports.Client = class Client extends Shoukaku {
                         );
                         channel = channelData?.code;
                     }
-                    const resolvedChannel = this.#client.channels.cache.get(channel);
-                    await this.#client.functionManager.interpreter(
-                        this.#client,
-                        { guild: this.#client.guilds.cache.get(player.guildId), channel: resolvedChannel },
+                    const resolvedChannel = this.client.channels.cache.get(channel);
+                    await this.client.functionManager.interpreter(
+                        this.client,
+                        { guild: this.client.guilds.cache.get(player.guildId), channel: resolvedChannel },
                         [],
                         cmd,
                         undefined,
@@ -106,10 +104,10 @@ exports.Client = class Client extends Shoukaku {
                     );
                 } else {
                     await cmd.__compiled__({
-                        bot: this.#client,
-                        client: this.#client,
-                        channel: this.#client.channels.cache.get(dispatcher.channelId),
-                        guild: this.#client.guilds.cache.get(player.guildId),
+                        bot: this.client,
+                        client: this.client,
+                        channel: this.client.channels.cache.get(dispatcher.channelId),
+                        guild: this.client.guilds.cache.get(player.guildId),
                         player: player,
                     });
                 }
