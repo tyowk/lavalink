@@ -1,13 +1,12 @@
 exports.MusicEvents = class Events {
     constructor(client) {
-        this.shoukaku = client.shoukaku;
-        this.shoukaku.on('trackStart', (player, track, dispatcher) => this.trackStart(player, track, dispatcher));
-        this.shoukaku.on('trackEnd', (player, track, dispatcher) => this.trackStart(player, track, dispatcher));
-        this.shoukaku.on('queueStart', (player, track, dispatcher) => this.queueStart(player, track, dispatcher));
-        this.shoukaku.on('queueEnd', (player, track, dispatcher) => this.queueEnd(player, track, dispatcher));
+        client.shoukaku.on('trackStart', async (player, track, dispatcher) => await this.trackStart(player, track, dispatcher));
+        client.shoukaku.on('trackEnd', async (player, track, dispatcher) => await this.trackEnd(player, track, dispatcher));
+        client.shoukaku.on('queueStart', async (player, track, dispatcher) => await this.queueStart(player, track, dispatcher));
+        client.shoukaku.on('queueEnd', async (player, track, dispatcher) => await this.queueEnd(player, track, dispatcher));
     }
 
-    trackStart(player, track, dispatcher) {}
+    async trackStart(player, track, dispatcher) {}
     async trackEnd(player, track, dispatcher) {
         dispatcher.previous = dispatcher.current;
         dispatcher.current = null;
@@ -26,8 +25,6 @@ exports.MusicEvents = class Events {
         if (dispatcher.loop === "off") {
             dispatcher.previous = dispatcher.current;
             dispatcher.current = null;
-            if (dispatcher.queue.length > 0) return;
-            await dispatcher.destroy();
         }
     }
 }
