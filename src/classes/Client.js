@@ -65,38 +65,12 @@ exports.Client = class Client extends Shoukaku {
         this.on(event, (player, track, dispatcher) => {
             this.cmds[event].forEach(async (cmd) => {
                 if (cmd.__compiled__) return;
-                let channel;
-
-                if (cmd.channel.startsWith("$")) {
-                    const guildId = player.;
-                    const guild = this.#bot.guilds.cache.get(guildId);
-                    const channelId = this.prunes.get(guildId).channel;
-                    const channelData = await this.#executor(
-                        this.#bot,
-                        {
-                            guild: guild,
-                            channel: this.#bot.channels.cache.get(channelId),
-                        },
-                        [],
-                        { code: cmd.channel, name: "NameParser" },
-                        undefined,
-                        true,
-                        undefined,
-                        {
-                            data: data[0],
-                            player: player,
-                        }
-                    );
-
-                    channel = channelData?.code;
-                }
-
-                const resolvedChannel = this.#bot.channels.cache.get(channel);
-
-                return await this.#executor(
-                    this.#bot,
+                const channelId = cmd.channel.startsWith("$") ? dispatcher.channelId : cmd.channel;
+                const resolvedChannel = this.client.channels.cache.get(channelId);
+                return await this.client.functionManager.interpreter(
+                    this.client,
                     {
-                        guild: this.#bot.guilds.cache.get(guildId),
+                        guild: this.client.guilds.cache.get(player.guildId),
                         channel: resolvedChannel,
                     },
                     [],
