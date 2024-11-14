@@ -1,7 +1,7 @@
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
-    const [value, guildId] = data.inside.splitsb
-    const player = d.client.queue.get(guildId ? guildId : d.guild.id);
+    const [value] = data.inside.splitsb
+    const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
   
     if (!value) {
