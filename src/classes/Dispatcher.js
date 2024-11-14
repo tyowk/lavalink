@@ -16,6 +16,7 @@ module.exports = class Dispatcher {
         this.paused = false;
         this.filters = [];
         this.autoplay = false;
+        this.volume = this.player.volume;
         this.player
             .on('start', () => {
                 if (this.queue.length) this.client.shoukaku.emit('queueStart', this.player, this.current, this);
@@ -37,8 +38,9 @@ module.exports = class Dispatcher {
         return this.client.queue.has(this.guildId);
     }
 
-    get volume() {
-        return this.player.volume;
+    volume(value) {
+        if (!value) { return this.volume };
+        this.player.setGlobalVolume(value);
     }
 
     async play() {
