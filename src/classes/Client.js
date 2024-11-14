@@ -33,8 +33,8 @@ exports.Client = class Client extends Shoukaku {
         this.cmds = {
             trackStart: new Collection(),
             trackEnd: new Collection(),
-            QueueStart: new Collection(),
-            QueueEnd: new Collection(),
+            queueStart: new Collection(),
+            queueEnd: new Collection(),
             trackStuck: new Collection(),
             socketClosed: new Collection(),
         };
