@@ -17,12 +17,17 @@ module.exports = class Dispatcher {
         this.filters = [];
         this.autoplay = false;
         this.player
-            .on('start', () => this.client.shoukaku.emit('trackStart', this.player, this.current, this))
+            .on('start', () => {
+                if (this.queue.length) this.client.shoukaku.emit('queueStart', this.player, this.current, this);
+                this.client.shoukaku.emit('trackStart', this.player, this.current, this);
+            })
             .on('end', () => {
                 if (!this.queue.length) this.client.shoukaku.emit('queueEnd', this.player, this.current, this);
                 this.client.shoukaku.emit('trackEnd', this.player, this.current, this);
             })
-            .on('stuck', () => this.client.shoukaku.emit('trackStuck', this.player, this.current))
+            .on('stuck', () => {
+                this.client.shoukaku.emit('trackStuck', this.player, this.current)
+            })
             .on('closed', (...arr) => {
                 this.client.shoukaku.emit('socketClosed', this.player, ...arr);
             });
