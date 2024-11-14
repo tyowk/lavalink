@@ -60,7 +60,7 @@ exports.Client = class Client extends Shoukaku {
     async loadEvents(dir, debug = options.debug || false) {
         const loader = new LoadCommands(this.client);
         await loader.load(this.cmds, dir, debug);
-        this.music.events.forEach(() => this.#bindEvents);
+        this.music.events.forEach(event => this.#bindEvents(event));
     }
 
     #bindEvents(event) {
