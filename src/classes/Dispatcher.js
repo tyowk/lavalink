@@ -33,12 +33,13 @@ module.exports = class Dispatcher {
             });
     }
 
-    get exists() {
+    exists() {
         return this.client.queue.has(this.guildId);
     }
 
-    get volume() {
-        return this.player.volume;
+    volume(value) {
+        if (!value) return this.player.volume;
+        this.player.setGlobalVolume(value);
     }
 
     async play() {
