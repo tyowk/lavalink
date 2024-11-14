@@ -6,7 +6,12 @@ module.exports = async (d) => {
     let [query, type] = data.inside.splits;
     if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title or link of the song you want to play!`);
     if (!type) type = 'youtube';
-    type = type?.toLowerCase()?.replace('youtube', 'ytsearch')?.replace('spotify', 'spsearch')?.replace('soundcloud', 'scsearch');
+    type = type?.toLowerCase()?
+        .replace('youtube', 'ytsearch')?
+        .replace('spotify', 'spsearch')?
+        .replace('soundcloud', 'scsearch')?
+        .replace('deezer', 'dzsearch')?
+        .replace('youtubemusic', 'ytmsearch');
 
     let player = d.client.queue.get(d.guild.id);
     if (!player)
