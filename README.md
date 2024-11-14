@@ -83,5 +83,5 @@ module.exports = [{
 
 **Explanation**:  
 - `loadMusicEvents`: Loads event handler files from the specified directory. Each file can define multiple events for specific actions.
-- Event types like `trackStart`, `trackEnd`, `trackPause`, etc., are triggered during specific moments in the music player’s lifecycle.
+- Event types like `trackStart`, `trackEnd`, `trackResumed`, `trackPaused`, `queueStart`, `queueEnd`, `trackStuck`, are triggered during specific moments in the music player’s lifecycle.
 - Inside the event file, you can define the `type` of event and the `code` to execute when that event happens. You can also use dynamic data like `$channelId` for flexibility.
