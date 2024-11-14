@@ -3,10 +3,10 @@ module.exports = async (d) => {
     if (data.err) return d.error(data.err);
     let [type, index] = data.inside.splits;
     if (!type) type = 'title';
+    type = type.split('.');
     
     let player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
-    type = type.split('.');
 
     if (index && !isNaN(index) && index > 0) {
         const res = player.queue[(index - 1)]?.info;
