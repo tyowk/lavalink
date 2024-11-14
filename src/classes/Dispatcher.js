@@ -154,8 +154,8 @@ module.exports = class Dispatcher {
         }
     }
 
-    async Autoplay(song) {
-        const resolve = await this.node.rest.resolve(`${this.client.config.searchEngine}:${song.info.author}`);
+    async Autoplay(song, type) {
+        const resolve = await this.node.rest.resolve(`${type ? type : this.client.music.searchEngine}:${song.info.author}`);
         if (!resolve || !resolve?.data || !Array.isArray(resolve.data)) return this.destroy();
         const metadata = resolve.data;
         let choosed = null;
