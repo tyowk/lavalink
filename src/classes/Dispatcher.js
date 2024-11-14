@@ -39,8 +39,8 @@ module.exports = class Dispatcher {
     }
 
     volume(value) {
-        if (isNaN(value)) return;
         if (!value) { return this.currentVolume };
+        if (isNaN(value)) return;
         this.player.setGlobalVolume(value);
         this.currentVolume = value;
     }
