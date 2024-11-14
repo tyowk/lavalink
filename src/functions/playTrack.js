@@ -14,6 +14,7 @@ module.exports = async (d) => {
         .replace('youtubemusic', 'ytmsearch')
         .replace('applemusic', 'amsearch');
 
+    if (!d.member?.voice?.channel) return d.aoiError.fnError(d, "custom", {}, `You are not connected to any voice channels.`);
     let player = d.client.queue.get(d.guild.id);
     if (!player)
        player = await d.client.queue.create(
