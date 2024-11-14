@@ -3,6 +3,7 @@ const { Collection } = require('discord.js');
 const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
 const { MusicEvents } = require('./Events.js');
+const { LoadCommands } = require('aoi.js');
 
 exports.Client = class Client extends Shoukaku {
     constructor(client, options) {
