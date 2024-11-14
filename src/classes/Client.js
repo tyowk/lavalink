@@ -63,8 +63,8 @@ exports.Client = class Client extends Shoukaku {
 
     #bindEvents(event) {
         this.on(event, (...data) => {
-            const player = data[0];
-            const dispatcher = data[2];
+            const player = data.shift();
+            const dispatcher = data.pop();
             
             this.cmds[event].forEach(async (cmd) => {
                 if (!cmd.__compiled__) {
@@ -91,39 +91,34 @@ exports.Client = class Client extends Shoukaku {
                             }
                         );
                         channel = channelData?.code;
-                     }
-
-                const resolvedChannel = this.#bot.channels.cache.get(channel);
-
-                return await this.#executor(
-                    this.#bot,
-                    {
-                        guild: this.#bot.guilds.cache.get(guildId),
-                        channel: resolvedChannel,
-                    },
-                    [],
-                    cmd,
-                    undefined,
-                    false,
-                    resolvedChannel,
-                    {
-                        data: data[0],
                     }
-                );
-            }
+                    const resolvedChannel = this.client.channels.cache.get(channel);
+                    return await this.client.functionManager.interpreter(
+                        this.client,
+                        {
+                            guild: this.client.guilds.cache.get(guildId),
+                            channel: resolvedChannel,
+                        },
+                        [],
+                        cmd,
+                        undefined,
+                        false,
+                        resolvedChannel,
+                        {
+                            data: data[0],
+                        }
+                    );
+                }
 
-            return await cmd.__compiled__({
-                bot: this.#bot,
-                client: this.#bot.client,
-                channel: this.prunes.get(player.options.connection.joinConfig.guildId).channel,
-                guild: this.#bot.guilds.cache.get(player.options.connection.joinConfig.guildId),
-                player: player,
+                return await cmd.__compiled__({
+                    bot: this.client,
+                    client: this.client.client,
+                    channel: this.client.channels.cache.get(dispatcher.channelId),
+                    guild: this.client.guilds.cache.get(player.guildId),
+                    player: player,
+                });
             });
+            return event;
         });
-
-        return PlayerEvents[event];
-    });
     }
-    
-                    
 }
