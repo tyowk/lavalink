@@ -28,8 +28,8 @@ module.exports = class Dispatcher {
             .on('stuck', () => {
                 this.client.shoukaku.emit('trackStuck', this.player, this.current)
             })
-            .on('closed', (...arr) => {
-                this.client.shoukaku.emit('socketClosed', this.player, ...arr);
+            .on('closed', (...args) => {
+                this.client.shoukaku.emit('socketClosed', this.player, ...args);
             });
     }
 
