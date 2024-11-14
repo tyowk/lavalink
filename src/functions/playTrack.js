@@ -68,7 +68,7 @@ module.exports = async (d) => {
         }
     }
 
-    if (debug && debug === true) data.result = (debugResult || 'unknown');
+    if (debug && debug == 'true') data.result = (debugResult || 'unknown');
     return {
         code: d.util.setCode(data)
     }
