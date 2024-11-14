@@ -39,7 +39,7 @@ const voice = new MusicClient(client, {
 These are the core music commands and functions available for the bot. 
 
 ```bash
-$playTrack[query;engine?]    # Play a track based on a search query or URL. You can specify the engine, like 'ytsearch' (YouTube) or 'scsearch' (SoundCloud).
+$playTrack[query;engine?]    # Play a track based on a search query or URL. You can specify the engine, like 'youtube', 'soundcloud' or 'spotify'.
 $stopTrack                   # Stop the current track and clear the queue.
 $disconnect                  # Disconnect the bot from the voice channel.
 $connect[voiceId?]           # Connect the bot to a voice channel by specifying the voice channel ID (optional).
