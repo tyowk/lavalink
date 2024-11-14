@@ -56,5 +56,7 @@ exports.Client = class Client extends Shoukaku {
     queueEnd(data) {}
     trackStuck(data) {}
     socketClosed(data) {}
+
+    loadCommands(basePath, debug) {}
 }
 
