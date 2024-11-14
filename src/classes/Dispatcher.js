@@ -16,7 +16,7 @@ module.exports = class Dispatcher {
         this.paused = false;
         this.filters = [];
         this.autoplay = false;
-        this.volume = this.player.volume;
+        this.currentVolume = 100;
         this.player
             .on('start', () => {
                 if (this.queue.length) this.client.shoukaku.emit('queueStart', this.player, this.current, this);
@@ -39,8 +39,10 @@ module.exports = class Dispatcher {
     }
 
     volume(value) {
-        if (!value) { return this.volume };
+        if (isNaN(value)) return;
+        if (!value) { return this.currentVolume };
         this.player.setGlobalVolume(value);
+        this.currentVolume = value;
     }
 
     async play() {
