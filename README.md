@@ -37,3 +37,8 @@ $leaveVc
 $joinVc[voiceId?]
 $songInfo[query?;index?]
 ```
+
+## Events
+```bash
+SOON™
+```
