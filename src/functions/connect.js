@@ -6,7 +6,7 @@ module.exports = async (d) => {
     if (!voiceId) voiceId = d.member?.voice?.channel?.id;
     if (!voiceId) return d.aoiError.fnError(d, "custom", {}, `You are not connected to any voice channels.`);
     const voiceChannel = await d.guild.channels.fetch(voiceId);
-    if (voiceChannel.type !== ChannelType.GuildVoice || voiceChannel.type !== ChannelType.GuildStageVoice)
+    if (voiceChannel.type !== ChannelType.GuildVoice && voiceChannel.type !== ChannelType.GuildStageVoice)
         return d.aoiError.fnError(d, "custom", {}, `Invalid channel type: "${voiceChannel.type}"`);
     
     let player = d.client.queue.get(d.guild.id);
