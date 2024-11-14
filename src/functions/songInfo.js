@@ -1,8 +1,8 @@
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
     if (data.err) return d.error(data.err);
-    let [query] = data.inside.splits;
-    if (!query) query = 'all';
+    let [query, index] = data.inside.splits;
+    if (!query) query = 'title';
 
     let player = d.client.queue.get(d.guild.id);
     if (!player)
