@@ -3,7 +3,7 @@ const { LoadType } = require('shoukaku');
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
     if (data.err) return d.error(data.err);
-    let [query, type, debug] = data.inside.splits;
+    let [query, type, debug, guildId] = data.inside.splits;
     if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title or link of the song you want to play!`);
     if (!type) type = 'youtube';
     type = type?.toLowerCase()
@@ -15,7 +15,7 @@ module.exports = async (d) => {
         .replace('applemusic', 'amsearch');
 
     if (!d.member?.voice?.channel) return d.aoiError.fnError(d, "custom", {}, `You are not connected to any voice channels.`);
-    let player = d.client.queue.get(d.guild.id);
+    let player = d.client.queue.get(guildId ? guildId : d.guild.id);
     if (!player)
        player = await d.client.queue.create(
            d.guild,
