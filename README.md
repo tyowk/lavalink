@@ -47,6 +47,8 @@ $hasPlayer[guildId?]         # Check if the bot already has a player (is playing
 $leaveVc                     # Disconnect the bot from the voice channel. Same as $disconnect.
 $joinVc[voiceId?]            # Join a voice channel using the specified voice channel ID (optional).
 $songInfo[query?;index?]     # Get information about the song playing or at a specific index in the queue (optional query and index).
+
+# More functions will be added later...
 ```
 
 **Explanation**:  
