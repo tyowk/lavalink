@@ -2,9 +2,11 @@ const { Connectors, Shoukaku } = require('shoukaku');
 const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
 const { MusicEvents } = require('./Events.js');
+const { CustomEvent } = require('aoi.js');
 
 exports.Client = class Client extends Shoukaku {
     constructor(client, options) {
+        if (!client) throw new Error('Client instance is not defined.');
         if (!options || !options.nodes) throw new Error('There is no nodes provided to connect on!');
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
         if (!options.maxQueueSize) options.maxQueueSize = 100;
@@ -28,9 +30,16 @@ exports.Client = class Client extends Shoukaku {
         this.client.shoukaku = this;
         this.client.musicOptions = options;
         this.client.queue = new ClientQueue(this.client, options);
+        this.events = new CustomEvent(this.client);
         new CustomFunctions(this.client, options.debug || false);
         new MusicEvents(this.client);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
+
+    trackStart(data) {}
+    trackEnd(data) {}
+    queueStart(data) {}
+    queueEnd(data) {}
+    trackStuck(data) {}
 }
 
