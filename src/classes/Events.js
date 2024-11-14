@@ -32,4 +32,21 @@ exports.MusicEvents = class Events {
             dispatcher.current = null;
         }
     }
+
+    CustomMusicEvents() {
+        this.customTrackStart();
+        this.customTrackEnd();
+        this.customQueueStart();
+        this.customQueueEnd();
+        this.customSocketClosed();
+    }
+
+    customTrackStart() {
+        this.cmds.trackStart.forEach(event => {
+            this.events.command({
+                emit: 'trackStart'
+                
+            });
+        });
+    }
 }
