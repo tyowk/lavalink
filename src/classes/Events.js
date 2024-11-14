@@ -44,8 +44,49 @@ exports.MusicEvents = class Events {
     customTrackStart() {
         this.cmds.trackStart.forEach(event => {
             this.events.command({
-                emit: 'trackStart'
-                
+                listen: event.type || 'trackStart',
+                channel: event.channel,
+                code: event.code,
+            });
+        });
+    }
+
+    customTrackEnd() {
+        this.cmds.trackEnd.forEach(event => {
+            this.events.command({
+                listen: event.type || 'trackEnd',
+                channel: event.channel,
+                code: event.code,
+            });
+        });
+    }
+
+    customQueueStart() {
+        this.cmds.queueStart.forEach(event => {
+            this.events.command({
+                listen: event.type || 'queueStart',
+                channel: event.channel,
+                code: event.code,
+            });
+        });
+    }
+
+    customQueueEnd() {
+        this.cmds.queueEnd.forEach(event => {
+            this.events.command({
+                listen: event.type || 'queueEnd',
+                channel: event.channel,
+                code: event.code,
+            });
+        });
+    }
+
+    customSocketClosed() {
+        this.cmds.socketClosed.forEach(event => {
+            this.events.command({
+                listen: event.type || 'socketClosed',
+                channel: event.channel,
+                code: event.code,
             });
         });
     }
