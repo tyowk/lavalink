@@ -3,6 +3,7 @@ const { Collection } = require('discord.js');
 const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
 const { CustomEvent } = require('aoi.js');
+const { MusicEvents } = require('./Events.js');
 
 exports.Client = class Client extends Shoukaku {
     constructor(client, options) {
@@ -45,6 +46,7 @@ exports.Client = class Client extends Shoukaku {
         this.client.music.cmds = this.cmds;
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug || false);
+        new MusicEvents(this.client);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
