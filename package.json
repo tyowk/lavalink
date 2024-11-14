@@ -1,7 +1,7 @@
 {
     "name": "aoi.lavalink",
     "version": "0.0.1",
-    "description": "A lavalink music player extension for aoi.js",
+    "description": "A lavalink music player for aoi.js",
     "main": "src/index.js",
     "dependencies": {
         "chalk": "^4.1.2",
