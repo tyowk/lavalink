@@ -16,10 +16,10 @@ module.exports = async (d) => {
         d.guild,
         voiceChannel,
         d.channel,
-        d.client.shoukaku.options.nodeResolver(d.client.shoukaku.nodes) // Ensure this resolves correctly
+        d.client.shoukaku.options.nodeResolver(d.client.shoukaku.nodes)
     );
   
     return {
         code: d.util.setCode(data)
     };
-}
+};
