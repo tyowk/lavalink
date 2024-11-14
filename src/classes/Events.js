@@ -3,16 +3,13 @@ const { CustomEvents } = require('aoi.js');
 exports.MusicEvents = class Events {
     constructor(client) {
         this.events = new CustomEvent(client);
-        client.shoukaku.on('trackStart', async (p, t, d) => await this.trackStart(p, t, d));
+        client.shoukaku.on('trackStart', async () => await this.events.emit('trackStart'));
         client.shoukaku.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
-        client.shoukaku.on('queueStart', async (p, t, d) => await this.queueStart(p, t, d));
+        client.shoukaku.on('queueStart', async () => await this.events.emit('queueStart'));
         client.shoukaku.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
+        client.shoukaku.on('socketClosed', async () => await this.events.emit('socketClosed'));
     }
 
-    async trackStart(player, track, dispatcher) {
-        this.events.emit('trackStart');
-    }
-    
     async trackEnd(player, track, dispatcher) {
         this.events.emit('trackEnd');
         dispatcher.previous = dispatcher.current;
@@ -23,9 +20,6 @@ exports.MusicEvents = class Events {
         if (dispatcher.autoplay) { await dispatcher.Autoplay(track) }
     }
     
-    async queueStart(player, track, dispatcher) {
-        this.events.emit('queueStart');
-    }
     async queueEnd(player, track, dispatcher) {
         this.events.emit('queueEnd');
         if (dispatcher.loop === "repeat") dispatcher.queue.unshift(track);
