@@ -3,8 +3,19 @@ exports.MusicEvents = class Events {
         this.client = client;
     }
 
-    trackStart() {}
-    trackEnd() {}
-    queueStart() {}
-    queueEnd() {}
+    trackStart(player, track, dispatcher) {
+        
+    }
+    
+    trackEnd(player, track, dispatcher) {
+        
+    }
+    
+    queueStart(player, track, dispatcher) {
+        
+    }
+    
+    queueEnd(player, track, dispatcher) {
+        
+    }
 }
