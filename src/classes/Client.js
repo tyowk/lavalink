@@ -28,7 +28,7 @@ exports.Client = class Client extends Shoukaku {
         });
         this.client = client;
         this.client.shoukaku = this;
-        this.client.musicOptions = options;
+        this.client.music = options;
         this.events = new CustomEvent(client);
         
         this.cmds = {
@@ -39,10 +39,10 @@ exports.Client = class Client extends Shoukaku {
             trackStuck = new Collection(),
             socketClosed = new Collection(),
         };
-        
-        this.client.voice = {};
-        this.client.voice.events = this.events;
-        this.client.voice.cmds = this.cmds;
+
+        if (!this.client.music) this.client.music = {};
+        this.client.music.events = this.events;
+        this.client.music.cmds = this.cmds;
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug || false);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
