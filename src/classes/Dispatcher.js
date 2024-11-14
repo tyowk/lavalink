@@ -42,11 +42,8 @@ module.exports = class Dispatcher {
     }
 
     async play() {
-        if (!this.exists || (!this.queue.length && !this.current)) {
-            return;
-        }
+        if (!this.exists || (!this.queue.length && !this.current)) return;
         this.current = this.queue.length !== 0 ? this.queue.shift() : this.queue[0];
-
         if (!this.current) return;
         this.player.playTrack({ track: { encoded: this.current?.encoded }});
         if (this.current) {
@@ -184,4 +181,3 @@ module.exports = class Dispatcher {
         }
     }
 }
-
