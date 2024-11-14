@@ -48,12 +48,29 @@ exports.Client = class Client extends Shoukaku {
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
-    trackStart(data) {}
-    trackEnd(data) {}
-    queueStart(data) {}
-    queueEnd(data) {}
-    trackStuck(data) {}
-    socketClosed(data) {}
+    trackStart(data) {
+        this.cmds.trackStart.set(this.cmds.trackStart.size, data);
+    }
+    
+    trackEnd(data) {
+        this.cmds.trackEnd.set(this.cmds.trackEnd.size, data);
+    }
+    
+    queueStart(data) {
+        this.cmds.queueStart.set(this.cmds.queueStart.size, data);
+    }
+    
+    queueEnd(data) {
+        this.cmds.queueEnd.set(this.cmds.queueEnd.size, data);
+    }
+    
+    trackStuck(data) {
+        this.cmds.trackStuck.set(this.cmds.trackStuck.size, data);
+    }
+    
+    socketClosed(data) {
+        this.cmds.socketClosed.set(this.cmds.socketClosed.size, data);
+    }
 
     loadCommands(basePath, debug) {}
 }
