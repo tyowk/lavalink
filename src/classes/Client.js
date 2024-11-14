@@ -57,7 +57,9 @@ exports.Client = class Client extends Shoukaku {
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
-    loadEvents(basePath, debug) {
+    async loadEvents(dir, debug = options.debug || false) {
+        const loader = new LoadCommands(this.client);
+        await loader.load(this.cmds, dir, debug);
         this.music.events.forEach(() => this.#bindEvents);
     }
 
@@ -106,13 +108,13 @@ exports.Client = class Client extends Shoukaku {
                         resolvedChannel,
                         {
                             data: data[0],
-                        }
+                         }
                     );
                 }
 
                 return await cmd.__compiled__({
                     bot: this.client,
-                    client: this.client.client,
+                    client: this.client,
                     channel: this.client.channels.cache.get(dispatcher.channelId),
                     guild: this.client.guilds.cache.get(player.guildId),
                     player: player,
