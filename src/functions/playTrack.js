@@ -11,7 +11,8 @@ module.exports = async (d) => {
         .replace('spotify', 'spsearch')?
         .replace('soundcloud', 'scsearch')?
         .replace('deezer', 'dzsearch')?
-        .replace('youtubemusic', 'ytmsearch');
+        .replace('youtubemusic', 'ytmsearch')?
+        .replace('applemusic', 'amsearch');
 
     let player = d.client.queue.get(d.guild.id);
     if (!player)
