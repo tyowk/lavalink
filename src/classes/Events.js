@@ -5,7 +5,6 @@ exports.MusicEvents = class Events {
     }
 
     async trackEnd(player, track, dispatcher) {
-        this.emit('trackEnd');
         dispatcher.previous = dispatcher.current;
         dispatcher.current = null;
         if (dispatcher.loop === "repeat") dispatcher.queue.unshift(track);
@@ -15,7 +14,6 @@ exports.MusicEvents = class Events {
     }
     
     async queueEnd(player, track, dispatcher) {
-        this.emit('queueEnd');
         if (dispatcher.loop === "repeat") dispatcher.queue.unshift(track);
         if (dispatcher.loop === "queue") dispatcher.queue.push(track);
         if (dispatcher.autoplay === true) { await dispatcher.Autoplay(track);
