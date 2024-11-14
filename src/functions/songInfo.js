@@ -1,6 +1,5 @@
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
-    if (data.err) return d.error(data.err);
     let [type, index] = data.inside.splits;
     if (!type) type = 'title';
     type = type.split('.');
