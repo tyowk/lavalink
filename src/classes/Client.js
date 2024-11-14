@@ -29,14 +29,27 @@ exports.Client = class Client extends Shoukaku {
         this.client = client;
         this.client.shoukaku = this;
         this.client.music = options;
+        
         this.cmds = {
             trackStart: new Collection(),
             trackEnd: new Collection(),
             queueStart: new Collection(),
             queueEnd: new Collection(),
             trackStuck: new Collection(),
-            socketClosed: new Collection(),
+            trackPaused: new Collection(),
+            trackResumed: new Collection(),
         };
+        
+        this.music.events = [
+            'trackStart',
+            'trackEnd',
+            'trackStuck',
+            'trackPaused',
+            'trackResumed',
+            'queueStart',
+            'queueEnd'
+        ];
+        
         this.client.music.cmds = this.cmds;
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug || false);
@@ -44,17 +57,69 @@ exports.Client = class Client extends Shoukaku {
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
-    trackStart(data = {}) {
-        this.cmds.trackStart.set(
-            this.cmds.trackStart.size,
-            data
-        );
+    loadEvents(basePath, debug) {
+        this.music.events.forEach(() => this.#bindEvents);
     }
 
-    queueEnd(data = {}) {
-        this.cmds.queueEnd.set(
-            this.cmds.queueEnd.size,
-            data
-        );
+    #bindEvents(event) {
+        this.on(event, (player, track, dispatcher) => {
+            this.cmds[event].forEach(async (cmd) => {
+                if (cmd.__compiled__) return;
+                let channel;
+
+                if (cmd.channel.startsWith("$")) {
+                    const guildId = player.;
+                    const guild = this.#bot.guilds.cache.get(guildId);
+                    const channelId = this.prunes.get(guildId).channel;
+                    const channelData = await this.#executor(
+                        this.#bot,
+                        {
+                            guild: guild,
+                            channel: this.#bot.channels.cache.get(channelId),
+                        },
+                        [],
+                        { code: cmd.channel, name: "NameParser" },
+                        undefined,
+                        true,
+                        undefined,
+                        {
+                            data: data[0],
+                            player: player,
+                        }
+                    );
+
+                    channel = channelData?.code;
+                }
+
+                const resolvedChannel = this.#bot.channels.cache.get(channel);
+
+                return await this.#executor(
+                    this.#bot,
+                    {
+                        guild: this.#bot.guilds.cache.get(guildId),
+                        channel: resolvedChannel,
+                    },
+                    [],
+                    cmd,
+                    undefined,
+                    false,
+                    resolvedChannel,
+                    {
+                        data: data[0],
+                    }
+                );
+
+                return await cmd.__compiled__({
+                    bot: this.#bot,
+                    client: this.#bot.client,
+                    channel: this.prunes.get(player.options.connection.joinConfig.guildId).channel,
+                    guild: this.#bot.guilds.cache.get(player.options.connection.joinConfig.guildId),
+                    player: player,
+                });
+            });
+
+            return PlayerEvents[event];
+        });
     }
+                    
 }
