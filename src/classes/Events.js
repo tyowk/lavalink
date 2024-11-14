@@ -1,18 +1,19 @@
 const { CustomEvents } = require('aoi.js');
+const EventEmitter = require('events');
 
 exports.MusicEvents = class Events {
     constructor(client) {
         this.events = new CustomEvent(client);
         this.cmds = client.music.cmds;
-        client.shoukaku.on('trackStart', async () => await this.events.emit('trackStart'));
+        client.shoukaku.on('trackStart', async () => await EventEmitter.emit('trackStart'));
         client.shoukaku.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
-        client.shoukaku.on('queueStart', async () => await this.events.emit('queueStart'));
+        client.shoukaku.on('queueStart', async () => await EventEmitter.emit('queueStart'));
         client.shoukaku.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
-        client.shoukaku.on('socketClosed', async () => await this.events.emit('socketClosed'));
+        client.shoukaku.on('socketClosed', async () => await EventEmitter.emit('socketClosed'));
     }
 
     async trackEnd(player, track, dispatcher) {
-        this.events.emit('trackEnd');
+        EventEmitter.emit('trackEnd');
         dispatcher.previous = dispatcher.current;
         dispatcher.current = null;
         if (dispatcher.loop === "repeat") dispatcher.queue.unshift(track);
@@ -22,7 +23,7 @@ exports.MusicEvents = class Events {
     }
     
     async queueEnd(player, track, dispatcher) {
-        this.events.emit('queueEnd');
+        EventEmitter.emit('queueEnd');
         if (dispatcher.loop === "repeat") dispatcher.queue.unshift(track);
         if (dispatcher.loop === "queue") dispatcher.queue.push(track);
         if (dispatcher.autoplay === true) { await dispatcher.Autoplay(track);
@@ -45,9 +46,10 @@ exports.MusicEvents = class Events {
         this.cmds.trackStart.forEach(event => {
             this.events.command({
                 listen: event.type || 'trackStart',
-                channel: event.channel,
+                channel: event.channel || '$channelId',
                 code: event.code,
             });
+            this.events.listen('trackStart');
         });
     }
 
@@ -55,9 +57,10 @@ exports.MusicEvents = class Events {
         this.cmds.trackEnd.forEach(event => {
             this.events.command({
                 listen: event.type || 'trackEnd',
-                channel: event.channel,
+                channel: event.channel || '$channelId',
                 code: event.code,
             });
+            this.events.listen('trackEnd');
         });
     }
 
@@ -65,9 +68,10 @@ exports.MusicEvents = class Events {
         this.cmds.queueStart.forEach(event => {
             this.events.command({
                 listen: event.type || 'queueStart',
-                channel: event.channel,
+                channel: event.channel || '$channelId',
                 code: event.code,
             });
+            this.events.listen('queueStart');
         });
     }
 
@@ -75,9 +79,10 @@ exports.MusicEvents = class Events {
         this.cmds.queueEnd.forEach(event => {
             this.events.command({
                 listen: event.type || 'queueEnd',
-                channel: event.channel,
+                channel: event.channel || '$channelId',
                 code: event.code,
             });
+            this.events.listen('queueEnd');
         });
     }
 
@@ -85,9 +90,10 @@ exports.MusicEvents = class Events {
         this.cmds.socketClosed.forEach(event => {
             this.events.command({
                 listen: event.type || 'socketClosed',
-                channel: event.channel,
+                channel: event.channel || '$channelId',
                 code: event.code,
             });
+            this.events.listen('socketClosed');
         });
     }
 }
