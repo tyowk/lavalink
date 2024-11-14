@@ -6,11 +6,12 @@ exports.MusicEvents = class Events extends EventEmitter {
         super();
         this.evt = new CustomEvents(client);
         this.cmds = client.music.cmds || {};
-        client.shoukaku.on('trackStart', async () => this.emit('trackStart'));
+        client.shoukaku.on('trackStart', async () => this.emit('trackStarts'));
         client.shoukaku.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
-        client.shoukaku.on('queueStart', async () => this.emit('queueStart'));
+        client.shoukaku.on('queueStart', async () => this.emit('queueStarts'));
         client.shoukaku.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
-        client.shoukaku.on('socketClosed', async () => this.emit('socketClosed'));
+        client.shoukaku.on('socketClosed', async () => this.emit('socketCloseds'));
+        client.shoukaku.on('trackStuck', async () => this.emit('trackStucks'));
         this.customMusicEvents();
     }
 
@@ -48,66 +49,66 @@ exports.MusicEvents = class Events extends EventEmitter {
     customTrackStart() {
         this.cmds.trackStart.forEach(evt => {
             this.evt.command({
-                listen: 'trackStart',
+                listen: 'trackStarts',
                 channel: '$channelId',
                 code: evt.code
             });
         });
-        this.evt.listen('trackStart');
+        this.evt.listen('trackStarts');
     }
 
     customTrackEnd() {
         this.cmds.trackEnd.forEach(evt => {
             this.evt.command({
-                listen: 'trackEnd',
+                listen: 'trackEnds',
                 channel: '$channelId',
                 code: evt.code
             });
         });
-        this.evt.listen('trackEnd');
+        this.evt.listen('trackEnds');
     }
 
     customQueueStart() {
         this.cmds.queueStart.forEach(evt => {
             this.evt.command({
-                listen: 'queueStart',
+                listen: 'queueStarts',
                 channel: '$channelId',
                 code: evt.code
             });
         });
-        this.evt.listen('queueStart');
+        this.evt.listen('queueStarts');
     }
 
     customQueueEnd() {
         this.cmds.queueEnd.forEach(evt => {
             this.evt.command({
-                listen: 'queueEnx',
+                listen: 'queueEnds',
                 channel: '$channelId',
                 code: evt.code
             });
         });
-        this.evt.listen('queueEnd');
+        this.evt.listen('queueEnds');
     }
 
     customTrackStuck() {
         this.cmds.trackStuck.forEach(evt => {
             this.evt.command({
-                listen: 'trackStuck',
+                listen: 'trackStucks',
                 channel: '$channelId',
                 code: evt.code
             });
         });
-        this.evt.listen('trackStuck');
+        this.evt.listen('trackStucks');
     }
 
     customSocketClosed() {
         this.cmds.socketClosed.forEach(evt => {
             this.evt.command({
-                listen: 'socketClosed',
+                listen: 'socketCloseds',
                 channel: '$channelId',
                 code: evt.code
             });
         });
-        this.evt.listen('socketClosed');
+        this.evt.listen('socketCloseds');
     }
 }
