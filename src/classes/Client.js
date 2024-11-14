@@ -27,9 +27,9 @@ exports.Client = class Client extends Shoukaku {
                 .sort((a, b) => a.penalties - b.penalties)
                 .shift(),
         });
-        this.client = client;
-        this.client.shoukaku = this;
-        this.client.music = options;
+        this.#client = client;
+        this.#client.shoukaku = this;
+        this.#client.music = options;
         
         this.cmds = {
             trackStart: new Collection(),
@@ -41,7 +41,7 @@ exports.Client = class Client extends Shoukaku {
             trackResumed: new Collection(),
         };
         
-        this.music.events = [
+        this.#client.music.events = [
             'trackStart',
             'trackEnd',
             'trackStuck',
@@ -51,15 +51,15 @@ exports.Client = class Client extends Shoukaku {
             'queueEnd'
         ];
         
-        this.client.music.cmds = this.cmds;
-        this.client.queue = new ClientQueue(this.client, options);
-        new CustomFunctions(this.client, options.debug || false);
-        new MusicEvents(this.client);
+        this.#client.music.cmds = this.cmds;
+        this.#client.queue = new ClientQueue(this.#client, options);
+        new CustomFunctions(this.#client, options.debug || false);
+        new MusicEvents(this.#client);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
     async loadEvents(dir, debug = options.debug || false) {
-        const loader = new LoadCommands(this.client);
+        const loader = new LoadCommands(this.#client);
         await loader.load(this.cmds, dir, debug);
         this.music.events.forEach(event => this.#bindEvents(event));
     }
@@ -99,7 +99,7 @@ exports.Client = class Client extends Shoukaku {
                     return await this.client.functionManager.interpreter(
                         this.client,
                         {
-                            guild: this.client.guilds.cache.get(guildId),
+                            guild: this.client.guilds.cache.get(player.guildId),
                             channel: resolvedChannel,
                         },
                         [],
