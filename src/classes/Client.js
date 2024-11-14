@@ -29,7 +29,7 @@ exports.Client = class Client extends Shoukaku {
         this.client.musicOptions = options;
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug || false);
-        new MusicEvents(this);
+        new MusicEvents(this.client);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 }
