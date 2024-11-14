@@ -35,5 +35,5 @@ $connect[voiceId?]
 $hasPlayer[guildId?]
 $leaveVc
 $joinVc[voiceId?]
-$songInfo[query;index?]
+$songInfo[query?;index?]
 ```
