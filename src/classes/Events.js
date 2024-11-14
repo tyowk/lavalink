@@ -9,8 +9,12 @@ exports.MusicEvents = class Events {
         client.shoukaku.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
     }
 
-    async trackStart(player, track, dispatcher) {}
+    async trackStart(player, track, dispatcher) {
+        this.events.emit('trackStart');
+    }
+    
     async trackEnd(player, track, dispatcher) {
+        this.events.emit('trackEnd');
         dispatcher.previous = dispatcher.current;
         dispatcher.current = null;
         if (dispatcher.loop === "repeat") dispatcher.queue.unshift(track);
@@ -19,8 +23,11 @@ exports.MusicEvents = class Events {
         if (dispatcher.autoplay) { await dispatcher.Autoplay(track) }
     }
     
-    async queueStart(player, track, dispatcher) {}
+    async queueStart(player, track, dispatcher) {
+        this.events.emit('queueStart');
+    }
     async queueEnd(player, track, dispatcher) {
+        this.events.emit('queueEnd');
         if (dispatcher.loop === "repeat") dispatcher.queue.unshift(track);
         if (dispatcher.loop === "queue") dispatcher.queue.push(track);
         if (dispatcher.autoplay === true) { await dispatcher.Autoplay(track);
