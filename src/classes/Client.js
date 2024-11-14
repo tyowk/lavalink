@@ -32,12 +32,12 @@ exports.Client = class Client extends Shoukaku {
         this.events = new CustomEvent(client);
         
         this.cmds = {
-            trackStart = new Collection(),
-            trackEnd = new Collection(),
-            QueueStart = new Collection(),
-            QueueEnd = new Collection(),
-            trackStuck = new Collection(),
-            socketClosed = new Collection(),
+            trackStart: new Collection(),
+            trackEnd: new Collection(),
+            QueueStart: new Collection(),
+            QueueEnd: new Collection(),
+            trackStuck: new Collection(),
+            socketClosed: new Collection(),
         };
 
         if (!this.client.music) this.client.music = {};
