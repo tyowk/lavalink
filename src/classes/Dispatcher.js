@@ -33,6 +33,14 @@ module.exports = class Dispatcher {
             });
     }
 
+    get exists() {
+        return this.client.queue.has(this.guildId);
+    }
+
+    get volume() {
+        return this.player.volume;
+    }
+
     async play() {
         if (!this.exists || (!this.queue.length && !this.current)) return;
         this.current = this.queue.length !== 0 ? this.queue.shift() : this.queue[0];
