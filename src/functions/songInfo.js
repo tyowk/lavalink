@@ -1,8 +1,9 @@
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
     if (data.err) return d.error(data.err);
-    let [type = 'title', index] = data.inside.splits;
-
+    let [type, index] = data.inside.splits;
+    if (!type) type = 'title';
+    
     let player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
     type = type.split('.');
