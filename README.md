@@ -3,6 +3,7 @@
 <br>
 <br>
 
+## Setup
 ```js
 const { AoiClient } = require('aoi.js');
 const { MusicClient } = require('aoi.lavalink');
@@ -23,4 +24,16 @@ new MusicClient(client, {
     searchEngine: 'ytsearch',
     debug: false
 });
+```
+
+## Functions
+```bash
+$playTrack[query;engine?]
+$stopTrack
+$disconnect
+$connect[voiceId?]
+$hasPlayer[guildId?]
+$leaveVc
+$joinVc[voiceId?]
+$songInfo[query;index?]
 ```
