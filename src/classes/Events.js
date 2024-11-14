@@ -3,6 +3,7 @@ const { CustomEvents } = require('aoi.js');
 exports.MusicEvents = class Events {
     constructor(client) {
         this.events = new CustomEvent(client);
+        this.cmds = client.music.cmds;
         client.shoukaku.on('trackStart', async () => await this.events.emit('trackStart'));
         client.shoukaku.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
         client.shoukaku.on('queueStart', async () => await this.events.emit('queueStart'));
