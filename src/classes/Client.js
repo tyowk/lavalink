@@ -1,7 +1,7 @@
 const { Connectors, Shoukaku } = require('shoukaku');
+const { Collection } = require('discord.js');
 const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
-const { MusicEvents } = require('./Events.js');
 const { CustomEvent } = require('aoi.js');
 
 exports.Client = class Client extends Shoukaku {
@@ -29,10 +29,22 @@ exports.Client = class Client extends Shoukaku {
         this.client = client;
         this.client.shoukaku = this;
         this.client.musicOptions = options;
+        this.events = new CustomEvent(client);
+        
+        this.cmds = {
+            trackStart = new Collection(),
+            trackEnd = new Collection(),
+            QueueStart = new Collection(),
+            QueueEnd = new Collection(),
+            trackStuck = new Collection(),
+            socketClosed = new Collection(),
+        };
+        
+        this.client.voice = {};
+        this.client.voice.events = this.events;
+        this.client.voice.cmds = this.cmds;
         this.client.queue = new ClientQueue(this.client, options);
-        this.events = new CustomEvent(this.client);
         new CustomFunctions(this.client, options.debug || false);
-        new MusicEvents(this.client);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
@@ -41,5 +53,6 @@ exports.Client = class Client extends Shoukaku {
     queueStart(data) {}
     queueEnd(data) {}
     trackStuck(data) {}
+    socketClosed(data) {}
 }
 
