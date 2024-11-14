@@ -1,6 +1,7 @@
 const { Connectors, Shoukaku } = require('shoukaku');
 const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
+const { MusicEvents } = require('./Events.js');
 
 exports.Client = class Client extends Shoukaku {
     constructor(client, options) {
@@ -28,6 +29,7 @@ exports.Client = class Client extends Shoukaku {
         this.client.musicOptions = options;
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug || false);
+        new MusicEvents(this);
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 }
