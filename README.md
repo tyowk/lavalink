@@ -52,6 +52,7 @@ $joinVc[voiceId?]                   # Join a voice channel using the specified v
 $songInfo[query?;index?]            # Get information about the song playing or at a specific index in the queue (optional query and index).
 
 # More functions will be added later...
+# I'm working on it  (⁠•-•⁠)
 ```
 
 ---
