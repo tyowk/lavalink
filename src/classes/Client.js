@@ -24,7 +24,7 @@ exports.Client = class Client extends Shoukaku {
             reconnectTries: options.reconnectTries || 2,
             restTimeout: options.restTimeout || 10000,
             userAgent: options.userAgent || 'Aoi.Lavalink',
-            nodeResolver: options.nodeResolver || (nodes) => {
+            nodeResolver: (nodes) => {
                 return [...nodes.values()]
                     .filter(node => node.state === 2)
                     .sort((a, b) => a.penalties - b.penalties)
