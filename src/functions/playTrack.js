@@ -38,7 +38,7 @@ module.exports = async (d) => {
         case LoadType.TRACK: {
             const track = player.buildTrack(res.data, d.author);
             if (player.queue.length > d.client.music.maxQueueSize)
-                return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.musicOptions.maxQueueSize} songs`); 
+                return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
             player.queue.push(track);
             await player.isPlaying();
             debugResult = 'track';
@@ -46,11 +46,11 @@ module.exports = async (d) => {
         }
         case LoadType.PLAYLIST: {
             if (res.data.tracks.length > d.client.music.maxPlaylistSize)
-                return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.musicOptions.maxPlaylistSize} songs`); 
+                return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxPlaylistSize} songs`); 
             for (const track of res.data.tracks) {
                 const pl = player.buildTrack(track, d.author);
                 if (player.queue.length > d.client.music.maxQueueSize)
-                    return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.musicOptions.maxQueueSize} songs`); 
+                    return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
                 player.queue.push(pl);
             }
             await player.isPlaying();
@@ -60,7 +60,7 @@ module.exports = async (d) => {
         case LoadType.SEARCH: {
             const track = player.buildTrack(res.data[0], d.author);
             if (player.queue.length > d.client.music.maxQueueSize)
-                return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.musicOptions.maxQueueSize} songs`); 
+                return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
             player.queue.push(track);
             await player.isPlaying();
             debugResult = 'search';
