@@ -21,7 +21,7 @@ const voice = new MusicClient(client, {
         auth: 'youshallnotpass',                 // Authentication password for the Lavalink node.
         secure: false                            // Set to true if your Lavalink server uses SSL/TLS (HTTPS).
     }],
-    maxQueueSize: 100,                           // Maximum number of tracks that can be queued for playback.                       # deafult is 100
+    maxQueueSize: 100,                           // Maximum number of tracks that can be queued for playback.                       # default is 100
     maxPlaylistSize: 100,                        // Maximum number of tracks that can be in a playlist.                             # default is 100
     searchEngine: 'ytsearch',                    // Default search engine. You can set this to 'ytsearch' or 'scsearch' or others.  # default is ytsearch
     debug: false                                 // Whether to enable debug logs for the music client. default is false.            # default is false
