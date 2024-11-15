@@ -26,17 +26,17 @@ module.exports = async (d) => {
     const res = await d.client.queue.search(query, type);
     switch (res?.loadType) {
         case LoadType.ERROR: {
-            if (debug && debug == 'true') data.result = 'error';
+            debugResult = 'error';
             d.aoiError.fnError(d, "custom", {}, `There was an error while searching.`);
             break;
         }
         case LoadType.EMPTY: {
-            if (debug && debug == 'true') data.result = 'empty';
+            debugResult = 'empty';
             d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
             break;
         }
         case LoadType.TRACK: {
-            if (debug && debug == 'true') data.result = 'track';
+            debugResult = 'track';
             const track = player.buildTrack(res.data, d.author);
             if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
             player.queue.push(track);
@@ -44,7 +44,7 @@ module.exports = async (d) => {
             break;
         }
         case LoadType.PLAYLIST: {
-            if (debug && debug == 'true') data.result = 'playlist';
+            debugResult = 'playlist';
             if (res.data.tracks.length > d.client.music.maxPlaylistSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxPlaylistSize} songs`); 
             for (const track of res.data.tracks) {
                 const pl = player.buildTrack(track, d.author);
@@ -55,7 +55,7 @@ module.exports = async (d) => {
             break;
         }
         case LoadType.SEARCH: {
-            if (debug && debug == 'true') data.result = 'search';
+            debugResult = 'search';
             const track = player.buildTrack(res.data[0], d.author);
             if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
             player.queue.push(track);
@@ -63,12 +63,13 @@ module.exports = async (d) => {
             break;
         }
         default: {
-            if (debug && debug == 'true') data.result = 'error';
+            debugResult = 'error';
             d.aoiError.fnError(d, "custom", {}, `There was an error while searching.`);
             break;
         }
     }
-    
+
+    if (debug && debug == 'true') data.result = debugResult;
     return {
         code: d.util.setCode(data)
     }
