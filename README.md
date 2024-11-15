@@ -28,10 +28,6 @@ const voice = new MusicClient(client, {
 });
 ```
 
-**Explanation**:  
-- The `AoiClient` initializes the main bot with its token, command prefix, and required intents.
-- The `MusicClient` integrates Lavalink into the bot. Lavalink is a separate server used for music streaming. You configure it with a Lavalink node (your server's address) and its authentication settings.
-
 ---
 
 ## Functions
@@ -50,14 +46,6 @@ $songInfo[query?;index?]     # Get information about the song playing or at a sp
 
 # More functions will be added later...
 ```
-
-**Explanation**:  
-- `$playTrack`: Starts playing a track based on a search query or URL. You can use YouTube search by default or other search engines if configured.
-- `$stopTrack`: Stops the current track and clears the playback queue.
-- `$disconnect` and `$leaveVc`: Both commands are used to disconnect the bot from the voice channel.
-- `$connect` and `$joinVc`: Connects the bot to a specific voice channel.
-- `$hasPlayer`: Checks if a player exists for the specified guild.
-- `$songInfo`: Fetches information about the currently playing track, or a track from the queue by index.
 
 ---
 
@@ -82,8 +70,3 @@ module.exports = [{
     code: `$songInfo[title]` // The action to take when the event is triggered. Here it will return the title of the song.
 }]
 ```
-
-**Explanation**:  
-- `loadMusicEvents`: Loads event handler files from the specified directory. Each file can define multiple events for specific actions.
-- Event types like `trackStart`, `trackEnd`, `trackResumed`, `trackPaused`, `queueStart`, `queueEnd`, `trackStuck`, are triggered during specific moments in the music player’s lifecycle.
-- Inside the event file, you can define the `type` of event and the `code` to execute when that event happens. You can also use dynamic data like `$channelId` for flexibility.
