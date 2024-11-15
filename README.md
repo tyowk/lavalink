@@ -4,6 +4,13 @@
 
 ---
 
+## Installation
+
+```bash
+npm i github:tyowk/aoi.lavalink#main
+```
+---
+
 ## Setup
 
 The setup is used to initialize the bot client and configure the Lavalink music system. Aoi.js is the main client framework, and Aoi.Lavalink is an integration that allows you to connect to a Lavalink server to stream music.
