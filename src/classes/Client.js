@@ -10,6 +10,7 @@ exports.Client = class Client extends Shoukaku {
         if (!client) throw new Error('Client instance is not defined.');
         if (!options || !options.nodes) throw new Error('There is no nodes provided to connect on!');
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
+        options.events = Array.isArray(options.events) ? options.events : [options.events];
         options.maxQueueSize = options.maxQueueSize || 100;
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
         options.searchEngine = options.searchEngine || 'ytsearch';
@@ -44,16 +45,6 @@ exports.Client = class Client extends Shoukaku {
             trackResumed: new Collection(),
         };
 
-        this.client.music.events = [
-            'trackStart',
-            'trackEnd',
-            'trackStuck',
-            'trackPaused',
-            'trackResumed',
-            'queueStart',
-            'queueEnd',
-        ];
-
         this.client.music.cmds = this.cmds;
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug);
@@ -62,15 +53,51 @@ exports.Client = class Client extends Shoukaku {
     }
 
     async loadMusicEvents(dir, debug = false) {
-        const loader = new LoadCommands(this.client);
-        await loader.load(this.cmds, dir, debug);
+        if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
+        await this.client.loader.load(this.cmds, dir, debug);
         this.client.music.events.forEach(event => this.#bindEvents(event));
     }
 
-    musicEvents(cmd = {}) {
-        if (!cmd || !cmd.code || !cmd.type || !this.client.music.events.includes(cmd.type)) return;
-        this.cmds[cmd.type]?.set(this.cmds[cmd.type]?.size, cmd);
-        this.#bindEvents(cmd.type);
+    trackStartEvent(cmd = {}) {
+        if (!cmd || !cmd.code) return;
+        this.cmds.trackStart.set(this.cmds.trackStart.size, cmd);
+        this.#bindEvents('trackStart');
+    }
+
+    trackEndEvent(cmd = {}) {
+        if (!cmd || !cmd.code) return;
+        this.cmds.trackEnd.set(this.cmds.trackEnd.size, cmd);
+        this.#bindEvents('trackEnd');
+    }
+
+    trackPausedEvent(cmd = {}) {
+        if (!cmd || !cmd.code) return;
+        this.cmds.trackPaused.set(this.cmds.trackPaused.size, cmd);
+        this.#bindEvents('trackPaused');
+    }
+
+    trackResumedEvent(cmd = {}) {
+        if (!cmd || !cmd.code) return;
+        this.cmds.trackResumed.set(this.cmds.trackResumed.size, cmd);
+        this.#bindEvents('trackResumed');
+    }
+
+    trackStuckEvent(cmd = {}) {
+        if (!cmd || !cmd.code) return;
+        this.cmds.trackStuck.set(this.cmds.trackStuck.size, cmd);
+        this.#bindEvents('trackStuck');
+    }
+
+    queueStartEvent(cmd = {}) {
+        if (!cmd || !cmd.code) return;
+        this.cmds.queueStart.set(this.cmds.queueStart.size, cmd);
+        this.#bindEvents('queueStart');
+    }
+
+    queueEndEvent(cmd = {}) {
+        if (!cmd || !cmd.code) return;
+        this.cmds.queueEnd.set(this.cmds.queueEnd.size, cmd);
+        this.#bindEvents('queueEnd');
     }
 
     #bindEvents(event) {
