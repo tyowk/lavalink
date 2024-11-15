@@ -7,7 +7,7 @@ module.exports = async (d) => {
     } else {
         if (isNaN(value)) return d.aoiError.fnError(d, "custom", {}, `Please provide a valid number.`);
         if (value < 1) return d.aoiError.fnError(d, "custom", {}, `The maximum queue size can't be lower than 1.`);
-        if (d.client.music?.maxQueueSize) d.client.music?.maxQueueSize = isNaN(value) ? 100 : value;
+        d.client.music?.maxQueueSize = isNaN(value) ? 100 : value;
     }
   
     return {
