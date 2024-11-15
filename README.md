@@ -65,6 +65,7 @@ voice.loadMusicEvents('path/to/directory', false);
 
 ```js
 module.exports = [{
+    name: 'TrackStart',  // This is an optional property
     channel: '$channelId',  // The ID of the channel where the event will trigger (can be dynamic or static).
     type: 'trackStart',      // The event type, e.g., when a track starts playing ('trackStart').
     code: `$songInfo[title]` // The action to take when the event is triggered. Here it will return the title of the song.
