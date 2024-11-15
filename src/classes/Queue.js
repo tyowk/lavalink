@@ -7,21 +7,10 @@ exports.ClientQueue = class Queue extends Map {
         this.options = options;
     }
 
-    get(guildId) {
-        return super.get(guildId);
-    }
-
-    set(guildId, dispatcher) {
-        return super.set(guildId, dispatcher);
-    }
-
-    delete(guildId) {
-        return super.delete(guildId);
-    }
-
-    clear() {
-        return super.clear();
-    }
+    get(guildId) { return super.get(guildId) }
+    set(guildId, dispatcher) { return super.set(guildId, dispatcher) }
+    delete(guildId) { return super.delete(guildId) }
+    clear() { return super.clear() }
 
     async create(guild, voice, channel, givenNode) {
         let dispatcher = this.get(guild.id);
