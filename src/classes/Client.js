@@ -67,6 +67,12 @@ exports.Client = class Client extends Shoukaku {
         this.client.music.events.forEach(event => this.#bindEvents(event));
     }
 
+    musicEvents(cmd = {}) {
+        if (!cmd.type && !this.client.music.events.includes(cmd.type)) return;
+        this.cmds[cmd.type]?.set(this.cmds[cmd.type]?.size, cmd);
+        this.#bindEvents(cmd.type);
+    }
+
     #bindEvents(event) {
         this.on(event, async (...data) => {
             const player = data.shift();
