@@ -53,7 +53,7 @@ exports.Client = class Client extends Shoukaku {
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
-    async loadMusicEvents(dir, debug = false) {
+    async loadMusicEvents(dir, debug = this.client.music.debug || false) {
         if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
         await this.client.loader.load(this.cmds, dir, debug);
         this.client.music.events.forEach(event => this.#bindEvents(event));
