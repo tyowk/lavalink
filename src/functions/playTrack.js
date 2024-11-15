@@ -11,8 +11,7 @@ module.exports = async (d) => {
         .replace('spotify', 'spsearch')
         .replace('soundcloud', 'scsearch')
         .replace('deezer', 'dzsearch')
-        .replace('youtubemusic', 'ytmsearch')
-        .replace('applemusic', 'amsearch');
+        .replace('youtubemusic', 'ytmsearch');
 
     if (!d.member?.voice?.channel) return d.aoiError.fnError(d, "custom", {}, `You are not connected to any voice channels.`);
     let player = d.client.queue.get(d.guild.id);
@@ -34,6 +33,7 @@ module.exports = async (d) => {
         case LoadType.EMPTY: {
             d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
             debugResult = 'empty';
+            break;
         }
         case LoadType.TRACK: {
             const track = player.buildTrack(res.data, d.author);
