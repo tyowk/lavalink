@@ -1,4 +1,4 @@
-const { Connectors, Shoukaku } = require('shoukaku');
+const { Shoukaku, Connectors } = require('shoukaku');
 const { Collection } = require('discord.js');
 const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
@@ -8,29 +8,30 @@ const { LoadCommands } = require('aoi.js');
 exports.Client = class Client extends Shoukaku {
     constructor(client, options) {
         if (!client) throw new Error('Client instance is not defined.');
-        if (!options || !options.nodes) throw new Error('There is no nodes provided to connect on!');
+        if (!options || !options.nodes) throw new Error('No nodes provided to connect on.');
+        
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
         options.events = Array.isArray(options.events) ? options.events : [options.events];
         options.maxQueueSize = options.maxQueueSize || 100;
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
         options.searchEngine = options.searchEngine || 'ytsearch';
         options.debug = options.debug || false;
-        
+
         super(new Connectors.DiscordJS(client), options.nodes, {
-            moveOnDisconnect: false,
-            resume: false,
-            reconnectInterval: 30,
-            reconnectTries: 2,
-            restTimeout: 10000,
-            userAgent: options.userAgent || 'NouJS',
-            nodeResolver: (nodes) => {
+            moveOnDisconnect: options.moveOnDisconnect || false,
+            resume: options.resume || false,
+            reconnectInterval: options.reconnectInterval || 30,
+            reconnectTries: options.reconnectTries || 2,
+            restTimeout: options.restTimeout || 10000,
+            userAgent: options.userAgent || 'Aoi.Lavalink',
+            nodeResolver: options.nodeResolver || (nodes) => {
                 return [...nodes.values()]
                     .filter(node => node.state === 2)
                     .sort((a, b) => a.penalties - b.penalties)
                     .shift();
             },
         });
-        
+
         this.client = client;
         this.client.shoukaku = this;
         this.client.music = options;
@@ -58,46 +59,12 @@ exports.Client = class Client extends Shoukaku {
         this.client.music.events.forEach(event => this.#bindEvents(event));
     }
 
-    trackStartEvent(cmd = {}) {
-        if (!cmd || !cmd.code) return;
-        this.cmds.trackStart.set(this.cmds.trackStart.size, cmd);
-        this.#bindEvents('trackStart');
-    }
-
-    trackEndEvent(cmd = {}) {
-        if (!cmd || !cmd.code) return;
-        this.cmds.trackEnd.set(this.cmds.trackEnd.size, cmd);
-        this.#bindEvents('trackEnd');
-    }
-
-    trackPausedEvent(cmd = {}) {
-        if (!cmd || !cmd.code) return;
-        this.cmds.trackPaused.set(this.cmds.trackPaused.size, cmd);
-        this.#bindEvents('trackPaused');
-    }
-
-    trackResumedEvent(cmd = {}) {
-        if (!cmd || !cmd.code) return;
-        this.cmds.trackResumed.set(this.cmds.trackResumed.size, cmd);
-        this.#bindEvents('trackResumed');
-    }
-
-    trackStuckEvent(cmd = {}) {
-        if (!cmd || !cmd.code) return;
-        this.cmds.trackStuck.set(this.cmds.trackStuck.size, cmd);
-        this.#bindEvents('trackStuck');
-    }
-
-    queueStartEvent(cmd = {}) {
-        if (!cmd || !cmd.code) return;
-        this.cmds.queueStart.set(this.cmds.queueStart.size, cmd);
-        this.#bindEvents('queueStart');
-    }
-
-    queueEndEvent(cmd = {}) {
-        if (!cmd || !cmd.code) return;
-        this.cmds.queueEnd.set(this.cmds.queueEnd.size, cmd);
-        this.#bindEvents('queueEnd');
+    addMusicEvent(name, evt = {}) {
+        if (!evt || !evt.code) return;
+        const collection = this.cmds[name];
+        if (!collection) return;
+        collection.set(collection.size, cmd);
+        this.#bindEvents(name);
     }
 
     #bindEvents(event) {
@@ -105,47 +72,58 @@ exports.Client = class Client extends Shoukaku {
             const player = data.shift();
             const dispatcher = data.pop();
 
-            this.cmds[event].forEach(async (cmd) => {
+            const commands = this.cmds[event];
+            if (!commands) return;
+
+            for (const cmd of commands.values()) {
                 if (!cmd.__compiled__) {
                     let channel;
+
                     if (cmd.channel.startsWith("$")) {
                         const guildId = player.guildId;
                         const guild = this.client.guilds.cache.get(guildId);
                         const channelId = dispatcher.channelId;
-                        const channelData = await this.client.functionManager.interpreter(
-                            this.client,
-                            { guild, channel: this.client.channels.cache.get(channelId) },
-                            [],
-                            { code: cmd.channel, name: "NameParser" },
-                            undefined,
-                            true,
-                            undefined,
-                            { data: data[0], player: player }
-                        );
-                        channel = channelData?.code;
+                        try {
+                            const channelData = await this.client.functionManager.interpreter(
+                                this.client,
+                                { guild, channel: this.client.channels.cache.get(channelId) },
+                                [],
+                                { code: cmd.channel, name: "NameParser" },
+                                undefined,
+                                true,
+                                undefined,
+                                { data: data[0], player }
+                            );
+                            channel = channelData?.code;
+                        } catch (err) {
+                            console.error("Error resolving channel:", err);
+                        }
                     }
+                    
                     const resolvedChannel = this.client.channels.cache.get(channel);
-                    await this.client.functionManager.interpreter(
-                        this.client,
-                        { guild: this.client.guilds.cache.get(player.guildId), channel: resolvedChannel },
-                        [],
-                        cmd,
-                        undefined,
-                        false,
-                        resolvedChannel,
-                        { data: data[0] }
-                    );
+                    if (resolvedChannel) {
+                        await this.client.functionManager.interpreter(
+                            this.client,
+                            { guild: this.client.guilds.cache.get(player.guildId), channel: resolvedChannel },
+                            [],
+                            cmd,
+                            undefined,
+                            false,
+                            resolvedChannel,
+                            { data: data[0] }
+                        );
+                    }
                 } else {
                     await cmd.__compiled__({
                         bot: this.client,
                         client: this.client,
                         channel: this.client.channels.cache.get(dispatcher.channelId),
                         guild: this.client.guilds.cache.get(player.guildId),
-                        player: player,
+                        player,
                     });
                 }
-            });
+            }
             return event;
         });
     }
-}
+};
