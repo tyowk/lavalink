@@ -16,15 +16,15 @@ const client = new AoiClient({ ... });
 
 const voice = new MusicClient(client, {
     nodes: [{
-        name: 'my lavalink node',  // A custom name for the Lavalink node (can be any string).
-        url: 'someurl.com:0000',  // URL to your Lavalink node. Replace with your actual Lavalink server URL.
-        auth: 'youshallnotpass',  // Authentication password for the Lavalink node.
-        secure: false  // Set to true if your Lavalink server uses SSL/TLS (HTTPS).
+        name: 'my lavalink node',                // A custom name for the Lavalink node (can be any string).
+        url: 'someurl.com:0000',                 // URL to your Lavalink node. Replace with your actual Lavalink server URL.
+        auth: 'youshallnotpass',                 // Authentication password for the Lavalink node.
+        secure: false                            // Set to true if your Lavalink server uses SSL/TLS (HTTPS).
     }],
-    maxQueueSize: 100,  // Maximum number of tracks that can be queued for playback.
-    maxPlaylistSize: 100,  // Maximum number of tracks that can be in a playlist.
-    searchEngine: 'ytsearch',  // Default search engine. You can set this to 'ytsearch' (YouTube) or 'scsearch' (SoundCloud) or others.
-    debug: false  // Whether to enable debug logs for the music client.
+    maxQueueSize: 100,                           // Maximum number of tracks that can be queued for playback.                       # deafult is 100
+    maxPlaylistSize: 100,                        // Maximum number of tracks that can be in a playlist.                             # default is 100
+    searchEngine: 'ytsearch',                    // Default search engine. You can set this to 'ytsearch' or 'scsearch' or others.  # default is ytsearch
+    debug: false                                 // Whether to enable debug logs for the music client. default is false.            # default is false
 });
 ```
 
@@ -35,14 +35,14 @@ const voice = new MusicClient(client, {
 These are the core music commands and functions available for the bot. 
 
 ```bash
-$playTrack[query;engine?]    # Play a track based on a search query or URL. You can specify the engine, like 'youtube', 'soundcloud' or 'spotify'.
-$stopTrack                   # Stop the current track and clear the queue.
-$disconnect                  # Disconnect the bot from the voice channel.
-$connect[voiceId?]           # Connect the bot to a voice channel by specifying the voice channel ID (optional).
-$hasPlayer[guildId?]         # Check if the bot already has a player (is playing music) in the specified guild.
-$leaveVc                     # Disconnect the bot from the voice channel. Same as $disconnect.
-$joinVc[voiceId?]            # Join a voice channel using the specified voice channel ID (optional).
-$songInfo[query?;index?]     # Get information about the song playing or at a specific index in the queue (optional query and index).
+$playTrack[query;engine?;debug?]    # Play a track based on a search query or URL. You can specify the engine, like 'youtube', 'soundcloud' or 'spotify'.
+$stopTrack                          # Stop the current track and clear the queue.
+$disconnect                         # Disconnect the bot from the voice channel.
+$connect[voiceId?]                  # Connect the bot to a voice channel by specifying the voice channel ID (optional).
+$hasPlayer[guildId?]                # Check if the bot already has a player (is playing music) in the specified guild.
+$leaveVc                            # Disconnect the bot from the voice channel. Same as $disconnect.
+$joinVc[voiceId?]                   # Join a voice channel using the specified voice channel ID (optional).
+$songInfo[query?;index?]            # Get information about the song playing or at a specific index in the queue (optional query and index).
 
 # More functions will be added later...
 ```
@@ -54,20 +54,17 @@ $songInfo[query?;index?]     # Get information about the song playing or at a sp
 You can listen to various events such as when a track starts, when the player is paused, etc., and respond to them with custom code.
 
 ```js
-const voice = new MusicClient(client, { ... });  // Initialize the MusicClient instance with the bot client.
-
-voice.loadMusicEvents('path/to/directory', false);  
-// Load custom music event handlers from a directory. 'false' disables debug logs.
-
+const voice = new MusicClient(client, { ... });      // Initialize the MusicClient instance with the bot client.
+voice.loadMusicEvents('path/to/directory', false);   // Load custom music event handlers from a directory. 'false' disables debug logs.
 ```
 
 **Example Event File** (in `path/to/directory`):
 
 ```js
 module.exports = [{
-    name: 'TrackStart',  // This is an optional property
-    channel: '$channelId',  // The ID of the channel where the event will trigger (can be dynamic or static).
-    type: 'trackStart',      // The event type, e.g., when a track starts playing ('trackStart').
-    code: `$songInfo[title]` // The action to take when the event is triggered. Here it will return the title of the song.
+    name: 'TrackStart',       // This is an optional property
+    channel: '$channelId',    // The ID of the channel where the event will trigger (can be dynamic or static).
+    type: 'trackStart',       // The event type, e.g., when a track starts playing ('trackStart').
+    code: `$songInfo[title]`  // The action to take when the event is triggered. Here it will return the title of the song.
 }]
 ```
