@@ -64,9 +64,11 @@ module.exports = class Dispatcher {
         if (!this.paused) {
             this.player.setPaused(true);
             this.paused = true;
+            this.client.shoukaku.emit('trackPaused', this.player, this.current, this);
         } else {
             this.player.setPaused(false);
             this.paused = false;
+            this.client.shoukaku.emit('trackResumed', this.player, this.current, this);
         }
     }
 
