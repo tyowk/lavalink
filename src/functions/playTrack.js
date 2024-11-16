@@ -23,7 +23,7 @@ module.exports = async (d) => {
        );
 
     let debugResult;
-    const res = await d.client.queue.search(query, type);
+    const res = await d.client.queue.search(query.addBrackets(), type);
     switch (res?.loadType) {
         case LoadType.ERROR: {
             debugResult = 'error';
@@ -56,6 +56,7 @@ module.exports = async (d) => {
         }
         case LoadType.SEARCH: {
             debugResult = 'search';
+            if (res.data === []) return d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
             const track = player.buildTrack(res.data[0], d.author);
             if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
             player.queue.push(track);
