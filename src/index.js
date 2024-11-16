@@ -4,7 +4,7 @@ exports.MusicClient = Client;
 exports.Events = {
     TrackStart: 'trackStart',
     TrackEnd: 'trackEnd',
-    QueueStart: "queueStart",
+    QueueStart: 'queueStart',
     QueueEnd: 'queueEnd',
     TrackStuck: 'trackStuck',
     TrackPaused: 'trackPaused',
