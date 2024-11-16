@@ -6,7 +6,7 @@ module.exports = (d) => {
     const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
 
-    switch (value) {
+    switch (value?.addBrackets()) {
         case 'song':
             player.loop = 'repeat';
             break;
