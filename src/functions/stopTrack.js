@@ -1,4 +1,4 @@
-module.exports = async (d) => {
+module.exports = (d) => {
     const data = d.util.aoiFunc(d);
     
     const player = d.client.queue.get(d.guild.id);
