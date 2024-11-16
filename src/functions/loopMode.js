@@ -1,0 +1,32 @@
+module.exports = (d) => {
+    const data = d.util.aoiFunc(d);
+    if (data.err) return d.error(data.err);
+    const [value] = data.inside.splits;
+    
+    const player = d.client.queue.get(d.guild.id);
+    if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
+
+    switch (value) {
+        case 'song':
+            player.loop = 'repeat';
+            break;
+        case 'repeat':
+            player.loop = 'repeat';
+            break;
+        case 'queue':
+            player.loop = 'queue';
+            break;
+        case 'off':
+            player.loop = 'off';
+            break;
+        case 'disable':
+            player.loop = 'off';
+            break;
+        default:
+            return d.aoiError.fnError(d, "custom", {}, `Invalid loop mode value.`);
+    }
+  
+    return {
+        code: d.util.setCode(data)
+    }
+}
