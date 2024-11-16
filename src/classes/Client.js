@@ -36,6 +36,7 @@ exports.Client = class Client extends Shoukaku {
         this.client = client;
         this.client.shoukaku = this;
         this.client.music = options;
+        this.client.utils = require('./Utils.js');
 
         this.cmds = {
             trackStart: new Map(),
