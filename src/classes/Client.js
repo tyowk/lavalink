@@ -49,6 +49,7 @@ exports.Client = class Client extends Shoukaku {
             nodeDestroy: new Collection(),
             nodeRaw: new Collection(),
             socketClosed: new Collection(),
+            playerCreate: new Collection(),
             playerDestroy: new Collection()
         };
         
