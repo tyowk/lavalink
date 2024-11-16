@@ -86,8 +86,8 @@ exports.Client = class Client extends Shoukaku {
                         undefined, false, channel, { player, track, dispatcher }
                     );
                 } else {
-                    const bot, client = this.client;
-                    await cmd.__compiled__({ bot, client, channel, guild, player, track, dispatcher });
+                    const client = this.client;
+                    await cmd.__compiled__({ client, channel, guild, player, track, dispatcher });
                 }
             }
             return event;
