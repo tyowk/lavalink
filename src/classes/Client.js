@@ -1,5 +1,4 @@
 const { Shoukaku, Connectors } = require('shoukaku');
-const { Collection } = require('discord.js');
 const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
 const { MusicEvents } = require('./Events.js');
@@ -39,22 +38,22 @@ exports.Client = class Client extends Shoukaku {
         this.client.music = options;
 
         this.cmds = {
-            trackStart: new Collection(),
-            trackEnd: new Collection(),
-            queueStart: new Collection(),
-            queueEnd: new Collection(),
-            trackStuck: new Collection(),
-            trackPaused: new Collection(),
-            trackResumed: new Collection(),
-            nodeConnect: new Collection(),
-            nodeReconnect: new Collection(),
-            nodeDisconnect: new Collection(),
-            nodeError: new Collection(),
-            nodeDestroy: new Collection(),
-            nodeRaw: new Collection(),
-            socketClosed: new Collection(),
-            playerCreate: new Collection(),
-            playerDestroy: new Collection()
+            trackStart: new Map(),
+            trackEnd: new Map(),
+            queueStart: new Map(),
+            queueEnd: new Map(),
+            trackStuck: new Map(),
+            trackPaused: new Map(),
+            trackResumed: new Map(),
+            nodeConnect: new Map(),
+            nodeReconnect: new Map(),
+            nodeDisconnect: new Map(),
+            nodeError: new Map(),
+            nodeDestroy: new Map(),
+            nodeRaw: new Map(),
+            socketClosed: new Map(),
+            playerCreate: new Map(),
+            playerDestroy: new Map()
         };
         
         this.client.music.cmds = this.cmds;
