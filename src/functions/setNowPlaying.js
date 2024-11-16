@@ -8,11 +8,14 @@ module.exports = async (d) => {
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
 
     const chn = await d.guild.channels.cache.get(player.channelId);
+    if (!chn) return d.aoiError.fnError(d, "custom", {}, `Invalid channel, please make sure the channel is exists and the bot can see the channel.`);
+
     const msg = await chn.messages.cache.get(messageId);
     if (!msg) return d.aoiError.fnError(d, "custom", {}, `Please give a valid message id.`);
+    
     if (!msg.deletable || !msg.author.id) return d.aoiError.fnError(d, "custom", {}, `Invalid message, please make sure the message is deletable and sended by the bot.`);
-
     player.nowPlayingMessage = msg;
+    
     return {
         code: d.util.setCode(data)
     }
