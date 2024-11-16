@@ -6,7 +6,7 @@ module.exports = (d) => {
     const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
 
-    time = d.client.utils.parseTime(time.addBrackets());
+    time = d.client.utils.parseTime(time?.addBrackets());
     if (!time) return d.aoiError.fnError(d, "custom", {}, `Invalid time format.`);
     
     player.seek(time);
