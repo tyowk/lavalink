@@ -22,6 +22,9 @@ module.exports = (d) => {
         case 'disable':
             player.loop = 'off';
             break;
+        case 'none":
+            player.loop = 'off';
+            break;
         default:
             return d.aoiError.fnError(d, "custom", {}, `Invalid loop mode value.`);
     }
