@@ -157,7 +157,7 @@ module.exports = class Dispatcher {
     }
 
     async Autoplay(song, type) {
-        const resolve = await this.node.rest.resolve(`${type ? type : this.client.music.searchEngine}:${song.info.author}`);
+        const resolve = await this.node.rest.resolve(`${type || this.client.music.searchEngine}:${song.info.author}`);
         if (!resolve || !resolve?.data || !Array.isArray(resolve.data)) return this.destroy();
         const metadata = resolve.data;
         let choosed = null;
@@ -179,10 +179,10 @@ module.exports = class Dispatcher {
         return this.destroy();
     }
 
-    async setAutoplay(autoplay) {
+    async setAutoplay(autoplay, type) {
         this.autoplay = autoplay;
         if (autoplay) {
-            this.Autoplay(this.current ? this.current : this.queue[0]);
+            this.Autoplay(this.current ? this.current : this.queue[0], type || this.client.music.searchEngine);
         }
     }
 }
