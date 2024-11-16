@@ -1,4 +1,4 @@
-module.exports = async (d) => {
+module.exports = (d) => {
     const data = d.util.aoiFunc(d);
     let [type, index] = data.inside.splits;
     if (!type) type = 'title';
