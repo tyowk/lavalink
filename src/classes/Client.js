@@ -9,7 +9,6 @@ exports.Client = class Client extends Shoukaku {
     constructor(client, options) {
         if (!client) throw new Error('Client instance is not defined.');
         if (!options || !options.nodes) throw new Error('No nodes provided to connect on.');
-        
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
         options.maxQueueSize = options.maxQueueSize || 100;
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
@@ -52,24 +51,6 @@ exports.Client = class Client extends Shoukaku {
             socketClosed: new Collection(),
             playerDestroy: new Collection()
         };
-
-        this.client.music.events = [
-            'trackStart',
-            'trackEnd',
-            'queueStart',
-            'queueEnd',
-            'trackStuck',
-            'trackPaused',
-            'trackResumed',
-            'nodeConnect',
-            'nodeReconnect',
-            'nodeDisconnect',
-            'nodeError',
-            'nodeDestroy',
-            'nodeRaw',
-            'socketClosed',
-            'playerDestroy'
-        ];
         
         this.client.music.cmds = this.cmds;
         this.client.queue = new ClientQueue(this.client, options);
@@ -80,7 +61,7 @@ exports.Client = class Client extends Shoukaku {
     async loadVoiceEvents(dir, debug = this.client.music.debug || false) {
         if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
         await this.client.loader.load(this.cmds, dir, debug);
-        this.client.music.events.forEach(event => this.#bindEvents(event));
+        Object.entries(this.cmds).forEach(event => this.#bindEvents(event[0]));
     }
 
     voiceEvent(name, evt = {}) {
@@ -95,26 +76,14 @@ exports.Client = class Client extends Shoukaku {
         this.on(event, async (player, track, dispatcher) => {
             const commands = this.cmds[event];
             if (!commands) return;
-            
             for (const cmd of commands.values()) {
-                const channel = this.client.channels.cache.get(dispatcher?.channelId) || undefined;
+                const channel = this.client.channels.cache.get(dispatcher?.channelId) || this.client.channels.cache.get(cmd.channel) || undefined;
                 const guild = this.client.guilds.cache.get(player?.guildId) || undefined;
-
                 await this.client.functionManager.interpreter(
                     this.client,
-                    {
-                        guild: guild,
-                        author: player?.current?.info?.requester || undefined,
-                        channel: channel
-                    },
-                    [],
-                    { name: cmd.name || event, code: cmd.code },
-                    this.client.db,
-                    false,
-                    channel,
-                    {},
-                    channel,
-                    true
+                    { guild: guild, author: player?.current?.info?.requester || undefined, channel: channel },
+                    [], { name: cmd.name || event, code: cmd.code },
+                    this.client.db, false, channel, {}, channel, true
                 );
             }
         });
