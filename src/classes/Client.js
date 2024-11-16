@@ -60,9 +60,9 @@ exports.Client = class Client extends Shoukaku {
         Object.entries(this.cmds).forEach(event => this.#bindEvents(event[0]));
     }
 
-    async loadVoiceEvents(dir, debug = this.client.music.debug || false) {
+    loadVoiceEvents(dir, debug = this.client.music.debug || false) {
         if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
-        await this.client.loader.load(this.cmds, dir, debug);
+        this.client.loader.load(this.cmds, dir, debug);
     }
 
     voiceEvent(name, evt = {}) {
@@ -73,7 +73,7 @@ exports.Client = class Client extends Shoukaku {
     }
 
     #bindEvents(event) {
-        this.on(event, async (player, track, dispatcher) => {
+        this.on(event, async (player, track, dispatcher) => { 
             const commands = this.cmds[event];
             if (!commands) return;
             for (const cmd of commands.values()) {
