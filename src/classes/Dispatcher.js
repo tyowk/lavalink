@@ -17,6 +17,7 @@ module.exports = class Dispatcher {
         this.filters = [];
         this.autoplay = false;
         this.currentVolume = 100;
+        this.nowPlayingMessage = null;
         this.player
             .on('start', () => {
                 if (this.queue.length) this.client.shoukaku.emit('queueStart', this.player, this.current, this);
