@@ -22,8 +22,8 @@ exports.CustomFunctions =  class Functions {
             console.error(err)
         } finally {
             if (debug) {
-                console.log('[' + cyan('DEBUG') + '] :: Total function loaded: ' + cyan(totall.success));
-                console.log('[' + red('DEBUG') + '] :: Total function unloaded: ' + red(totall.error));
+                console.log('[' + cyan('DEBUG') + '] :: Total function loaded: ' + cyan(total.success || 0));
+                console.log('[' + red('DEBUG') + '] :: Total function unloaded: ' + red(total.error || 0));
             }
         }
     }
