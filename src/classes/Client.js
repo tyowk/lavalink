@@ -76,7 +76,7 @@ exports.Client = class Client extends Shoukaku {
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug);
         new MusicEvents(this.client);
-        this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
+        this.on('ready', (name, reconnected) => this.emit(reconnected ? 'nodeReconnect' : 'nodeConnect', name));
     }
 
     async loadVoiceEvents(dir, debug = this.client.music.debug || false) {
