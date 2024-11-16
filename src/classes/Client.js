@@ -47,8 +47,11 @@ exports.Client = class Client extends Shoukaku {
             nodeConnect: new Collection(),
             nodeReconnect: new Collection(),
             nodeDisconnect: new Collection(),
+            nodeError: new Collection(),
+            nodeDestroy: new Collection(),
+            nodeRaw: new Collection(),
             socketClosed: new Collection(),
-            
+            playerDestroy: new Collection()
         };
 
         this.client.music.events = [
@@ -62,7 +65,11 @@ exports.Client = class Client extends Shoukaku {
             'nodeConnect',
             'nodeReconnect',
             'nodeDisconnect',
+            'nodeError',
+            'nodeDestroy',
+            'nodeRaw',
             'socketClosed',
+            'playerDestroy'
         ];
         
         this.client.music.cmds = this.cmds;
