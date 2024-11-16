@@ -1,4 +1,4 @@
-const Dispatcher = require('./Dispatcher.js');
+const { Dispatcher } = require('./Dispatcher.js');
 
 exports.ClientQueue = class Queue extends Map {
     constructor(client, options) {
