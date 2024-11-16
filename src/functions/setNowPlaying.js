@@ -8,7 +8,7 @@ module.exports = async (d) => {
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
 
     const chn = await d.guild.channels.cache.get(player.channelId);
-    if (!chn) return d.aoiError.fnError(d, "custom", {}, `Invalid channel, please make sure the channel is exists and the bot can see the channel.`);
+    if (!chn) return d.aoiError.fnError(d, "custom", {}, `Invalid channel, please make sure the channel is exists and the bot can access the channel.`);
 
     const msg = await chn.messages.cache.get(messageId);
     if (!msg) return d.aoiError.fnError(d, "custom", {}, `Please give a valid message id.`);
