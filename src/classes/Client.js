@@ -11,7 +11,6 @@ exports.Client = class Client extends Shoukaku {
         if (!options || !options.nodes) throw new Error('No nodes provided to connect on.');
         
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
-        options.events = Array.isArray(options.events) ? options.events : [options.events];
         options.maxQueueSize = options.maxQueueSize || 100;
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
         options.searchEngine = options.searchEngine || 'ytsearch';
@@ -76,7 +75,13 @@ exports.Client = class Client extends Shoukaku {
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug);
         new MusicEvents(this.client);
+        
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'nodeReconnect' : 'nodeConnect', name));
+        this.on('error', (name, error) => this.emit('nodeError', name, error));
+        this.on('close', (name, code, reason) => this.emit('nodeDestroy', name, code, reason));
+        this.on('disconnect', (name, count) => this.emit('nodeDisconnect', name, count));
+        this.on('debug', (name, reason) => this.emit('nodeRaw', name, reason));
+}
     }
 
     async loadVoiceEvents(dir, debug = this.client.music.debug || false) {
