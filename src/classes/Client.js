@@ -44,8 +44,24 @@ exports.Client = class Client extends Shoukaku {
             trackStuck: new Collection(),
             trackPaused: new Collection(),
             trackResumed: new Collection(),
+            connect: new Collection(),
+            reconnect: new Collection(),
+            disconnect: new Collection()
         };
 
+        this.client.music.events = [
+            'trackStart',
+            'trackEnd',
+            'queueStart',
+            'queueEnd',
+            'trackStuck',
+            'trackPaused',
+            'trackResumed',
+            'connect',
+            'reconnect',
+            'disconnect'
+        ];
+        
         this.client.music.cmds = this.cmds;
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug);
@@ -53,13 +69,13 @@ exports.Client = class Client extends Shoukaku {
         this.on('ready', (name, reconnected) => this.emit(reconnected ? 'reconnect' : 'connect', name));
     }
 
-    async loadMusicEvents(dir, debug = this.client.music.debug || false) {
+    async loadVoiceEvents(dir, debug = this.client.music.debug || false) {
         if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
         await this.client.loader.load(this.cmds, dir, debug);
         this.client.music.events.forEach(event => this.#bindEvents(event));
     }
 
-    addMusicEvent(name, evt = {}) {
+    voiceEvent(name, evt = {}) {
         if (!evt || !evt.code) return;
         const collection = this.cmds[name];
         if (!collection) return;
