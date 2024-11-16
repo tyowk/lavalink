@@ -87,7 +87,7 @@ exports.Client = class Client extends Shoukaku {
         if (!evt || !evt.code) return;
         const collection = this.cmds[name];
         if (!collection) return;
-        collection.set(collection.size, cmd);
+        collection.set(collection.size, evt);
         this.#bindEvents(name);
     }
 
