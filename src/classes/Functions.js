@@ -12,10 +12,10 @@ exports.CustomFunctions =  class Functions {
                 if (statSync(filePath).isDirectory()) {
                     this.constructor(client, filePath);
                 } else { try {
-                        if (!func || typeof func !== 'function') { if (debug) this.debug('error', file); totall.error++ continue; }
-                        if (debug) this.debug('success', file); totall.success++
+                        if (!func || typeof func !== 'function') { if (debug) this.debug('error', file); totall.error++; continue; }
+                        if (debug) this.debug('success', file); totall.success++;
                         client.functionManager.createFunction({ name: `$${file.split('.')[0]}`, type: 'djs', code: func });
-                    } catch (err) { if (debug) this.debug('error', file); totall.error++ }
+                    } catch (err) { if (debug) this.debug('error', file); totall.error++; }
                 }
             }
         } catch (err) {
