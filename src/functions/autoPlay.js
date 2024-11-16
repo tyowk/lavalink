@@ -1,6 +1,6 @@
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
-    const [value, type] = data.inside.splits;
+    let [value, type] = data.inside.splits;
     type = type ? type : d.client.music.searchEngine;
     
     const player = d.client.queue.get(d.guild.id);
