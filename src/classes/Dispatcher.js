@@ -25,7 +25,7 @@ module.exports = class Dispatcher {
             })
             .on('end', () => {
                 this.client.shoukaku.emit('trackEnd', this.player, this.current, this);
-                if (!this.queue.length || this.queue.length === 0) this.client.shoukaku.emit('queueEnd', this.player, this.current, this);
+                if (!this.queue.length) this.client.shoukaku.emit('queueEnd', this.player, this.current, this);
             })
             .on('stuck', () => {
                 this.client.shoukaku.emit('trackStuck', this.player, this.current)
