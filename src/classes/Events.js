@@ -1,7 +1,10 @@
 exports.MusicEvents = class Events {
     constructor(client) {
-        client.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
-        client.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
+        (async () => {
+            await client.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
+            client.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
+        });
+        
         client.on('ready', (name, reconnected) => client.emit(reconnected ? 'nodeReconnect' : 'nodeConnect', name));
         client.on('error', (name, error) => client.emit('nodeError', name, error));
         client.on('close', (name, code, reason) => client.emit('nodeDestroy', name, code, reason));
