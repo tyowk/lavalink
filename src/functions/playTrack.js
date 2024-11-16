@@ -23,7 +23,7 @@ module.exports = async (d) => {
        );
 
     let debugResult;
-    const res = await d.client.queue.search(query.addBrackets(), type);
+    const res = await d.client.queue.search(query?.addBrackets(), type);
     switch (res?.loadType) {
         case LoadType.ERROR: {
             debugResult = 'error';
