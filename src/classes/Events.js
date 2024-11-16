@@ -1,7 +1,7 @@
 exports.MusicEvents = class Events {
     constructor(client) {
-        client.shoukaku.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
-        client.shoukaku.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
+        client.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
+        client.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
     }
 
     async trackEnd(player, track, dispatcher) {
