@@ -65,8 +65,8 @@ voice.voiceEvent('trackStart', {                  // The event type, e.g., when 
 ### Event Handler
 
 ```js
-const voice = new MusicClient(client, { ... });      // Initialize the MusicClient instance with the bot client.
-voice.loadVoiceEvents('./voice/', false);   // Load custom music event handlers from a directory. 'false' disables debug logs.
+const voice = new MusicClient(client, { ... });    // Initialize the MusicClient instance with the bot client.
+voice.loadVoiceEvents('./voice/', false);          // Load custom music event handlers from a directory. 'false' disables debug logs.
 ```
 
 **Example Event File** (in `/voice/trackStart.js`):
