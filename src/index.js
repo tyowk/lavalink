@@ -16,5 +16,6 @@ exports.Events = {
     NodeDestroy: 'nodeDestroy',
     NodeRaw: 'nodeRaw',
     SocketClosed: 'socketClosed',
+    PlayerCreate: 'playerCreate',
     PlayerDestroy: 'playerDestroy'
 };
