@@ -1,4 +1,4 @@
-module.exports = class Dispatcher {
+exports.Dispatcher = class Dispatcher {
     constructor(options) {
         this.history = [];
         this.client = options.client;
