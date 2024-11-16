@@ -73,19 +73,24 @@ exports.Client = class Client extends Shoukaku {
     }
 
     #bindEvents(event) {
-        this.on(event, async (player, track, dispatcher) => { 
+        this.on(event, async (player, track, dispatcher) => {
             const commands = this.cmds[event];
             if (!commands) return;
+            
             for (const cmd of commands.values()) {
-                const channel = this.client.channels.cache.get(dispatcher?.channelId) || this.client.channels.cache.get(cmd.channel) || undefined;
-                const guild = this.client.guilds.cache.get(player?.guildId) || undefined;
-                await this.client.functionManager.interpreter(
-                    this.client,
-                    { guild: guild, author: player?.current?.info?.requester || undefined, channel: channel },
-                    [], { name: cmd.name || event, code: cmd.code },
-                    this.client.db, false, channel, {}, channel, true
-                );
+                const guild = this.client.guilds.cache.get(player?.guildId);
+                const channel = this.client.channels.cache.get(dispatcher?.channelId) || this.client.channels.cache.get(cmd.channel);
+                if (!cmd.__compiled__) {
+                    await this.client.functionManager.interpreter(
+                        this.client, { guild, channel }, [], cmd,
+                        undefined, false, channel, { player, track, dispatcher }
+                    );
+                } else {
+                    const bot, client = this.client;
+                    await cmd.__compiled__({ bot, client, channel, guild, player, track, dispatcher });
+                }
             }
+            return event;
         });
     }
 };
