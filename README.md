@@ -66,14 +66,13 @@ voice.voiceEvent('trackStart', {                  // The event type, e.g., when 
 
 ```js
 const voice = new MusicClient(client, { ... });      // Initialize the MusicClient instance with the bot client.
-voice.loadVoiceEvents('path/to/directory', false);   // Load custom music event handlers from a directory. 'false' disables debug logs.
+voice.loadVoiceEvents('./voice/', false);   // Load custom music event handlers from a directory. 'false' disables debug logs.
 ```
 
-**Example Event File** (in `path/to/directory`):
+**Example Event File** (in `/voice/trackStart.js`):
 
 ```js
 module.exports = [{
-    name: 'TrackStart',       // This is an optional property
     channel: '$channelId',    // The ID of the channel where the event will trigger (can be dynamic or static).
     type: 'trackStart',       // The event type, e.g., when a track starts playing ('trackStart').
     code: `$songInfo[title]`  // The action to take when the event is triggered. Here it will return the title of the song.
