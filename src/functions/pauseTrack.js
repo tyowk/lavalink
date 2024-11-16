@@ -6,7 +6,7 @@ module.exports = async (d) => {
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
 
     if (!player.paused) { player.pause() }
-    else { return d.aoiError.fnError(d, "custom", {}, `The player already paused.`) }
+    else { return d.aoiError.fnError(d, "custom", {}, `The player is already paused.`) }
   
     return {
         code: d.util.setCode(data)
