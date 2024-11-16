@@ -33,6 +33,13 @@ const voice = new MusicClient(client, {
     searchEngine: 'ytsearch',                    // Default search engine. You can set this to 'ytsearch' or 'scsearch' or others.  # default is ytsearch
     debug: false                                 // Whether to enable debug logs for the music client. default is false.            # default is false
 });
+
+/**
+  * OPTIONAL
+  *
+  * moveOnDisconnect: boolean
+  * 
+  */
 ```
 
 ---
