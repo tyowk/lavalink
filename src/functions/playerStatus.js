@@ -10,7 +10,7 @@ module.exports = (d) => {
         data.result = 'paused';
     } else if (player?.stopped === true) {
         data.result = 'stopped';
-    } 
+    } else { data.result = 'unknown'; }
   
     return {
         code: d.util.setCode(data)
