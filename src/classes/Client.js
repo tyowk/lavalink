@@ -81,7 +81,6 @@ exports.Client = class Client extends Shoukaku {
         this.on('close', (name, code, reason) => this.emit('nodeDestroy', name, code, reason));
         this.on('disconnect', (name, count) => this.emit('nodeDisconnect', name, count));
         this.on('debug', (name, reason) => this.emit('nodeRaw', name, reason));
-}
     }
 
     async loadVoiceEvents(dir, debug = this.client.music.debug || false) {
