@@ -5,7 +5,7 @@ module.exports = async (d) => {
 
     const msg = player.nowPlayingMessage;
     if (!msg) return d.aoiError.fnError(d, "custom", {}, `Invalid message, please make sure the message is exists.`);
-    if (!msg.deletable || !msg.author.id) return d.aoiError.fnError(d, "custom", {}, `Invalid message, please make sure the message is deletable and sended by the bot.`);
+    if (!msg.deletable || msg.author.id !== d.client.user.id) return d.aoiError.fnError(d, "custom", {}, `Invalid message, please make sure the message is deletable and sended by the bot.`);
     msg.delete().catch(() => {});
     
     return {
