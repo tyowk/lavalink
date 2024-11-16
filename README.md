@@ -42,16 +42,7 @@ const voice = new MusicClient(client, {
 These are the core music commands and functions available for the bot. 
 
 ```bash
-$playTrack[query;engine?;debug?]    # Play a track based on a search query or URL. You can specify the engine, like 'youtube', 'soundcloud' or 'spotify'.
-$stopTrack                          # Stop the current track and clear the queue.
-$disconnect                         # Disconnect the bot from the voice channel.
-$connect[voiceId?]                  # Connect the bot to a voice channel by specifying the voice channel ID (optional).
-$hasPlayer[guildId?]                # Check if the bot already has a player (is playing music) in the specified guild.
-$leaveVc                            # Disconnect the bot from the voice channel. Same as $disconnect.
-$joinVc[voiceId?]                   # Join a voice channel using the specified voice channel ID (optional).
-$songInfo[query?;index?]            # Get information about the song playing or at a specific index in the queue (optional query and index).
-
-# More functions will be added later...
+SOON™
 ```
 
 ---
@@ -89,3 +80,8 @@ module.exports = [{
     code: `$songInfo[title]`  // The action to take when the event is triggered. Here it will return the title of the song.
 }]
 ```
+
+---
+
+> [!note]
+> Make sure your events directory is separate from the commands directory. Otherwise, the events will not load.
