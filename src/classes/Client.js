@@ -103,7 +103,7 @@ exports.Client = class Client extends Shoukaku {
                 if (!cmd.__compiled__) {
                     let channel;
 
-                    if (cmd.channel.startsWith("$")) {
+                    if (cmd.channel?.startsWith("$")) {
                         const guildId = player.guildId;
                         const guild = this.client.guilds.cache.get(guildId);
                         const channelId = dispatcher.channelId;
