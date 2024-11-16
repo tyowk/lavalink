@@ -22,7 +22,7 @@ module.exports = (d) => {
         case 'disable':
             player.loop = 'off';
             break;
-        case 'none":
+        case 'none':
             player.loop = 'off';
             break;
         default:
