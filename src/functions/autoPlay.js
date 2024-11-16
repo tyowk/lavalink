@@ -1,6 +1,7 @@
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
-    const [value] = data.inside.splits;
+    const [value, type] = data.inside.splits;
+    type = type ? type : d.client.music.searchEngine;
     
     const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
@@ -8,7 +9,7 @@ module.exports = async (d) => {
     if (!value) {
         data.result = player.autoplay;
     } else {
-        player.autoplay = (value && value == 'true') ? true : false;
+        player.setAutoplay((value && value == 'true') ? true : false, type);
     }
   
     return {
