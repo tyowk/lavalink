@@ -1,29 +1,20 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const chalk = require('chalk');
+const { readdirSync, statSync } = require('node:fs');
+const { blue, cyan, red } = require('chalk');
+const { join } = require('node:path');
 
 exports.CustomFunctions =  class Functions {
-    constructor(client, debug = false, basePath = path.join(__dirname, '..', 'functions')) {
+    constructor(client, debug = false, basePath = join(__dirname, '..', 'functions')) {
         try {
-            const files = fs.readdirSync(basePath);
+            const files = readdirSync(basePath);
             for (const file of files) {
-                const filePath = path.join(basePath, file);
-                const func = require(path.join('..', 'functions', file));
-                if (fs.statSync(filePath).isDirectory()) {
+                const filePath = join(basePath, file);
+                const func = require(join('..', 'functions', file));
+                if (statSync(filePath).isDirectory()) {
                     this.constructor(client, filePath);
-                } else {
-                    try {
-                        if (!func || typeof func !== 'function') {
-                            this.debug('error', file);
-                            continue;
-                        }
-                        
+                } else { try {
+                        if (!func || typeof func !== 'function') { if (debug) this.debug('error', file); continue; }
                         if (debug) this.debug('success', file);
-                        client.functionManager.createFunction({
-                            name: `$${file.split('.')[0]}`,
-                            type: 'djs',
-                            code: func
-                        });
+                        client.functionManager.createFunction({ name: `$${file.split('.')[0]}`, type: 'djs', code: func });
                     } catch (err) {
                         if (debug) this.debug('error', file);
                     }
@@ -34,17 +25,9 @@ exports.CustomFunctions =  class Functions {
 
     debug(type, file) {
         if (type === 'success') {
-            return console.log(
-                '[' + chalk.blue('DEBUG') + ']'
-                + chalk.gray(' :: Function loaded: ')
-                + chalk.cyan(`$${file.split('.')[0]}`)
-            );
+            console.log('[' + blue('DEBUG') + '] :: Function loaded: ' + cyan(`$${file.split('.')[0]}`));
         } else if (type === 'error') {
-            return console.log(
-                '[' + chalk.blue('DEBUG') + ']'
-                + chalk.gray(' :: Failed to Load: ')
-                + chalk.red(`$${file.split('.')[0]}`)
-            );
+            console.log('[' + blue('DEBUG') + '] :: Failed to Load: ' + red(`$${file.split('.')[0]}`));
         }
     }
 }
