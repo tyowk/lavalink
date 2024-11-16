@@ -9,6 +9,7 @@ module.exports = async (d) => {
     if (!value) {
         data.result = player.autoplay;
     } else {
+        if (!player.current) return d.aoiError.fnError(d, "custom", {}, `There is no song currently playing.`);
         player.setAutoplay((value && value == 'true') ? true : false, type);
     }
   
