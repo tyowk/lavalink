@@ -7,7 +7,7 @@
 ## Installation
 
 ```js
-npm i github:tyowk/lavalink#main
+npm i github:tyowk/aoi.lavalink#main
 ```
 ---
 
