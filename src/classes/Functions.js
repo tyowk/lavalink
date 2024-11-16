@@ -3,7 +3,7 @@ const { blue, cyan, red } = require('chalk');
 const { join } = require('node:path');
 
 exports.CustomFunctions =  class Functions {
-    constructor(client, debug = false, basePath = join(__dirname, '..', 'functions')) {
+    constructor(client, debug = false, basePath = join(__dirname, '..', 'functions'), totall = { success: 0, error: 0 }) {
         try {
             const files = readdirSync(basePath);
             for (const file of files) {
@@ -12,15 +12,20 @@ exports.CustomFunctions =  class Functions {
                 if (statSync(filePath).isDirectory()) {
                     this.constructor(client, filePath);
                 } else { try {
-                        if (!func || typeof func !== 'function') { if (debug) this.debug('error', file); continue; }
-                        if (debug) this.debug('success', file);
+                        if (!func || typeof func !== 'function') { if (debug) this.debug('error', file); totall.error++ continue; }
+                        if (debug) this.debug('success', file); totall.success++
                         client.functionManager.createFunction({ name: `$${file.split('.')[0]}`, type: 'djs', code: func });
-                    } catch (err) {
-                        if (debug) this.debug('error', file);
-                    }
+                    } catch (err) { if (debug) this.debug('error', file); totall.error++ }
                 }
             }
-        } catch (err) { console.error(err) }
+        } catch (err) {
+            console.error(err)
+        } finally {
+            if (debug) {
+                console.log('[' + blue('DEBUG') + '] :: Totall function loaded: ' + cyan(totall.success));
+                console.log('[' + blue('DEBUG') + '] :: Totall function unloaded: ' + red(totall.error));
+            }
+        }
     }
 
     debug(type, file) {
