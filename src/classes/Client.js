@@ -92,62 +92,31 @@ exports.Client = class Client extends Shoukaku {
     }
 
     #bindEvents(event) {
-        this.on(event, async (...data) => {
-            const player = data.shift();
-            const dispatcher = data.pop();
-
+        this.on(event, async (player, track, dispatcher) => {
             const commands = this.cmds[event];
             if (!commands) return;
-
+            
             for (const cmd of commands.values()) {
-                if (!cmd.__compiled__) {
-                    let channel;
+                const channel = this.client.channels.cache.get(dispatcher?.channelId) || undefined;
+                const guild = this.client.guilds.cache.get(player?.guildId) || undefined;
 
-                    if (cmd.channel?.startsWith("$")) {
-                        const guildId = player.guildId;
-                        const guild = this.client.guilds.cache.get(guildId);
-                        const channelId = dispatcher.channelId;
-                        try {
-                            const channelData = await this.client.functionManager.interpreter(
-                                this.client,
-                                { guild, channel: this.client.channels.cache.get(channelId) },
-                                [],
-                                { code: cmd.channel, name: "NameParser" },
-                                undefined,
-                                true,
-                                undefined,
-                                { data: data[0], player }
-                            );
-                            channel = channelData?.code;
-                        } catch (err) {
-                            console.error("Error resolving channel:", err);
-                        }
-                    }
-                    
-                    const resolvedChannel = this.client.channels.cache.get(channel);
-                    if (resolvedChannel) {
-                        await this.client.functionManager.interpreter(
-                            this.client,
-                            { guild: this.client.guilds.cache.get(player.guildId), channel: resolvedChannel },
-                            [],
-                            cmd,
-                            undefined,
-                            false,
-                            resolvedChannel,
-                            { data: data[0] }
-                        );
-                    }
-                } else {
-                    await cmd.__compiled__({
-                        bot: this.client,
-                        client: this.client,
-                        channel: this.client.channels.cache.get(dispatcher.channelId),
-                        guild: this.client.guilds.cache.get(player.guildId),
-                        player,
-                    });
-                }
+                await this.client.functionManager.interpreter(
+                    this.client,
+                    {
+                        guild: guild,
+                        author: player?.current?.info?.requester || undefined,
+                        channel: channel
+                    },
+                    [],
+                    { name: cmd.name || event, code: cmd.code },
+                    this.client.db,
+                    false,
+                    channel,
+                    {},
+                    channel,
+                    true
+                );
             }
-            return event;
         });
     }
 };
