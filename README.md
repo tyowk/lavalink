@@ -52,7 +52,6 @@ $joinVc[voiceId?]                   # Join a voice channel using the specified v
 $songInfo[query?;index?]            # Get information about the song playing or at a specific index in the queue (optional query and index).
 
 # More functions will be added later...
-# I'm working on it  (⁠•-•⁠)
 ```
 
 ---
@@ -62,8 +61,22 @@ $songInfo[query?;index?]            # Get information about the song playing or 
 You can listen to various events such as when a track starts, when the player is paused, etc., and respond to them with custom code.
 
 ```js
+const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
+
+voice.voiceEvent('trackStart', {                  // The event type, e.g., when a track starts playing ('trackStart').
+    name: 'TrackStart',                           // This is an optional property.
+    channel: '$channelId',                        // The ID of the channel where the event will trigger (can be dynamic or static).
+    code: `$songInfo[title]`                      // The action to take when the event is triggered. Here it will return the title of the song.
+});
+```
+
+---
+
+### Event Handler
+
+```js
 const voice = new MusicClient(client, { ... });      // Initialize the MusicClient instance with the bot client.
-voice.loadMusicEvents('path/to/directory', false);   // Load custom music event handlers from a directory. 'false' disables debug logs.
+voice.loadVoiceEvents('path/to/directory', false);   // Load custom music event handlers from a directory. 'false' disables debug logs.
 ```
 
 **Example Event File** (in `path/to/directory`):
