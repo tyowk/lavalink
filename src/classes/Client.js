@@ -18,10 +18,14 @@ exports.Client = class Client extends Shoukaku {
         super(new Connectors.DiscordJS(client), options.nodes, {
             moveOnDisconnect: options.moveOnDisconnect || false,
             resume: options.resume || false,
-            reconnectInterval: options.reconnectInterval || 30,
-            reconnectTries: options.reconnectTries || 2,
-            restTimeout: options.restTimeout || 10000,
-            userAgent: options.userAgent || 'Aoi.Lavalink',
+            resumeByLibrary: options.resumeByLibrary || false,
+            resumeTimeout: options.resumeTimeout || 30,
+            reconnectInterval: options.reconnectInterval || 5,
+            reconnectTries: options.reconnectTries || 3,
+            restTimeout: options.restTimeout || 60,
+            userAgent: options.userAgent || '(auto)',
+            voiceConnectionTimeout: options.voiceConnectionTimeout || 15,
+            structures: options.structures || {},
             nodeResolver: (nodes) => {
                 return [...nodes.values()]
                     .filter(node => node.state === 2)
