@@ -55,7 +55,6 @@ You can listen to various events such as when a track starts, when the player is
 const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
 
 voice.voiceEvent('trackStart', {                  // The event type, e.g., when a track starts playing ('trackStart').
-    name: 'TrackStart',                           // This is an optional property.
     channel: '$channelId',                        // The ID of the channel where the event will trigger (can be dynamic or static).
     code: `$songInfo[title]`                      // The action to take when the event is triggered. Here it will return the title of the song.
 });
