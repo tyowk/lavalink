@@ -10,8 +10,9 @@ module.exports = async (d) => {
     const chn = await d.guild.channels.cache.get(player.channelId);
     const msg = await chn.messages.cache.get(messageId);
     if (!msg) return d.aoiError.fnError(d, "custom", {}, `Please give a valid message id.`);
-    
-  
+    if (!msg.deletable || !msg.author.id) return d.aoiError.fnError(d, "custom", {}, `Invalid message, please make sure the message is deletable and sended by the bot.`);
+
+    player.nowPlayingMessage = msg;
     return {
         code: d.util.setCode(data)
     }
