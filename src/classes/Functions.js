@@ -3,7 +3,7 @@ const { blue, cyan, red } = require('chalk');
 const { join } = require('node:path');
 
 exports.CustomFunctions =  class Functions {
-    constructor(client, debug = false, basePath = join(__dirname, '..', 'functions'), totall = { success: 0, error: 0 }) {
+    constructor(client, debug = false, basePath = join(__dirname, '..', 'functions'), total = { success: 0, error: 0 }) {
         try {
             const files = readdirSync(basePath);
             for (const file of files) {
@@ -12,18 +12,18 @@ exports.CustomFunctions =  class Functions {
                 if (statSync(filePath).isDirectory()) {
                     this.constructor(client, filePath);
                 } else { try {
-                        if (!func || typeof func !== 'function') { if (debug) this.debug('error', file); totall.error++; continue; }
-                        if (debug) this.debug('success', file); totall.success++;
+                        if (!func || typeof func !== 'function') { if (debug) this.debug('error', file); total.error++; continue; }
+                        if (debug) this.debug('success', file); total.success++;
                         client.functionManager.createFunction({ name: `$${file.split('.')[0]}`, type: 'djs', code: func });
-                    } catch (err) { if (debug) this.debug('error', file); totall.error++; }
+                    } catch (err) { if (debug) this.debug('error', file); total.error++; }
                 }
             }
         } catch (err) {
             console.error(err)
         } finally {
             if (debug) {
-                console.log('[' + blue('DEBUG') + '] :: Totall function loaded: ' + cyan(totall.success));
-                console.log('[' + blue('DEBUG') + '] :: Totall function unloaded: ' + red(totall.error));
+                console.log('[' + cyan('DEBUG') + '] :: Total function loaded: ' + cyan(totall.success));
+                console.log('[' + red('DEBUG') + '] :: Total function unloaded: ' + red(totall.error));
             }
         }
     }
