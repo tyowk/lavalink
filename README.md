@@ -6,7 +6,7 @@
 
 ## Installation
 
-```bash
+```js
 npm i github:tyowk/aoi.lavalink#main
 ```
 ---
@@ -16,10 +16,10 @@ npm i github:tyowk/aoi.lavalink#main
 The setup is used to initialize the bot client and configure the Lavalink music system. Aoi.js is the main client framework, and Aoi.Lavalink is an integration that allows you to connect to a Lavalink server to stream music.
 
 ```js
-const { AoiClient } = require('aoi.js');
+// const { AoiClient } = require('aoi.js');
 const { MusicClient } = require('aoi.lavalink'); // Importing the MusicClient for handling Lavalink integration.
 
-const client = new AoiClient({ ... });
+// const client = new AoiClient({ ... });
 
 const voice = new MusicClient(client, {
     nodes: [{
@@ -52,11 +52,11 @@ SOON™
 You can listen to various events such as when a track starts, when the player is paused, etc., and respond to them with custom code.
 
 ```js
-const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
+// const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
 
-voice.voiceEvent('trackStart', {                  // The event type, e.g., when a track starts playing ('trackStart').
-    channel: '$channelId',                        // The ID of the channel where the event will trigger (can be dynamic or static).
-    code: `$songInfo[title]`                      // The action to take when the event is triggered. Here it will return the title of the song.
+voice.voiceEvent('trackStart', {                     // The event type, e.g., when a track starts playing ('trackStart').
+    channel: '$channelId',                           // The ID of the channel where the event will trigger (can be dynamic or static).
+    code: `$songInfo[title]`                         // The action to take when the event is triggered. Here it will return the title of the song.
 });
 ```
 
@@ -65,8 +65,9 @@ voice.voiceEvent('trackStart', {                  // The event type, e.g., when 
 ### Event Handler
 
 ```js
-const voice = new MusicClient(client, { ... });    // Initialize the MusicClient instance with the bot client.
-voice.loadVoiceEvents('./voice/', false);          // Load custom music event handlers from a directory. 'false' disables debug logs.
+// const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
+
+voice.loadVoiceEvents('./voice/', false);            // Load custom music event handlers from a directory. 'false' disables debug logs.
 ```
 
 **Example Event File** (in `/voice/trackStart.js`):
