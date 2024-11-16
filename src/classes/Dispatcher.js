@@ -19,13 +19,13 @@ module.exports = class Dispatcher {
         this.currentVolume = 100;
         this.nowPlayingMessage = null;
         this.player
-            .on('start', async () => {
-                if (this.queue.length) await this.client.shoukaku.emit('queueStart', this.player, this.current, this);
+            .on('start', () => {
+                if (this.queue.length) this.client.shoukaku.emit('queueStart', this.player, this.current, this);
                 this.client.shoukaku.emit('trackStart', this.player, this.current, this);
             })
-            .on('end', async () => {
-                await this.client.shoukaku.emit('trackEnd', this.player, this.current, this);
-                if (!this.queue.length) this.client.shoukaku.emit('queueEnd', this.player, this.current, this);
+            .on('end', () => {
+                this.client.shoukaku.emit('trackEnd', this.player, this.current, this);
+                if (!this.queue.length || this.queue.length === 0) setTimeout(() => { this.client.shoukaku.emit('queueEnd', this.player, this.current, this)}, 1000);
             })
             .on('stuck', () => {
                 this.client.shoukaku.emit('trackStuck', this.player, this.current)
