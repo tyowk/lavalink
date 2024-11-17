@@ -43,16 +43,10 @@ module.exports = (d) => {
         }, format);
     });
 
-
     let chunks = d.client.utils.chunk(queue, Number(limit));
     if (chunks.length === 0) chunks = [[]];
-    
-    if (Number(page) < 1 || Number(page) > chunks.length)  return d.aoiError.fnError(d, "custom", {}, `Invalid page number.`);
-    let pages = []
-    
-    for (let i = 0; i < chunks.length; i++) {
-        pages.push(chunks[i].join(separator));
-    }
+    if (Number(page) < 1 || Number(page) > chunks.length) return d.aoiError.fnError(d, "custom", {}, `Invalid page number.`);
+    let pages = chunks.map(chunk => chunk.join(separator));
     
     data.result = pages[page - 1];
 
