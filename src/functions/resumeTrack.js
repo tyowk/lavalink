@@ -1,7 +1,5 @@
 module.exports = (d) => {
     const data = d.util.aoiFunc(d);
-    const [value] = data.inside.splits;
-
     const manager = d.client.shoukaku;
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
     
