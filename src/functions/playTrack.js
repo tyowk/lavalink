@@ -4,7 +4,11 @@ module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
     if (data.err) return d.error(data.err);
     let [query, type, debug] = data.inside.splits;
-    if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title or link of the song you want to play!`);
+
+    const manager = d.client.shoukaku;
+    if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
+    
+    if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title or link of the song you want to play.`);
     if (!type) type = d.client.music.searchEngine;
     type = type?.toLowerCase()
         .replace('youtube', 'ytsearch')
@@ -38,17 +42,17 @@ module.exports = async (d) => {
         case LoadType.TRACK: {
             debugResult = 'track';
             const track = player.buildTrack(res.data, d.author);
-            if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
+            if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs.`); 
             player.queue.push(track);
             await player.isPlaying();
             break;
         }
         case LoadType.PLAYLIST: {
             debugResult = 'playlist';
-            if (res.data.tracks.length > d.client.music.maxPlaylistSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxPlaylistSize} songs`); 
+            if (res.data.tracks.length > d.client.music.maxPlaylistSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxPlaylistSize} songs.`); 
             for (const track of res.data.tracks) {
                 const pl = player.buildTrack(track, d.author);
-                if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
+                if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs.`); 
                 player.queue.push(pl);
             }
             await player.isPlaying();
@@ -58,7 +62,7 @@ module.exports = async (d) => {
             debugResult = 'search';
             if (res.data === []) return d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
             const track = player.buildTrack(res.data[0], d.author);
-            if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs`); 
+            if (player.queue.length > d.client.music.maxQueueSize) return d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs.`); 
             player.queue.push(track);
             await player.isPlaying();
             break;
