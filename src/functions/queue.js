@@ -9,7 +9,8 @@ module.exports = (d) => {
     
     const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
-
+    if (isNaN(Number(page)) || isNaN(Number(limit))) return d.aoiError.fnError(d, "custom", {}, `Please provide a valid number.`);
+    
     const queue = player.queue.map((track, index) => {
         return format
             .replaceAll('{position}', index + 1)
@@ -35,10 +36,10 @@ module.exports = (d) => {
             .replaceAll('{queueLength}', player.queue.length || 'N/A');
     });
 
-    let chunks = d.client.utils.chunk(queue, limit);
+    let chunks = d.client.utils.chunk(queue, Number(limit));
     if (chunks.length === 0) chunks = [[]];
     
-    if (page < 1 || page > chunks.length)  return d.aoiError.fnError(d, "custom", {}, `Invalid page number!`);
+    if (Number(page) < 1 || Number(page) > chunks.length)  return d.aoiError.fnError(d, "custom", {}, `Invalid page number.`);
     let pages = []
     
     for (let i = 0; i < chunks.length; i++) {
