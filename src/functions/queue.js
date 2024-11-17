@@ -3,7 +3,8 @@ module.exports = (d) => {
     const [ page = 1,
             limit = 10,
             format = '{position}. {title} | {requester.username}',
-            separator = '\n' ] = data.inside.splits;
+            separator = '\n'
+          ] = data.inside.splits;
     
     const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
@@ -17,16 +18,18 @@ module.exports = (d) => {
             .replaceAll('{requester.id}', track.info.requester.id)
             .replaceAll('{requester.avatar}', track.info.requester.avatar)
             .replaceAll('{requester.banner}', track.info.requester.banner)
+            .replaceAll('{requester.mention}', `<@${track.info.requester.id}>`)
             .replaceAll('{artwork}', track.info.artworkUrl)
             .replaceAll('{url}', track.info.uri)
-            .replaceAll('{duration}', d.client.utils.formatDuration(track.info.length))
+            .replaceAll('{uri}', track.info.uri)
+            .replaceAll('{duration}', d.client.utils.formatTime(track.info.length))
             .replaceAll('{author}', track.info.author)
-            .replaceAll('{sourceName}', track.info.sourceName)
+            .replaceAll('{artist}', track.info.author)
+            .replaceAll('{source}', track.info.sourceName)
             .replaceAll('{identifier}', track.info.identifier)
             .replaceAll('{isSeekable}', track.info.isSeekable ? 'Yes' : 'No')
             .replaceAll('{isStream}', track.info.isStream ? 'Yes' : 'No')
             .replaceAll('{isrc}', track.info.isrc || 'N/A')
-            .replaceAll('{sourceType}', track.info.sourceType || 'N/A')
             .replaceAll('{durationMs}', track.info.length || 'N/A')
             .replaceAll('{queueLength}', player.queue.length || 'N/A');
     });
