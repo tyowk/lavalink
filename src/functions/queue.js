@@ -12,29 +12,37 @@ module.exports = (d) => {
     if (isNaN(Number(page)) || isNaN(Number(limit))) return d.aoiError.fnError(d, "custom", {}, `Please provide a valid number.`);
     
     const queue = player.queue.map((track, index) => {
-        return format
-            .replaceAll('{position}', index + 1)
-            .replaceAll('{title}', track.info.title)
-            .replaceAll('{requester.username}', track.info.requester.username)
-            .replaceAll('{requester.globalName}', track.info.requester.globalName)
-            .replaceAll('{requester.id}', track.info.requester.id)
-            .replaceAll('{requester.avatar}', track.info.requester.avatar)
-            .replaceAll('{requester.banner}', track.info.requester.banner)
-            .replaceAll('{requester.mention}', `<@${track.info.requester.id}>`)
-            .replaceAll('{artwork}', track.info.artworkUrl)
-            .replaceAll('{url}', track.info.uri)
-            .replaceAll('{uri}', track.info.uri)
-            .replaceAll('{duration}', d.client.utils.formatTime(track.info.length))
-            .replaceAll('{author}', track.info.author)
-            .replaceAll('{artist}', track.info.author)
-            .replaceAll('{source}', track.info.sourceName)
-            .replaceAll('{identifier}', track.info.identifier)
-            .replaceAll('{isSeekable}', track.info.isSeekable ? 'Yes' : 'No')
-            .replaceAll('{isStream}', track.info.isStream ? 'Yes' : 'No')
-            .replaceAll('{isrc}', track.info.isrc || 'N/A')
-            .replaceAll('{durationMs}', track.info.length || 'N/A')
-            .replaceAll('{queueLength}', player.queue.length || 'N/A');
+        const trackInfo = track.info;
+        const requester = trackInfo.requester;
+        const replace = {
+            position: index + 1,
+            title: trackInfo.title,
+            artwork: trackInfo.artworkUrl,
+            url: trackInfo.uri,
+            uri: trackInfo.uri,
+            duration: d.client.utils.formatTime(trackInfo.length),
+            author: trackInfo.author,
+            artist: trackInfo.author,
+            source: trackInfo.sourceName,
+            identifier: trackInfo.identifier,
+            isSeekable: trackInfo.isSeekable ? 'Yes' : 'No',
+            isStream: trackInfo.isStream ? 'Yes' : 'No',
+            isrc: trackInfo.isrc || 'N/A',
+            durationMs: trackInfo.length || 'N/A',
+            queueLength: player.queue.length || 'N/A',
+            'requester.username': requester.username,
+            'requester.globalName': requester.globalName,
+            'requester.id': requester.id,
+            'requester.avatar': requester.avatar,
+            'requester.banner': requester.banner,
+            'requester.mention': `<@${requester.id}>`
+        };
+
+        return Object.entries(replace).reduce((formatted, [key, value]) => {
+            return formatted.replaceAll(`{${key}}`, value);
+        }, format);
     });
+
 
     let chunks = d.client.utils.chunk(queue, Number(limit));
     if (chunks.length === 0) chunks = [[]];
