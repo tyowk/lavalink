@@ -6,7 +6,7 @@ module.exports = (d) => {
     const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild.`);
 
-    if (!player.current) return d.aoiError.fnError(d, "custom", {}, `There is no songs currently playing.`);
+    if (!player.current) return d.aoiError.fnError(d, "custom", {}, `There is no song currently playing.`);
     if (!player.current?.info.isSeekable) return d.aoiError.fnError(d, "custom", {}, `This current track is not seekable.`);
     time = d.client.utils.parseTime(time?.addBrackets());
     if (!time) return d.aoiError.fnError(d, "custom", {}, `Invalid time format.`);
