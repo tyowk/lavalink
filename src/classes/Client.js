@@ -13,6 +13,7 @@ exports.Client = class Client extends Shoukaku {
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
         options.searchEngine = options.searchEngine || 'ytsearch';
         options.debug = options.debug || false;
+        options.autoSkip = options.autoSkip || true;
 
         super(new Connectors.DiscordJS(client), options.nodes, {
             moveOnDisconnect: options.moveOnDisconnect || false,
