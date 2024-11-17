@@ -82,6 +82,7 @@ exports.Dispatcher = class Dispatcher {
         if (!this.player) return;
         if (!this.previous) return;
         this.queue.unshift(this.previous);
+        this.previous = this.history.pop() || null;
         this.player.stopTrack();
     }
 
