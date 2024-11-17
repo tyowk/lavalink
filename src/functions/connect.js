@@ -3,6 +3,10 @@ const { ChannelType } = require('discord.js');
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
     let [voiceId] = data.inside.splits;
+
+    const manager = d.client.shoukaku;
+    if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
+    
     if (!voiceId) voiceId = d.member?.voice?.channel?.id;
     if (!voiceId) return d.aoiError.fnError(d, "custom", {}, `You are not connected to any voice channels.`);
     const voiceChannel = await d.guild.channels.fetch(voiceId);
