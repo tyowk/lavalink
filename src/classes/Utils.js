@@ -4,7 +4,7 @@ module.exports = class Utils {
         const hour = 60 * minute;
         const day = 24 * hour;
         if (ms < minute) {
-            return `${ms / 1000}s`;
+            return `${(ms / 1000).toFixed()}s`;
         } else if (ms < hour) {
             return `${Math.floor(ms / minute)}m ${Math.floor((ms % minute) / 1000)}s`;
         } else if (ms < day) {
