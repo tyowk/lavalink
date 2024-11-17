@@ -6,9 +6,13 @@ module.exports = (d) => {
         format = '{position}. {title} | {requester.username}',
         separator = '\n'
     ] = data.inside.splits;
+
+    const manager = d.client.shoukaku;
+    if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
     
     const player = d.client.queue.get(d.guild.id);
-    if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
+    if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild.`);
+    if (!player.queue.length) return d.aoiError.fnError(d, "custom", {}, `There is no songs in the queue.`);
     if (isNaN(Number(page)) || isNaN(Number(limit))) return d.aoiError.fnError(d, "custom", {}, `Please provide a valid number.`);
     
     const queue = player.queue.map((track, index) => {
