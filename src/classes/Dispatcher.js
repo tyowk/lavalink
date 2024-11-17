@@ -143,6 +143,16 @@ exports.Dispatcher = class Dispatcher {
 
     buildTrack(track, user) {
         if (!track) throw new Error('Track not provided!');
+        if (user) {
+            user.avatar = user.avatar
+            ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=4096`
+            : `https://cdn.discordapp.com/embed/avatars/0.png`;
+        
+            user.banner = user.banner
+            ? `https://cdn.discordapp.com/banners/${user.id}/${user.banner}.png?size=4096`
+            : null;
+        }
+        
         return {
             encoded: track.encoded,
             info: {
