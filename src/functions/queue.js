@@ -1,10 +1,11 @@
 module.exports = (d) => {
     const data = d.util.aoiFunc(d);
-    const [ page = 1,
-            limit = 10,
-            format = '{position}. {title} | {requester.username}',
-            separator = '\n'
-          ] = data.inside.splits;
+    const [
+        page = 1,
+        limit = 10,
+        format = '{position}. {title} | {requester.username}',
+        separator = '\n'
+    ] = data.inside.splits;
     
     const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
