@@ -7,7 +7,7 @@ module.exports = (d) => {
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
     
     const player = d.client.queue.get(d.guild.id);
-    if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild!`);
+    if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild.`);
 
     switch (value?.addBrackets()) {
         case 'song':
