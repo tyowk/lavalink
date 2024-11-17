@@ -37,9 +37,14 @@ module.exports = (d) => {
 
     let chunks = d.client.utils.chunk(queue, limit);
     if (chunks.length === 0) chunks = [[]];
+    
     if (page < 1 || page > chunks.length)  return d.aoiError.fnError(d, "custom", {}, `Invalid page number!`);
-    const pages = chunks.map(chunk => chunk.join(separator));
-
+    let pages = []
+    
+    for (let i = 0; i < chunks.length; i++) {
+        pages.push(chunks[i].join(separator));
+    }
+    
     data.result = pages[page - 1];
 
     return {
