@@ -1,23 +1,23 @@
 exports.Dispatcher = class Dispatcher {
     constructor(options) {
-        this.history = [];
         this.client = options.client;
         this.guildId = options.guildId;
         this.channelId = options.channelId;
         this.player = options.player;
+        this.node = options.node;
         this.queue = [];
+        this.history = [];
+        this.filters = [];
         this.stopped = false;
         this.previous = null;
         this.current = null;
+        this.nowPlaying = null;
         this.loop = 'off';
-        this.repeat = 0;
-        this.node = options.node;
         this.shuffle = false;
         this.paused = false;
-        this.filters = [];
         this.autoplay = false;
         this.currentVolume = 100;
-        this.nowPlayingMessage = null;
+        this.repeat = 0;
         this.player
             .on('start', () => {
                 if (this.queue.length) this.client.shoukaku.emit('queueStart', this.player, this.current, this);
