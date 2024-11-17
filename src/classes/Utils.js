@@ -15,13 +15,13 @@ module.exports = class Utils {
     }
     
     static chunk(array, size) {
-        const chunked_arr = [];
+        const chunked = [];
         let index = 0;
         while (index < array.length) {
-            chunked_arr.push(array.slice(index, size + index));
+            chunked.push(array.slice(index, size + index));
             index += size;
         }
-        return chunked_arr;
+        return chunked;
     }
     
     static parseTime(string) {
