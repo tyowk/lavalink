@@ -1,8 +1,8 @@
 module.exports = class Utils {
     static formatTime(ms) {
         const minute = 60 * 1000;
-        const hour = 60 * minuteMs;
-        const day = 24 * hourMs;
+        const hour = 60 * minute;
+        const day = 24 * hour;
         if (ms < minute) {
             return `${ms / 1000}s`;
         } else if (ms < hour) {
