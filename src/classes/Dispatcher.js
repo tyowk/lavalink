@@ -160,6 +160,8 @@ exports.Dispatcher = class Dispatcher {
                 ...track.info,
                 artist: track.info.author,
                 url: track.info.uri,
+                duration: this.client.music.utils.formatTime(track.info.length) || 0,
+                durationMs: track.info.length,
                 requester: { ...user }
             }
         };
