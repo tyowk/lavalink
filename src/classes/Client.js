@@ -3,7 +3,7 @@ const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
 const { MusicEvents } = require('./Events.js');
 const { LoadCommands } = require('aoi.js');
-const { Group } = require('@aojs/aoi.structures');
+const { Group } = require('@aoijs/aoi.structures');
 
 exports.Client = class Client extends Shoukaku {
     constructor(client, options) {
