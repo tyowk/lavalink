@@ -158,6 +158,8 @@ exports.Dispatcher = class Dispatcher {
             encoded: track.encoded,
             info: {
                 ...track.info,
+                artist: track.info.author,
+                url: track.info.uri,
                 requester: { ...user }
             }
         };
