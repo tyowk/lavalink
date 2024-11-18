@@ -47,7 +47,7 @@ module.exports = (d) => {
         }, format);
     });
 
-    let chunks = d.client.utils.chunk(queue, Number(limit));
+    let chunks = d.client.music.utils.chunk(queue, Number(limit));
     if (chunks.length === 0) chunks = [[]];
     if (Number(page) < 1 || Number(page) > chunks.length) return d.aoiError.fnError(d, "custom", {}, `Invalid page number.`);
     let pages = chunks.map(chunk => chunk.join(separator));
