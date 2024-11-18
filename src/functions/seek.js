@@ -11,7 +11,7 @@ module.exports = (d) => {
 
     if (!player.current) return d.aoiError.fnError(d, "custom", {}, `There is no song currently playing.`);
     if (!player.current?.info.isSeekable) return d.aoiError.fnError(d, "custom", {}, `This current track is not seekable.`);
-    time = d.client.utils.parseTime(time?.addBrackets());
+    time = d.client.music.utils.parseTime(time?.addBrackets());
     if (!time) return d.aoiError.fnError(d, "custom", {}, `Invalid time format.`);
     
     player.seek(time);
