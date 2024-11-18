@@ -10,7 +10,7 @@ module.exports = (d) => {
     if (!player.current) return d.aoiError.fnError(d, "custom", {}, `There is no song currently playing.`);
 
     if (humanize == 'false') { data.result = player.player.position || 0 }
-    else { data.result = d.client.utils.formatTime(player.player.position || 0) }
+    else { data.result = d.client.music.utils.formatTime(player.player.position || 0) }
   
     return {
         code: d.util.setCode(data)
