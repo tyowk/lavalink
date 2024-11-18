@@ -24,7 +24,7 @@ module.exports = (d) => {
             artwork: trackInfo.artworkUrl,
             url: trackInfo.uri,
             uri: trackInfo.uri,
-            duration: d.client.utils.formatTime(trackInfo.length),
+            duration: d.client.music.utils.formatTime(trackInfo.length),
             author: trackInfo.author,
             artist: trackInfo.author,
             source: trackInfo.sourceName,
