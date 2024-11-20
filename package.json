@@ -1,5 +1,5 @@
 {
-    "name": "aoi.lavalink",
+    "name": "aoijs.lavalink",
     "version": "1.0.0",
     "description": "A package for integrating Lavalink with Aoi.js to enable music streaming in Discord bots.",
     "type": "commonjs",
