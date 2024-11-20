@@ -1,6 +1,6 @@
-> [!IMPORTANT]  
-> **UNDER DEVELOPMENT!**  
-> This project is under development. Features may change, and some functions may not work as expected.
+# aoijs.lavalink
+
+A package for integrating Lavalink with Aoi.js to enable music streaming in Discord bots.
 
 ---
 
@@ -16,10 +16,10 @@ npm i github:tyowk/aoijs.lavalink#main
 The setup is used to initialize the bot client and configure the Lavalink music system. aoi.js is the main client framework, and aoijs.lavalink is an integration that allows you to connect to a Lavalink server to stream music.
 
 ```js
-// const { AoiClient } = require('aoi.js');
+const { AoiClient } = require('aoi.js');
 const { MusicClient } = require('aoijs.lavalink'); // Importing the MusicClient for handling Lavalink integration.
 
-// const client = new AoiClient({ ... });
+const client = new AoiClient({ ... });
 
 const voice = new MusicClient(client, {
     nodes: [{
@@ -54,7 +54,7 @@ SOON™
 You can listen to various events such as when a track starts, when the player is paused, etc., and respond to them with custom code.
 
 ```js
-// const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
+const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
 
 voice.voiceEvent('trackStart', {                     // The event type, e.g., when a track starts playing ('trackStart').
     channel: '$channelId',                           // The ID of the channel where the event will trigger (can be dynamic or static).
@@ -64,10 +64,10 @@ voice.voiceEvent('trackStart', {                     // The event type, e.g., wh
 
 ---
 
-### Event Handler
+## Handlers
 
 ```js
-// const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
+const voice = new MusicClient(client, { ... });   // Initialize the MusicClient instance with the bot client.
 
 voice.loadVoiceEvents('./voice/', false);            // Load custom music event handlers from a directory. 'false' disables debug logs.
 ```
@@ -84,5 +84,16 @@ module.exports = [{
 
 ---
 
-> [!note]
-> Make sure your events directory is separate from the commands directory. Otherwise, the events will not load.
+<div align="center">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img src="https://aoi.js.org/_astro/icon_new.C4KTn9Lv_Z232q1W.webp" width="100">
+<br>
+<a href="https://aoi.js.org/invite">
+<img src="https://img.shields.io/discord/773352845738115102?logo=discord&logoColor=white&color=3182b0&style=for-the-badge">
+</a>
+</div>
