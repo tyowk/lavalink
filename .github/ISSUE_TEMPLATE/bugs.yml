@@ -11,17 +11,6 @@ body:
       placeholder: There is a bugs at...
     validations:
       required: true
-
-  - type: dropdown
-    id: version
-    attributes:
-      label: Version of Aoi.Lavalink
-      description: What version of aoi.lavalink are you using?
-      options:
-        - v1.0.0 [latest]
-    validations:
-      required: false
-      
   - type: textarea
     id: logs
     attributes:
