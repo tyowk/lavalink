@@ -1,7 +1,12 @@
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
     let [value, type] = data.inside.splits;
-    type = type ? type : d.client.music.searchEngine;
+    type = type?.toLowerCase()
+        .replace('youtube', 'ytsearch')
+        .replace('spotify', 'spsearch')
+        .replace('soundcloud', 'scsearch')
+        .replace('deezer', 'dzsearch')
+        .replace('youtubemusic', 'ytmsearch');
     
     const manager = d.client.shoukaku;
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
@@ -13,7 +18,7 @@ module.exports = async (d) => {
         data.result = player.autoplay || false;
     } else {
         if (!player.current) return d.aoiError.fnError(d, "custom", {}, `There is no song currently playing.`);
-        await player.setAutoplay((value && value == 'true') ? true : false, type);
+        await player.setAutoplay((value && value == 'true') ? true : false, type || d.client.music.searchEngine || 'ytsearch');
     }
   
     return {
