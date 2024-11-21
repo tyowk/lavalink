@@ -28,6 +28,9 @@ module.exports = async (d) => {
 
     let debugResult;
     const res = await d.client.queue.search(query?.addBrackets(), type);
+    const maxQueueSize = Number(d.client.music.maxQueueSize) || 100;
+    const maxPlaylistSize = Number(d.client.music.maxPlaylistSize) || 100;
+
     switch (res?.loadType) {
         case LoadType.ERROR: {
             debugResult = 'error';
@@ -40,8 +43,8 @@ module.exports = async (d) => {
             break;
         }
         case LoadType.TRACK: {
-            if (player.queue.length > Number(d.client.music.maxQueueSize)) {
-                d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs.`);
+            if (player.queue.length >= maxQueueSize) {
+                d.aoiError.fnError(d, "custom", {}, `The queue length is too long. The maximum length is ${maxQueueSize} songs.`);
                 break;
             };
             debugResult = 'track';
@@ -51,15 +54,15 @@ module.exports = async (d) => {
             break;
         }
         case LoadType.PLAYLIST: {
-            if (res.data.tracks.length > Number(d.client.music.maxPlaylistSize)) {
-                d.aoiError.fnError(d, "custom", {}, `The playlist length is to long. The maximum length is ${d.client.music.maxPlaylistSize} songs.`);
+            if (res.data.tracks.length > maxPlaylistSize) {
+                d.aoiError.fnError(d, "custom", {}, `The playlist length is too long. The maximum length is ${maxPlaylistSize} songs.`);
                 break;
             };
             for (const track of res.data.tracks) {
-                if (player.queue.length > Number(d.client.music.maxQueueSize)) {
-                    d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs.`);
+                if (player.queue.length >= maxQueueSize) {
+                    d.aoiError.fnError(d, "custom", {}, `The queue length is too long. The maximum length is ${maxQueueSize} songs.`);
                     break;
-                };
+                }
                 const playlist = player.buildTrack(track, d.author);
                 player.queue.push(playlist);
             };
@@ -68,10 +71,12 @@ module.exports = async (d) => {
             break;
         }
         case LoadType.SEARCH: {
-            if (res.data === []) return d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
+            if (!Array.isArray(res.data) || res.data.length === 0) {
+                return d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
+            }
             const track = player.buildTrack(res.data[0], d.author);
-            if (player.queue.length > Number(d.client.music.maxQueueSize)) {
-                d.aoiError.fnError(d, "custom", {}, `The queue length is to long. The maximum length is ${d.client.music.maxQueueSize} songs.`);
+            if (player.queue.length >= maxQueueSize) {
+                d.aoiError.fnError(d, "custom", {}, `The queue length is too long. The maximum length is ${maxQueueSize} songs.`);
                 break;
             };
             player.queue.push(track);
