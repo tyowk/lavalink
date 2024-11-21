@@ -175,7 +175,6 @@ exports.Dispatcher = class Dispatcher {
     }
 
     async Autoplay(song, type) {
-        if (type) this.autoplayType = type;
         const resolve = await this.node.rest.resolve(`${type || this.autoplayType}:${song.info.author}`);
         if (!resolve || !resolve?.data || !Array.isArray(resolve.data)) return this.destroy();
         const metadata = resolve.data;
@@ -199,9 +198,9 @@ exports.Dispatcher = class Dispatcher {
     }
 
     async setAutoplay(autoplay, type) {
+        if (!autoplay) return;
         this.autoplay = autoplay;
-        if (autoplay) {
-            this.Autoplay(this.current ? this.current : this.queue[0], type || this.client.music.searchEngine);
-        }
+        if (type) this.autoplayType = type;
+        this.Autoplay(this.current ? this.current : this.queue[0], type || this.autoplayType);
     }
 }
