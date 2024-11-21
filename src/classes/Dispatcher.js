@@ -16,6 +16,7 @@ exports.Dispatcher = class Dispatcher {
         this.shuffle = false;
         this.paused = false;
         this.autoplay = false;
+        this.autoplayType = this.client?.music?.searchEngine || 'ytsearch';
         this.currentVolume = 100;
         this.repeat = 0;
         this.player
@@ -174,7 +175,8 @@ exports.Dispatcher = class Dispatcher {
     }
 
     async Autoplay(song, type) {
-        const resolve = await this.node.rest.resolve(`${type || this.client.music.searchEngine}:${song.info.author}`);
+        if (type) this.autoplayType = type;
+        const resolve = await this.node.rest.resolve(`${type || this.autoplayType}:${song.info.author}`);
         if (!resolve || !resolve?.data || !Array.isArray(resolve.data)) return this.destroy();
         const metadata = resolve.data;
         let choosed = null;
