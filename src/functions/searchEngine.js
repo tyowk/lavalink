@@ -1,6 +1,12 @@
 module.exports = (d) => {
     const data = d.util.aoiFunc(d);
-    const [value] = data.inside.splits;
+    let [value] = data.inside.splits;
+    value = value?.toLowerCase()
+        .replace('youtube', 'ytsearch')
+        .replace('spotify', 'spsearch')
+        .replace('soundcloud', 'scsearch')
+        .replace('deezer', 'dzsearch')
+        .replace('youtubemusic', 'ytmsearch');
 
     const manager = d.client.shoukaku;
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
