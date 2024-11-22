@@ -70,7 +70,7 @@ exports.Client = class Client extends Shoukaku {
 
     #bindEvents(event) {
         this.on(event, async (player, track, dispatcher) => {
-            const commands = this.cmds[event];
+            const commands = this.cmd[event];
             if (!commands) return;
             
             for (const cmd of commands.values()) {
