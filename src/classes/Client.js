@@ -40,7 +40,7 @@ exports.Client = class Client extends Shoukaku {
         this.client.music = options;
         this.client.music.utils = require('./Utils.js');
 
-        this.cmd = new CommandManager(this, false, [
+        this.cmd = new CommandManager(this.client.music, false, [
             'trackStart', 'trackEnd', 'queueStart',
             'queueEnd', 'trackStuck', 'trackPaused',
             'trackResumed', 'nodeConnect', 'nodeReconnect',
@@ -49,7 +49,6 @@ exports.Client = class Client extends Shoukaku {
             'playerDestroy'
         ]);
         
-        this.client.music.cmds = this.cmd;
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug);
         new MusicEvents(this);
