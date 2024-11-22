@@ -54,8 +54,6 @@ SOON™
 You can listen to various events such as when a track starts, when the player is paused, etc., and respond to them with custom code.
 
 ```js
-// Initialize the MusicClient and the client instance.
-
 client.voiceEvent('trackStart', {     // The event type, e.g., when a track starts playing ('trackStart').
     channel: '$channelId',            // The ID of the channel where the event will trigger (can be dynamic or static).
     code: `$songInfo[title]`          // The action to take when the event is triggered. Here it will return the title of the song.
@@ -67,8 +65,6 @@ client.voiceEvent('trackStart', {     // The event type, e.g., when a track star
 ## Handlers
 
 ```js
-// Initialize the MusicClient and the client instance.
-
 client.loadVoiceEvents('./voice/', false);  // Load custom music event handlers from a directory. 'false' disables debug logs.
 ```
 
