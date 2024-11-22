@@ -61,6 +61,8 @@ exports.Client = class Client extends Shoukaku {
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug);
         new MusicEvents(this);
+        this.client.loadVoiceEvents = this.loadVoiceEvents.bind(this);
+        this.client.voiceEvent = this.voiceEvent.bind(this);
         Object.entries(this.cmd).forEach((event) => this.#bindEvents(event[0]));
     }
 
