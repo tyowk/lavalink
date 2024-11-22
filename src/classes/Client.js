@@ -3,6 +3,7 @@ const { ClientQueue } = require('./Queue.js');
 const { CustomFunctions } = require('./Functions.js');
 const { MusicEvents } = require('./Events.js');
 const { LoadCommands } = require('aoi.js');
+const { CommandManager } = require('aoi.js/classes/Commands.js');
 const { Group } = require('@aoijs/aoi.structures');
 
 exports.Client = class Client extends Shoukaku {
@@ -39,24 +40,14 @@ exports.Client = class Client extends Shoukaku {
         this.client.music = options;
         this.client.music.utils = require('./Utils.js');
 
-        this.cmds = {
-            trackStart: new Group(),
-            trackEnd: new Group(),
-            queueStart: new Group(),
-            queueEnd: new Group(),
-            trackStuck: new Group(),
-            trackPaused: new Group(),
-            trackResumed: new Group(),
-            nodeConnect: new Group(),
-            nodeReconnect: new Group(),
-            nodeDisconnect: new Group(),
-            nodeError: new Group(),
-            nodeDestroy: new Group(),
-            nodeRaw: new Group(),
-            socketClosed: new Group(),
-            playerCreate: new Group(),
-            playerDestroy: new Group()
-        };
+        this.cmds = new CommandManager(client, false, [
+            'trackStart', 'trackEnd', 'queueStart',
+            'queueEnd', 'trackStuck', 'trackPaused',
+            'trackResumed', 'nodeConnect', 'nodeReconnect',
+            'nodeDisconnect', 'nodeError', 'nodeDestroy',
+            'nodeRaw', 'socketClosed', 'playerCreate',
+            'playerDestroy'
+        ]);
         
         this.client.music.cmds = this.cmds;
         this.client.queue = new ClientQueue(this.client, options);
