@@ -59,14 +59,6 @@ exports.Client = class Client extends Shoukaku {
         };
 
         this.client.music.cmd = this.cmd;
-        this.client.music.events = [
-            'trackStart', 'trackEnd', 'queueStart',
-            'queueEnd', 'trackStuck', 'trackPaused',
-            'trackResumed', 'nodeConnect', 'nodeReconnect',
-            'nodeDisconnect', 'nodeError', 'nodeDestroy',
-            'nodeRaw', 'socketClosed', 'playerCreate',
-            'playerDestroy'
-        ];
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug);
         new MusicEvents(this);
