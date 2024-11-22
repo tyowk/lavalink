@@ -40,15 +40,33 @@ exports.Client = class Client extends Shoukaku {
         this.client.music = options;
         this.client.music.utils = require('./Utils.js');
 
-        this.cmd = new CommandManager(this.client.music, false, [
+        this.cmd = {
+            trackStart: new Group(),
+            trackEnd: new Group(),
+            queueStart: new Group(),
+            queueEnd: new Group(),
+            trackStuck: new Group(),
+            trackPaused: new Group(),
+            trackResumed: new Group(),
+            nodeConnect: new Group(),
+            nodeReconnect: new Group(),
+            nodeError: new Group(),
+            nodeDestroy: new Group(),
+            nodeRaw: new Group(),
+            socketClosed: new Group(),
+            playerCreate: new Group(),
+            playerDestroy: new Group()
+        };
+
+        this.client.music.cmd = this.cmd;
+        this.client.music.events = [
             'trackStart', 'trackEnd', 'queueStart',
             'queueEnd', 'trackStuck', 'trackPaused',
             'trackResumed', 'nodeConnect', 'nodeReconnect',
             'nodeDisconnect', 'nodeError', 'nodeDestroy',
             'nodeRaw', 'socketClosed', 'playerCreate',
             'playerDestroy'
-        ]);
-        
+        ];
         this.client.queue = new ClientQueue(this.client, options);
         new CustomFunctions(this.client, options.debug);
         new MusicEvents(this);
