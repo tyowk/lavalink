@@ -6,14 +6,19 @@ const { LoadCommands } = require('aoi.js');
 const { Group } = require('@aoijs/aoi.structures');
 
 exports.Client = class Client extends Shoukaku {
-    constructor(client, options) {
+    constructor(client, options = {}) {
         if (!client) throw new Error('Client instance is not defined.');
-        if (!options || !options.nodes) throw new Error('No nodes provided to connect on.');
+        if (options === {} || !options.nodes) throw new Error('No nodes provided to connect on.');
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
         options.maxQueueSize = options.maxQueueSize || 100;
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
-        options.searchEngine = options.searchEngine || 'ytsearch';
         options.debug = options.debug || false;
+        options.searchEngine = options.searchEngine?.toLowerCase()
+            .replace('youtube', 'ytsearch')
+            .replace('spotify', 'spsearch')
+            .replace('soundcloud', 'scsearch')
+            .replace('deezer', 'dzsearch')
+            .replace('youtubemusic', 'ytmsearch') || 'ytsearch';
         
         super(new Connectors.DiscordJS(client), options.nodes, {
             moveOnDisconnect: options.moveOnDisconnect || false,
