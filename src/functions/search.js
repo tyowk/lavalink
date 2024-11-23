@@ -44,7 +44,7 @@ module.exports = async (d) => {
             if (!Array.isArray(res.data) || res.data.length === 0)
                 return d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
 
-            const tracks = res.data.map((track, index) => {
+            const result = res.data.map((track, index) => {
                 const trackInfo = track.info;
                 const requester = trackInfo.requester;
                 const replace = {
@@ -76,7 +76,7 @@ module.exports = async (d) => {
                 }, format);
             });
 
-            let chunks = d.client.music.utils.chunk(tracks, Number(limit));
+            let chunks = d.client.music.utils.chunk(result, Number(limit));
             if (chunks.length === 0) chunks = [[]];
             let pages = chunks.map(chunk => chunk.join(separator));
     
