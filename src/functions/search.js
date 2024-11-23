@@ -54,7 +54,7 @@ module.exports = async (d) => {
                     uri: trackInfo.url,
                     duration: d.client.music.utils.formatTime(trackInfo.length),
                     author: trackInfo.author,
-                    artist: trackInfo.artist || trackInfo.author,
+                    artist: trackInfo.author,
                     source: trackInfo.sourceName,
                     identifier: trackInfo.identifier,
                     isSeekable: trackInfo.isSeekable ? 'Yes' : 'No',
