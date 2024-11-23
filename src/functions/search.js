@@ -13,7 +13,6 @@ module.exports = async (d) => {
 
     const manager = d.client.shoukaku;
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
-    const player = d.client.queue.get(d.guild.id);
     if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title of the song you want to search.`);
     type = type?.toLowerCase()
         .replace('youtube', 'ytsearch')
@@ -72,7 +71,8 @@ module.exports = async (d) => {
             if (chunks.length === 0) chunks = [[]];
             let pages = chunks.map(chunk => chunk.join(separator));
     
-            data.result = pages[page - 1]
+            data.result = pages[page - 1];
+            break;
         }
         default: {
             d.aoiError.fnError(d, "custom", {}, `There was an error while searching.`);
