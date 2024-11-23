@@ -46,7 +46,6 @@ module.exports = async (d) => {
 
             const result = res.data.map((track, index) => {
                 const trackInfo = track.info;
-                const requester = trackInfo.requester;
                 const replace = {
                     position: index + 1,
                     title: trackInfo.title,
@@ -61,14 +60,7 @@ module.exports = async (d) => {
                     isSeekable: trackInfo.isSeekable ? 'Yes' : 'No',
                     isStream: trackInfo.isStream ? 'Yes' : 'No',
                     isrc: trackInfo.isrc || 'N/A',
-                    durationMs: trackInfo.length || 'N/A',
-                    queueLength: player?.queue?.length || 'N/A',
-                    'requester.username': requester.username,
-                    'requester.globalName': requester.globalName,
-                    'requester.id': requester.id,
-                    'requester.avatar': requester.avatar,
-                    'requester.banner': requester.banner,
-                    'requester.mention': `<@${requester.id}>`
+                    durationMs: trackInfo.length || 'N/A'
                 };
 
                 return Object.entries(replace).reduce((formatted, [key, value]) => {
