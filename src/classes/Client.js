@@ -8,7 +8,7 @@ const { Group } = require('@aoijs/aoi.structures');
 exports.Client = class Client extends Shoukaku {
     constructor(client, options = {}) {
         if (!client) throw new Error('Client instance is not defined.');
-        if (options === {} || !options.nodes) throw new Error('No nodes provided to connect on.');
+        if (!options.nodes) throw new Error('No nodes provided to connect on.');
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
         options.maxQueueSize = options.maxQueueSize || 100;
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
