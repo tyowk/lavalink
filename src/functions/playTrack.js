@@ -18,14 +18,9 @@ module.exports = async (d) => {
         .replace('youtubemusic', 'ytmsearch');
 
     if (!d.member?.voice?.channel) return d.aoiError.fnError(d, "custom", {}, `You are not connected to any voice channels.`);
-    let player = d.client.queue.get(d.guild.id);
-    if (!player)
-       player = await d.client.queue.create(
-           d.guild,
-           d.member?.voice?.channel,
-           d.channel
-       );
-
+    const player = d.client.queue.get(d.guild.id);
+    if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild.`);
+    
     let debugResult;
     const res = await d.client.queue.search(query?.addBrackets(), type);
     const maxQueueSize = Number(d.client.music.maxQueueSize) || 100;
