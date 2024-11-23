@@ -3,13 +3,17 @@ const { LoadType } = require('shoukaku');
 module.exports = async (d) => {
     const data = d.util.aoiFunc(d);
     if (data.err) return d.error(data.err);
-    let [query, type, debug] = data.inside.splits;
+    let [query,
+         type = d.client.music.searchEngine,
+         format = '{position}. {title} by {artist}',
+         list = 10,
+         separator = '\n'
+        ] = data.inside.splits;
 
     const manager = d.client.shoukaku;
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
     
-    if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title or link of the song you want to play.`);
-    if (!type) type = d.client.music.searchEngine;
+    if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title of the song you want to search.`);
     type = type?.toLowerCase()
         .replace('youtube', 'ytsearch')
         .replace('spotify', 'spsearch')
@@ -17,16 +21,6 @@ module.exports = async (d) => {
         .replace('deezer', 'dzsearch')
         .replace('youtubemusic', 'ytmsearch');
 
-    if (!d.member?.voice?.channel) return d.aoiError.fnError(d, "custom", {}, `You are not connected to any voice channels.`);
-    let player = d.client.queue.get(d.guild.id);
-    if (!player)
-       player = await d.client.queue.create(
-           d.guild,
-           d.member?.voice?.channel,
-           d.channel
-       );
-
-    let debugResult;
     const res = await d.client.queue.search(query?.addBrackets(), type);
     const maxQueueSize = Number(d.client.music.maxQueueSize) || 100;
     const maxPlaylistSize = Number(d.client.music.maxPlaylistSize) || 100;
@@ -96,3 +90,66 @@ module.exports = async (d) => {
         code: d.util.setCode(data)
     }
 }
+
+
+
+module.exports = (d) => {
+    const data = d.util.aoiFunc(d);
+    const [
+        page = 1,
+        limit = 10,
+        format = '{position}. {title} | {requester.username}',
+        separator = '\n'
+    ] = data.inside.splits;
+
+    const manager = d.client.shoukaku;
+    if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
+    
+    const player = d.client.queue.get(d.guild.id);
+    if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild.`);
+    if (!player.queue.length) return d.aoiError.fnError(d, "custom", {}, `There is no songs in the queue.`);
+    if (isNaN(Number(page)) || isNaN(Number(limit))) return d.aoiError.fnError(d, "custom", {}, `Please provide a valid number.`);
+    
+    const queue = player.queue.map((track, index) => {
+        const trackInfo = track.info;
+        const requester = trackInfo.requester;
+        const replace = {
+            position: index + 1,
+            title: trackInfo.title,
+            artwork: trackInfo.artworkUrl,
+            url: trackInfo.url,
+            uri: trackInfo.uri,
+            duration: d.client.music.utils.formatTime(trackInfo.length),
+            author: trackInfo.author,
+            artist: trackInfo.artist,
+            source: trackInfo.sourceName,
+            identifier: trackInfo.identifier,
+            isSeekable: trackInfo.isSeekable ? 'Yes' : 'No',
+            isStream: trackInfo.isStream ? 'Yes' : 'No',
+            isrc: trackInfo.isrc || 'N/A',
+            durationMs: trackInfo.length || 'N/A',
+            queueLength: player.queue.length || 'N/A',
+            'requester.username': requester.username,
+            'requester.globalName': requester.globalName,
+            'requester.id': requester.id,
+            'requester.avatar': requester.avatar,
+            'requester.banner': requester.banner,
+            'requester.mention': `<@${requester.id}>`
+        };
+
+        return Object.entries(replace).reduce((formatted, [key, value]) => {
+            return formatted.replaceAll(`{${key}}`, value);
+        }, format);
+    });
+
+    let chunks = d.client.music.utils.chunk(queue, Number(limit));
+    if (chunks.length === 0) chunks = [[]];
+    if (Number(page) < 1 || Number(page) > chunks.length) return d.aoiError.fnError(d, "custom", {}, `Invalid page number.`);
+    let pages = chunks.map(chunk => chunk.join(separator));
+    
+    data.result = pages[page - 1];
+
+    return {
+        code: d.util.setCode(data)
+    };
+};
