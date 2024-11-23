@@ -13,7 +13,7 @@ module.exports = async (d) => {
 
     const manager = d.client.shoukaku;
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
-    
+    const player = d.client.queue.get(d.guild.id);
     if (!query) return d.aoiError.fnError(d, "custom", {}, `Please provide the title of the song you want to search.`);
     type = type?.toLowerCase()
         .replace('youtube', 'ytsearch')
@@ -62,7 +62,7 @@ module.exports = async (d) => {
                     isStream: trackInfo.isStream ? 'Yes' : 'No',
                     isrc: trackInfo.isrc || 'N/A',
                     durationMs: trackInfo.length || 'N/A',
-                    queueLength: player.queue.length || 'N/A',
+                    queueLength: player?.queue?.length || 'N/A',
                     'requester.username': requester.username,
                     'requester.globalName': requester.globalName,
                     'requester.id': requester.id,
