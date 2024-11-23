@@ -75,6 +75,12 @@ module.exports = async (d) => {
                     return formatted.replaceAll(`{${key}}`, value);
                 }, format);
             });
+
+            let chunks = d.client.music.utils.chunk(tracks, Number(limit));
+            if (chunks.length === 0) chunks = [[]];
+            let pages = chunks.map(chunk => chunk.join(separator));
+    
+            data.result = pages[page - 1]
         }
         default: {
             d.aoiError.fnError(d, "custom", {}, `There was an error while searching.`);
@@ -82,11 +88,6 @@ module.exports = async (d) => {
         }
     }
 
-    let chunks = d.client.music.utils.chunk(tracks, Number(limit));
-    if (chunks.length === 0) chunks = [[]];
-    let pages = chunks.map(chunk => chunk.join(separator));
-    
-    data.result = pages[page - 1]
     return {
         code: d.util.setCode(data)
     }
