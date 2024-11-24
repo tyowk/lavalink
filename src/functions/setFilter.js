@@ -15,16 +15,14 @@ module.exports = async (d) => {
     if (value === 'custom') {
         if (!custom)  return d.aoiError.fnError(d, "custom", {}, `Please provide a valid custom filter.`);
         custom = JSON.parse(custom);
-        await player.player?.update({ filters: {} }, true);
-        await player.player?.update({ filters: custom }, true);
-        player.filters = [];
-        player.filters.push('custom');
+        player.player?.update({ filters: custom }, true);
+        player.filter = 'custom';
     } else {
         const filter = Filters[value];
         if (!filter) return d.aoiError.fnError(d, "custom", {}, `Invalid filter provided: "${value}".`);
         player.player?.update({ filters: filter }, true);
-        if (value === 'clear') { player.filters = [] }
-        else { player.filters.push(value) }
+        if (value === 'clear') { player.filter = null }
+        else { player.filter = value }
     }
 
     return {
