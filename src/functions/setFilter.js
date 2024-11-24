@@ -15,15 +15,17 @@ module.exports = (d) => {
     if (value === 'custom') {
         if (!custom)  return d.aoiError.fnError(d, "custom", {}, `Please provide a valid custom filter.`);
         custom = JSON.parse(custom);
-        player.player.update({
+        player.player?.update({
             filters: custom
         }, true);
+        player.filters.push('custom');
     } else {
         const filter = Filters[value];
         if (!filter) return d.aoiError.fnError(d, "custom", {}, `Invalid filter provided: "${value}".`);
-        player.player.update({
+        player.player?.update({
             filters: filter
         }, true);
+        player.filters.push(value);
     }
 
     return {
