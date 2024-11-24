@@ -39,13 +39,56 @@ see [here](https://guide.shoukaku.shipgirl.moe/guides/2-options/) for more clien
 
 ---
 
+<details>
+<summary>
+    
 ## Functions
+</summary>
+
 
 These are the core music commands and functions available for the bot. 
 
 ```bash
-SOON™
+$autoPlay
+$clearQueue
+$connect
+$currentTrackDuration
+$deleteNowPlaying
+$destroyPlayer
+$disconnect
+$getFilter
+$hasPlayer
+$joinVc
+$leaveVc
+$loopMode
+$loopStatus
+$maxPlaylistSize
+$maxQueueSize
+$pauseTrack
+$playTrack
+$playerStatus
+$previousTrack
+$queue
+$queueLength
+$removeSong
+$replayTrack
+$resetFilter
+$resumeTrack
+$search
+$searchEngine
+$seek
+$setFilter
+$setNowPlaying
+$shuffleQueue
+$skipTo
+$skipTrack
+$songInfo
+$stopPlayer
+$stopTrack
+$unShuffleQueue
+$volume
 ```
+</details>
 
 ---
 
