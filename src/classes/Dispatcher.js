@@ -197,10 +197,9 @@ exports.Dispatcher = class Dispatcher {
         return this.destroy();
     }
 
-    async setAutoplay(autoplay, type) {
-        if (!autoplay) return;
+    async setAutoplay(autoplay = false, type) {
         this.autoplay = autoplay;
         if (type) this.autoplayType = type;
-        this.Autoplay(this.current ? this.current : this.queue[0], type || this.autoplayType);
+        if (autoplay === true) this.Autoplay(this.current ? this.current : this.queue[0], type || this.autoplayType);
     }
 }
