@@ -18,7 +18,7 @@ module.exports = async (d) => {
         data.result = player.autoplay || false;
     } else {
         if (!player.current) return d.aoiError.fnError(d, "custom", {}, `There is no song currently playing.`);
-        await player.setAutoplay((value && value == 'true') ? true : false, type || d.client.music.searchEngine || 'ytsearch');
+        await player.setAutoplay((value == 'true') ? true : false, type || d.client.music.searchEngine);
     }
   
     return {
