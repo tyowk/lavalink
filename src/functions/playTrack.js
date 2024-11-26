@@ -86,9 +86,9 @@ module.exports = async (d) => {
         }
     }
 
-    player.trackType = debugResult;
+    player.loadTrackType = debugResult;
     setTimeout(() => {
-        try { player.trackType = null; } catch (e) {}
+        try { player.loadTrackType = null; } catch (e) {}
     }, 10000);
     if (debug && debug == 'true') data.result = debugResult;
     
