@@ -86,7 +86,12 @@ module.exports = async (d) => {
         }
     }
 
+    player.trackType = debugResult;
+    setTimeout(() => {
+        try { player.trackType = null; } catch (e) {}
+    }, 10000);
     if (debug && debug == 'true') data.result = debugResult;
+    
     return {
         code: d.util.setCode(data)
     }
