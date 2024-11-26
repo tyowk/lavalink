@@ -1,5 +1,5 @@
 > [!note]
-> **I made this package only for personal use, but you can also install this package if you want to use it.**
+> **I made this package only for personal use, but you can still install this package if you want to use it.**
 
 ---
 
