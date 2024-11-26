@@ -1,3 +1,8 @@
+> [!note]
+> **This package is for personal use only, but you can also use this package if you want.**
+
+---
+
 # aoijs.lavalink
 
 A package for integrating Lavalink with Aoi.js to enable music streaming in Discord bots.
@@ -7,7 +12,7 @@ A package for integrating Lavalink with Aoi.js to enable music streaming in Disc
 ## Installation
 
 ```bash
-npm i github:tyowk/aoijs.lavalink#main
+npm i github:tyowk/aoijs.lavalink
 ```
 ---
 
@@ -60,6 +65,7 @@ $getFilter
 $hasPlayer
 $joinVc
 $leaveVc
+$loadTrackType
 $loopMode
 $loopStatus
 $maxPlaylistSize
