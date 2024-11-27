@@ -22,7 +22,7 @@ module.exports = async (d) => {
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild.`);
     
     let debugResult;
-    const res = await d.client.queue.search(query?.addBrackets(), type);
+    const res = player.responses || await d.client.queue.search(query?.addBrackets(), type);
     const maxQueueSize = Number(d.client.music.maxQueueSize) || 100;
     const maxPlaylistSize = Number(d.client.music.maxPlaylistSize) || 100;
 
