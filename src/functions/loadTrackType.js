@@ -18,6 +18,9 @@ module.exports = async (d) => {
         .replace('youtubemusic', 'ytmsearch');
 
     const res = await d.client.queue.search(query?.addBrackets(), type) || {};
+    const player = d.client.queue.get(d.guild.id);
+    if (player) player.responses = res || null;
+    
     switch (res?.loadType) {
         case LoadType.ERROR:
             data.result = 'error';
