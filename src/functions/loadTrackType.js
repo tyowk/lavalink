@@ -17,27 +17,23 @@ module.exports = (d) => {
         .replace('deezer', 'dzsearch')
         .replace('youtubemusic', 'ytmsearch');
 
-    d.client.queue.search(query?.addBrackets(), type).then((res) => {
-        const player = d.client.queue.get(d.guild.id)
-        if (player) player.responses = res || null;
+    const res = await d.client.queue.search(query?.addBrackets(), type);
+    const player = d.client.queue.get(d.guild.id)
+    if (player) player.responses = res || null;
     
-        switch (res?.loadType) {
-            case LoadType.TRACK:
-                data.result = 'track';
-                break;
-            case LoadType.PLAYLIST:
-                data.result = 'playlist';
-                break;
-            case LoadType.SEARCH:
-                data.result = 'search';
-                break;
-            default:
-                data.result = 'error';
-        }
-    }).catch((error) => {
-        d.aoiError.fnError(d, "custom", {}, error.message || `Unknown Error`);
-    });
-
+    switch (res?.loadType) {
+        case LoadType.TRACK:
+            data.result = 'track';
+            break;
+        case LoadType.PLAYLIST:
+            data.result = 'playlist';
+            break;
+        case LoadType.SEARCH:
+            data.result = 'search';
+            break;
+        default:
+            data.result = 'error';
+    };
     
     return {
         code: d.util.setCode(data)
