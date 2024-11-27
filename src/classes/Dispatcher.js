@@ -17,6 +17,7 @@ exports.Dispatcher = class Dispatcher {
         this.paused = false;
         this.autoplay = false;
         this.autoplayType = this.client?.music?.searchEngine || 'ytsearch';
+        this.responses = null;
         this.currentVolume = 100;
         this.repeat = 0;
         this.player
