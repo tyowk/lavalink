@@ -23,6 +23,7 @@ module.exports = async (d) => {
     
     let debugResult;
     const res = player.responses || await d.client.queue.search(query?.addBrackets(), type);
+    if (player.responses) player.responses = null;
     const maxQueueSize = Number(d.client.music.maxQueueSize) || 100;
     const maxPlaylistSize = Number(d.client.music.maxPlaylistSize) || 100;
 
