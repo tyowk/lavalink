@@ -28,16 +28,6 @@ module.exports = async (d) => {
     const maxPlaylistSize = Number(d.client.music.maxPlaylistSize) || 100;
 
     switch (res?.loadType) {
-        case LoadType.ERROR: {
-            debugResult = 'error';
-            d.aoiError.fnError(d, "custom", {}, `There was an error while searching.`);
-            break;
-        }
-        case LoadType.EMPTY: {
-            debugResult = 'empty';
-            d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
-            break;
-        }
         case LoadType.TRACK: {
             if (player.queue.length >= maxQueueSize) {
                 d.aoiError.fnError(d, "custom", {}, `The queue length is too long. The maximum length is ${maxQueueSize} songs.`);
@@ -82,7 +72,7 @@ module.exports = async (d) => {
         }
         default: {
             debugResult = 'error';
-            d.aoiError.fnError(d, "custom", {}, `There was an error while searching.`);
+            d.aoiError.fnError(d, "custom", {}, `There were no results found.`);
             break;
         }
     }
