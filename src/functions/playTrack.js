@@ -20,6 +20,7 @@ module.exports = async (d) => {
     if (!d.member?.voice?.channel) return d.aoiError.fnError(d, "custom", {}, `You are not connected to any voice channels.`);
     const player = d.client.queue.get(d.guild.id);
     if (!player) return d.aoiError.fnError(d, "custom", {}, `There is no player for this guild.`);
+    if (player.channelId !== d.channel?.id) player.channelId = d.channel.id;
     
     let debugResult;
     const res = player.responses || await d.client.queue.search(query?.addBrackets(), type);
