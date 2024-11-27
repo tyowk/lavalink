@@ -1,6 +1,6 @@
 const { LoadType } = require('shoukaku');
 
-module.exports = async (d) => {
+module.exports = (d) => {
     const data = d.util.aoiFunc(d);
     if (data.err) return d.error(data.err);
     let [query, type] = data.inside.splits;
@@ -17,29 +17,26 @@ module.exports = async (d) => {
         .replace('deezer', 'dzsearch')
         .replace('youtubemusic', 'ytmsearch');
 
-    const res = await d.client.queue.search(query?.addBrackets(), type) || {};
-    const player = d.client.queue.get(d.guild.id);
-    if (player) player.responses = res || null;
+    d.client.queue.search(query?.addBrackets(), type).then((res) => {
+        const player = d.client.queue.get(d.guild.id)
+        if (player) player.responses = res || null;
     
-    switch (res?.loadType) {
-        case LoadType.ERROR:
-            data.result = 'error';
-            break;
-        case LoadType.EMPTY:
-            data.result = 'empty';
-            break;
-        case LoadType.TRACK:
-            data.result = 'track';
-            break;
-        case LoadType.PLAYLIST:
-            data.result = 'playlist';
-            break;
-        case LoadType.SEARCH:
-            data.result = 'search';
-            break;
-        default:
-            data.result = 'error';
-    }
+        switch (res?.loadType) {
+            case LoadType.TRACK:
+                data.result = 'track';
+                break;
+            case LoadType.PLAYLIST:
+                data.result = 'playlist';
+                break;
+            case LoadType.SEARCH:
+                data.result = 'search';
+                break;
+            default:
+                data.result = 'error';
+        }
+    }).catch((error) => {
+        d.aoiError.fnError(d, "custom", {}, error.message || `Unknown Error`);
+    });
 
     
     return {
