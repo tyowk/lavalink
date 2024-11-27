@@ -36,7 +36,7 @@ module.exports = async (d) => {
             debugResult = 'track';
             const track = player.buildTrack(res.data, d.author);
             player.queue.push(track);
-            await player.isPlaying();
+            player.isPlaying();
             break;
         }
         case LoadType.PLAYLIST: {
@@ -53,7 +53,7 @@ module.exports = async (d) => {
                 player.queue.push(playlist);
             };
             debugResult = 'playlist';
-            await player.isPlaying();
+            player.isPlaying();
             break;
         }
         case LoadType.SEARCH: {
@@ -67,7 +67,7 @@ module.exports = async (d) => {
             };
             player.queue.push(track);
             debugResult = 'search';
-            await player.isPlaying();
+            player.isPlaying();
             break;
         }
         default: {
