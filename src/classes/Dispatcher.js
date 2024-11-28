@@ -177,7 +177,7 @@ exports.Dispatcher = class Dispatcher {
 
     async Autoplay(song, type) {
         const resolve = await this.node.rest.resolve(`${type || this.autoplayType}:${song.info.author}`);
-        if (!resolve || !resolve?.data || !Array.isArray(resolve.data)) return this.destroy();
+        if (!resolve || !resolve?.data || !Array.isArray(resolve.data)) return this.stop();
         const metadata = resolve.data;
         let choosed = null;
         const maxAttempts = 10;
@@ -205,4 +205,4 @@ exports.Dispatcher = class Dispatcher {
         if (type) this.autoplayType = type;
         if (autoplay === true) this.Autoplay(this.current ? this.current : this.queue[0], type || this.autoplayType);
     }
-}
+};
