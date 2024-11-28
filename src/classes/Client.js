@@ -38,7 +38,8 @@ exports.Client = class Client extends Shoukaku {
                     .shift();
             },
         });
-        
+
+        this.client = client || {};
         this.cmd = {
             trackStart: new Group(),
             trackEnd: new Group(),
@@ -57,16 +58,20 @@ exports.Client = class Client extends Shoukaku {
             playerDestroy: new Group()
         };
 
-        this.client = client;
-        this.client.shoukaku = this;
-        this.client.music = options;
-        this.client.music.utils = require('./Utils.js');
-        this.client.music.cmd = this.cmd;
-        this.client.queue = new ClientQueue(this.client, options);
+        Object.assign(this.client, {
+            shoukaku: this,
+            queue: new ClientQueue(this.client, options),
+            loadVoiceEvents: this.loadVoiceEvents.bind(this),
+            voiceEvent: this.voiceEvent.bind(this),
+            music: {
+                ...options,
+                utils: require('./Utils.js'),
+                cmd: this.cmd
+            }
+        });
+        
         new CustomFunctions(this.client, options.debug);
         new MusicEvents(this);
-        this.client.loadVoiceEvents = this.loadVoiceEvents.bind(this);
-        this.client.voiceEvent = this.voiceEvent.bind(this);
         Object.entries(this.cmd).forEach((event) => this.#bindEvents(event[0]));
     }
 
