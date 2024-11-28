@@ -57,17 +57,14 @@ exports.Client = class Client extends Shoukaku {
             playerDestroy: new Group()
         };
 
-        this.client = {
-            ...client,
-            shoukaku: this,
-            queue: new ClientQueue(this.client, options),
-            loadVoiceEvents: this.loadVoiceEvents.bind(this),
-            voiceEvent: this.voiceEvent.bind(this),
-            music: {
-                ...options,
-                utils: require('./Utils.js'),
-                cmd: this.cmd
-            }
+        const shoukaku = this;
+        this = client;
+        this.shoukaku = shoukaku;
+        this.queue = new ClientQueue(this, options),
+        this.music = {
+            ...options,
+            utils: require('./Utils.js'),
+            cmd: this.cmd
         };
         
         new CustomFunctions(this.client, options.debug);
