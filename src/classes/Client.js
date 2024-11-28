@@ -38,8 +38,7 @@ exports.Client = class Client extends Shoukaku {
                     .shift();
             },
         });
-
-        this.client = client;
+        
         this.cmd = {
             trackStart: new Group(),
             trackEnd: new Group(),
@@ -58,7 +57,8 @@ exports.Client = class Client extends Shoukaku {
             playerDestroy: new Group()
         };
 
-        Object.assign(this.client, {
+        this.client = {
+            ...client,
             shoukaku: this,
             queue: new ClientQueue(this.client, options),
             loadVoiceEvents: this.loadVoiceEvents.bind(this),
@@ -68,7 +68,7 @@ exports.Client = class Client extends Shoukaku {
                 utils: require('./Utils.js'),
                 cmd: this.cmd
             }
-        });
+        };
         
         new CustomFunctions(this.client, options.debug);
         new MusicEvents(this);
