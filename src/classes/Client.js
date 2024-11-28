@@ -39,7 +39,7 @@ exports.Client = class Client extends Shoukaku {
             },
         });
 
-        this.client = client || {};
+        this.client = {};
         this.cmd = {
             trackStart: new Group(),
             trackEnd: new Group(),
@@ -59,6 +59,7 @@ exports.Client = class Client extends Shoukaku {
         };
 
         Object.assign(this.client, {
+            ...client,
             shoukaku: this,
             queue: new ClientQueue(this.client, options),
             loadVoiceEvents: this.loadVoiceEvents.bind(this),
