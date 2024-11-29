@@ -80,9 +80,9 @@ exports.Client = class Client extends Shoukaku {
 
     voiceEvent(name, evt = {}) {
         if (!evt || !evt.code) return;
-        const collection = this.cmd[name];
-        if (!collection) return;
-        collection.set(collection.size, evt);
+        const cmd = this.cmd[name];
+        if (!cmd) return;
+        cmd.set(cmd.size, evt);
     }
 
     #bindEvents(event) {
