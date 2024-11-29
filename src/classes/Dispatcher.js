@@ -161,6 +161,7 @@ exports.Dispatcher = class Dispatcher {
             info: {
                 ...track.info,
                 artist: track.info.author,
+                thumbnail: track.info.artworkUrl,
                 url: track.info.uri,
                 duration: this.client.music.utils.formatTime(track.info.length) || 0,
                 durationMs: track.info.length,
