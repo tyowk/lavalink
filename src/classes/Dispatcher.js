@@ -165,7 +165,9 @@ exports.Dispatcher = class Dispatcher {
                 url: track.info.uri,
                 duration: this.client.music.utils.formatTime(track.info.length) || 0,
                 durationMs: track.info.length,
-                requester: { ...user }
+                requester: { ...user },
+                userdata: { ...track.userData },
+                plugininfo: { ...track.pluginInfo }
             }
         };
     }
