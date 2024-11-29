@@ -13,11 +13,11 @@ module.exports = (d) => {
     const getResult = (res) => {
         if (!res) return null;
         if (type[0] === 'requester') {
-            return res.requester[type[1]];
+            return res.requester?.[type[1]];
         } else if (type[0] === 'plugininfo') {
-            return res.pluginInfo[type[1]];
+            return res.plugininfo?.[type[1]];
         } else if (type[0] === 'userdata') {
-            return res.userData[type[1]];
+            return res.userdata?.[type[1]];
         } else {
             return res[type[0]];
         }
