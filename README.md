@@ -1,8 +1,3 @@
-> [!note]
-> **I made this package only for personal use, but you can still install this package if you want to use it.**
-
----
-
 # aoijs.lavalink
 
 A package for integrating Lavalink with Aoi.js to enable music streaming in Discord bots.
