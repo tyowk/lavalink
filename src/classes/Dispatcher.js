@@ -22,7 +22,7 @@ exports.Dispatcher = class Dispatcher {
         this.repeat = 0;
         this.player
             .on('start', () => {
-                this.client.shoukaku.emit('queueStart', this.player, this.current, this);
+                if (!this.history.length) this.client.shoukaku.emit('queueStart', this.player, this.current, this);
                 this.client.shoukaku.emit('trackStart', this.player, this.current, this);
             })
             .on('end', () => {
