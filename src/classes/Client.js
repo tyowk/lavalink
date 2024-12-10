@@ -94,12 +94,12 @@ exports.Client = class Client extends Shoukaku {
                 let channel = this.client.channels.cache.get(cmd.channel) || this.client.channels.cache.get(dispatcher?.channelId);
                 if (!cmd.__compiled__) {
                     if (cmd.channel?.startsWith("$")) {
-                        channel = (await this.client.functionManager.interpreter(
+                        channel = this.client.channels.cache.get((await this.client.functionManager.interpreter(
                             this.client, { guild, channel }, [], { code: cmd.channel, name: 'NameParser' },
                             undefined, true, undefined, { player, track, dispatcher }
-                        ))?.code;
+                        ))?.code);
                     };
-                    if (!this.client.channels.cache.get(channel)) channel = this.client.channels.cache.get(dispatcher?.channelId);
+                    if (!channel) channel = this.client.channels.cache.get(dispatcher?.channelId);
                     await this.client.functionManager.interpreter(
                         this.client, { guild, channel }, [], cmd,
                         undefined, false, channel, { player, track, dispatcher }
