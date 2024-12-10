@@ -9,11 +9,11 @@ exports.MusicEvents = class Events {
         
         client.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
         client.on('queueEnd', async (p, t, d) => await this.queueEnd(p, t, d));
-        client.on('nodeConnect', (name) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.cyan(`$${name}`)} connected`));
-        client.on('nodeReconnect', (name) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.yellow(`$${name}`)} reconnected`));
-        client.on('nodeError', (name, error) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.red(`$${name}`)} error: `, error));
-        client.on('nodeDestroy', (name, code, reason) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.red(`$${name}`)} destroyed with reason: `, reason));
-        client.on('nodeDisconnect', (name, reason) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.red(`$${name}`)} disconnected with reason: `, reason));
+        client.on('nodeConnect', (name) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.cyan(`${name}`)} connected`));
+        client.on('nodeReconnect', (name) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.yellow(`${name}`)} reconnected`));
+        client.on('nodeError', (name, error) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.red(`${name}`)} error: `, error));
+        client.on('nodeDestroy', (name, code, reason) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.red(`${name}`)} destroyed with reason: `, reason));
+        client.on('nodeDisconnect', (name, reason) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.red(`${name}`)} disconnected with reason: `, reason));
         
         client.on('ready', (name, reconnected) => client.emit(reconnected ? 'nodeReconnect' : 'nodeConnect', name));
         client.on('error', (name, error) => client.emit('nodeError', name, error));
