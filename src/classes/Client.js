@@ -12,7 +12,7 @@ exports.Client = class Client extends Shoukaku {
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
         options.nodes = options.nodes.map(({ host, port, url ...nodes }) => ({
             ...nodes,
-            url: url ? url : `${host}:${port}`
+            url: (url && !host && !port) ? url : `${host}:${port}`
         }));
         options.maxQueueSize = options.maxQueueSize || 100;
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
