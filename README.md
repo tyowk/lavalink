@@ -24,7 +24,8 @@ const client = new AoiClient({ ... });
 const voice = new MusicClient(client, {
     nodes: [{
         name: 'my lavalink node',                // A custom name for the Lavalink node (can be any string).
-        url: 'someurl.com:0000',                 // URL to your Lavalink node. Replace with your actual Lavalink server URL.
+        host: 'yourdomain.com',                  // URL to your Lavalink node. Replace with your actual Lavalink server URL.
+        port: 0000,                              // Your lavalink server port.
         auth: 'youshallnotpass',                 // Authentication password for the Lavalink node.
         secure: false                            // Set to true if your Lavalink server uses SSL/TLS (HTTPS).
     }],
