@@ -89,11 +89,17 @@ exports.Client = class Client extends Shoukaku {
         this.on(event, async (player, track, dispatcher) => {
             const commands = this.cmd[event];
             if (!commands) return;
-            
             for (const cmd of commands.values()) {
                 const guild = this.client.guilds.cache.get(player?.guildId);
-                const channel = this.client.channels.cache.get(dispatcher?.channelId) || this.client.channels.cache.get(cmd.channel);
+                let channel = this.client.channels.cache.get(cmd.channel) || this.client.channels.cache.get(dispatcher?.channelId);
                 if (!cmd.__compiled__) {
+                    if (cmd.channel?.startsWith("$")) {
+                        channel = (await this.client.functionManager.interpreter(
+                            this.client, { guild, channel }, [], { code: cmd.channel, name: 'NameParser' },
+                            undefined, true, undefined, { player, track, dispatcher }
+                        ))?.code;
+                    };
+                    if (!this.client.channels.cache.get(channel)) channel = this.client.channels.cache.get(dispatcher?.channelId);
                     await this.client.functionManager.interpreter(
                         this.client, { guild, channel }, [], cmd,
                         undefined, false, channel, { player, track, dispatcher }
@@ -101,9 +107,8 @@ exports.Client = class Client extends Shoukaku {
                 } else {
                     const client = this.client;
                     await cmd.__compiled__({ client, channel, guild, player, track, dispatcher });
-                }
-            }
-            return event;
+                };
+            };
         });
     }
 };
