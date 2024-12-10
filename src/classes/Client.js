@@ -10,6 +10,10 @@ exports.Client = class Client extends Shoukaku {
         if (!client) throw new Error('Client instance is not defined.');
         if (!options.nodes) throw new Error('No nodes provided to connect on.');
         options.nodes = Array.isArray(options.nodes) ? options.nodes : [options.nodes];
+        options.nodes = options.nodes.map(({ host, port, url ...nodes }) => ({
+            ...nodes,
+            url: url ? url : `${host}:${port}`
+        }));
         options.maxQueueSize = options.maxQueueSize || 100;
         options.maxPlaylistSize = options.maxPlaylistSize || 100;
         options.debug = options.debug || false;
