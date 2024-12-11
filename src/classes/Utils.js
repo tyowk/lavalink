@@ -1,4 +1,4 @@
-module.exports = class Utils {
+exports.Utils = class Utils {
     static formatTime(ms) {
         const minute = 60 * 1000;
         const hour = 60 * minute;
