@@ -1,4 +1,4 @@
-exports.Manager = require('./classes/Client.js').Client;
+exports.Manager = require('./classes/Manager.js').Manager;
 exports.Queue = require('./classes/Queue.js').Queue;
 exports.Dispatcher = require('./classes/Dispatcher.js').Dispatcher;
 exports.Events = require('./classes/Events.js').Events;
