@@ -17,11 +17,11 @@ The setup is used to initialize the bot client and configure the Lavalink music 
 
 ```js
 const { AoiClient } = require('aoi.js');
-const { MusicClient } = require('aoijs.lavalink'); // Importing the MusicClient for handling Lavalink integration.
+const { Manager } = require('aoijs.lavalink'); // Importing the MusicClient for handling Lavalink integration.
 
 const client = new AoiClient({ ... });
 
-const voice = new MusicClient(client, {
+const voice = new Manager(client, {
     nodes: [{
         name: 'my lavalink node',                // A custom name for the Lavalink node (can be any string).
         host: 'yourdomain.com',                  // URL to your Lavalink node. Replace with your actual Lavalink server URL.
