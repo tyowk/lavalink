@@ -25,9 +25,11 @@ exports.Events = class Events {
         if (dispatcher.loop === 'repeat') dispatcher.queue.unshift(track);
         if (dispatcher.loop === 'queue') dispatcher.queue.push(track);
         if (dispatcher.autoplay === true) await dispatcher.Autoplay(track);
-        dispatcher.previous = dispatcher.current;
-        dispatcher.current = null;
-        await dispatcher.play();
         if (!dispatcher.queue.length) player.emit('queueEnd', player, track, dispatcher);
+        if (dispatcher) {
+            dispatcher.previous = dispatcher.current;
+            dispatcher.current = null;
+            await dispatcher.play();
+        };
     }
-}
+};
