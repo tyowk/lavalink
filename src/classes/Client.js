@@ -1,11 +1,11 @@
 const { Shoukaku, Connectors } = require('shoukaku');
-const { ClientQueue } = require('./Queue.js');
-const { CustomFunctions } = require('./Functions.js');
-const { MusicEvents } = require('./Events.js');
+const { Queue } = require('./Queue.js');
+const { Functions } = require('./Functions.js');
+const { Events } = require('./Events.js');
 const { LoadCommands } = require('aoi.js');
 const { Group } = require('@aoijs/aoi.structures');
 
-exports.Client = class Client extends Shoukaku {
+exports.Manager = class Manager extends Shoukaku {
     constructor(client, options = {}) {
         if (!client) throw new Error('Client instance is not defined.');
         if (!options.nodes) throw new Error('No nodes provided to connect on.');
@@ -63,7 +63,7 @@ exports.Client = class Client extends Shoukaku {
 
         this.client = client;
         this.client.shoukaku = this;
-        this.client.queue = new ClientQueue(this.client, options);
+        this.client.queue = new Queue(this.client, options);
         this.client.loadVoiceEvents = this.loadVoiceEvents.bind(this);
         this.client.voiceEvent = this.voiceEvent.bind(this);
         this.client.music = {
@@ -72,8 +72,8 @@ exports.Client = class Client extends Shoukaku {
             cmd: this.cmd
         };
         
-        new CustomFunctions(this.client, options.debug);
-        new MusicEvents(this);
+        new Functions(this.client, options.debug);
+        new Events(this);
         Object.entries(this.cmd).forEach((event) => this.#bindEvents(event[0]));
     }
 
