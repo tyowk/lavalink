@@ -1,21 +1,6 @@
-const { Client } = require('./classes/Client.js');
-exports.MusicClient = Client;
-
-exports.Events = {
-    TrackStart: 'trackStart',
-    TrackEnd: 'trackEnd',
-    QueueStart: 'queueStart',
-    QueueEnd: 'queueEnd',
-    TrackStuck: 'trackStuck',
-    TrackPaused: 'trackPaused',
-    TrackResumed: 'trackResumed',
-    NodeConnect: 'nodeConnect',
-    NodeReconnect: 'nodeReconnect',
-    NodeDisconnect: 'nodeDisconnect',
-    NodeError: 'nodeError',
-    NodeDestroy: 'nodeDestroy',
-    NodeRaw: 'nodeRaw',
-    SocketClosed: 'socketClosed',
-    PlayerCreate: 'playerCreate',
-    PlayerDestroy: 'playerDestroy'
-};
+exports.Manager = require('./classes/Client.js').Client;
+exports.Queue = require('./classes/Queue.js').Queue;
+exports.Dispatcher = require('./classes/Dispatcher.js').Dispatcher;
+exports.Events = require('./classes/Events.js').Events;
+exports.Functions = require('./classes/Functions.js').Functions;
+exports.Utils = require('./classes/Utils.js');
