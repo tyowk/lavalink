@@ -22,7 +22,7 @@ exports.MusicEvents = class Events {
         client.on('debug', (name, reason) => client.emit('nodeRaw', name, reason));
     }
 
-    async trackEnd(player, track, dispatcher, client) {
+    async trackEnd(player, track, dispatcher) {
         if (dispatcher.loop === 'repeat') dispatcher.queue.unshift(track);
         if (dispatcher.loop === 'queue') dispatcher.queue.push(track);
         if (dispatcher.autoplay === true) { await dispatcher.Autoplay(track); }
