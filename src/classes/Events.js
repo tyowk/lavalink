@@ -24,7 +24,7 @@ exports.Events = class Events {
     async trackEnd(player, track, dispatcher) {
         if (dispatcher.loop === 'repeat') dispatcher.queue.unshift(track);
         if (dispatcher.loop === 'queue') dispatcher.queue.push(track);
-        if (dispatcher.autoplay === true) await dispatcher.Autoplay(track);
+        if (dispatcher.autoplay === true) { await dispatcher.Autoplay(track)};
         if (!dispatcher.queue.length) player.emit('queueEnd', player, track, dispatcher);
         if (dispatcher) {
             dispatcher.previous = dispatcher.current;
