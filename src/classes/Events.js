@@ -7,7 +7,7 @@ exports.Events = class Events {
             console.log(msg);
         };
         
-        client.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d, client));
+        client.on('trackEnd', async (p, t, d) => await this.trackEnd(p, t, d));
         client.on('nodeConnect', (name) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.cyan(`${name}`)} connected`));
         client.on('nodeReconnect', (name) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.yellow(`${name}`)} reconnected`));
         client.on('nodeError', (name, error) => log(`[${chalk.blue('DEBUG')}] :: Node ${chalk.red(`${name}`)} error: `, error));
@@ -21,13 +21,13 @@ exports.Events = class Events {
         client.on('debug', (name, reason) => client.emit('nodeRaw', name, reason));
     }
 
-    async trackEnd(player, track, dispatcher, client) {
+    async trackEnd(player, track, dispatcher) {
         if (dispatcher.loop === 'repeat') dispatcher.queue.unshift(track);
         if (dispatcher.loop === 'queue') dispatcher.queue.push(track);
         if (dispatcher.autoplay === true) await dispatcher.Autoplay(track);
         dispatcher.previous = dispatcher.current;
         dispatcher.current = null;
         await dispatcher.play();
-        if (!player.queue.length) client.emit('queueEnd', player, track, dispatcher);
+        if (!dispatcher.queue.length) dispatcher.client.emit('queueEnd', player, track, dispatcher);
     }
 }
