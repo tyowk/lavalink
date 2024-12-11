@@ -26,7 +26,6 @@ exports.Dispatcher = class Dispatcher {
                 this.client.shoukaku.emit('trackStart', this.player, this.current, this);
             })
             .on('end', () => {
-                if (!this.queue.length) this.client.shoukaku.emit('queueEnd', this.player, this.current, this);
                 this.client.shoukaku.emit('trackEnd', this.player, this.current, this);
             })
             .on('stuck', () => {
