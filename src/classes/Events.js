@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 
-exports.MusicEvents = class Events {
+exports.Events = class Events {
     constructor(client) {
         const log = (msg) => {
             if (!(client?.client?.music?.debug ? true : false)) return;
