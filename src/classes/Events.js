@@ -22,12 +22,12 @@ exports.Events = class Events {
     }
 
     async trackEnd(player, track, dispatcher) {
-        if (dispatcher.loop === 'repeat') { dispatcher.queue.unshift(track) };
-        if (dispatcher.loop === 'queue') { dispatcher.queue.push(track) };
-        if (dispatcher.autoplay === true) { await dispatcher.Autoplay(track) };
+        if (dispatcher.loop === 'repeat') dispatcher.queue.unshift(track);
+        if (dispatcher.loop === 'queue') dispatcher.queue.push(track);
+        if (dispatcher.autoplay === true) await dispatcher.Autoplay(track);
         dispatcher.previous = dispatcher.current;
         dispatcher.current = null;
         await dispatcher.play();
-        if (!dispatcher.queue.length) dispatcher.client.emit('queueEnd', player, track, dispatcher);
+        if (!dispatcher.queue.length) player.emit('queueEnd', player, track, dispatcher);
     }
 }
