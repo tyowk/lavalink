@@ -23,12 +23,12 @@ exports.MusicEvents = class Events {
     }
 
     async trackEnd(player, track, dispatcher, client) {
-        dispatcher.previous = dispatcher.current;
-        dispatcher.current = null;
         if (dispatcher.loop === 'repeat') dispatcher.queue.unshift(track);
         if (dispatcher.loop === 'queue') dispatcher.queue.push(track);
         if (dispatcher.autoplay === true) { await dispatcher.Autoplay(track); }
         else { dispatcher.autoplay = false; };
+        dispatcher.previous = dispatcher.current;
+        dispatcher.current = null;
         await dispatcher.play();
     }
     
