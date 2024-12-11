@@ -68,7 +68,7 @@ exports.Manager = class Manager extends Shoukaku {
         this.client.voiceEvent = this.voiceEvent.bind(this);
         this.client.music = {
             ...options,
-            utils: require('./Utils.js'),
+            utils: require('./Utils.js').Utils,
             cmd: this.cmd
         };
         
