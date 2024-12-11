@@ -179,7 +179,8 @@ exports.Dispatcher = class Dispatcher {
     }
 
     async Autoplay(song, type) {
-        const resolve = await this.node.rest.resolve(`${type || this.autoplayType}:${song.info.author}`);
+        if (!song) return;
+        const resolve = await this.node.rest.resolve(`${type || this.autoplayType}:${song?.info?.author || song?.info?.title}`);
         if (!resolve || !resolve?.data || !Array.isArray(resolve.data)) return this.stop();
         const metadata = resolve.data;
         let choosed = null;
