@@ -74,7 +74,7 @@ exports.Manager = class Manager extends Shoukaku {
         
         new Functions(this.client, options.debug);
         new Events(this);
-        Object.entries(this.cmd).forEach((event) => this.#bindEvents(event[0]));
+        Object.keys(this.cmd).forEach((event) => this.#bindEvents(event));
     }
 
     loadVoiceEvents(dir, debug = this.client.music.debug || false) {
