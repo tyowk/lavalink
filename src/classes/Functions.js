@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
 
-exports.CustomFunctions = class Functions {
+exports.Functions = class Functions {
     constructor(client, debug, basePath = path.join(__dirname, '..', 'functions')) {
         try {
             const files = fs.readdirSync(basePath);
