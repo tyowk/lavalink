@@ -21,15 +21,13 @@ exports.Events = class Events {
         client.on('debug', (name, reason) => client.emit('nodeRaw', name, reason));
     }
 
-    async trackEnd(player, track, dispatcher) {
+    async trackEnd(player, track, dispatcher, client = dispatcher.client.shoukaku) {
         if (dispatcher.loop === 'repeat') dispatcher.queue.unshift(track);
         if (dispatcher.loop === 'queue') dispatcher.queue.push(track);
-        if (dispatcher.autoplay === true) { await dispatcher.Autoplay(track)};
-        if (!dispatcher.queue.length) player.emit('queueEnd', player, track, dispatcher);
-        if (dispatcher) {
-            dispatcher.previous = dispatcher.current;
-            dispatcher.current = null;
-            await dispatcher.play();
-        };
+        if (dispatcher.autoplay === true) await dispatcher.Autoplay(track);
+        dispatcher.previous = dispatcher.current;
+        dispatcher.current = null;
+        await dispatcher.play();
+        if (!dispatcher.queue.length) client.emit('queueEnd', player, track, dispatcher);
     }
 };
