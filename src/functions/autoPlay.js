@@ -6,7 +6,8 @@ module.exports = async (d) => {
         .replace('spotify', 'spsearch')
         .replace('soundcloud', 'scsearch')
         .replace('deezer', 'dzsearch')
-        .replace('youtubemusic', 'ytmsearch');
+        .replace('youtubemusic', 'ytmsearch')
+        .replace('applemusic', 'amsearch');
     
     const manager = d.client.shoukaku;
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
