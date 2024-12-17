@@ -54,6 +54,7 @@ exports.Manager = class Manager extends Shoukaku {
             trackResumed: new Group(),
             nodeConnect: new Group(),
             nodeReconnect: new Group(),
+            nodeDisconnect: new Group(),
             nodeError: new Group(),
             nodeDestroy: new Group(),
             nodeRaw: new Group(),
