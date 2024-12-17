@@ -81,7 +81,7 @@ exports.Manager = class Manager extends Shoukaku {
 
     #bindEvents(event) {
         this.on(event, async (player, track, dispatcher) => {
-            const commands = this.client?.cmd?.[event] || this.cmd[event];
+            const commands = this.cmd[event];
             if (!commands) return;
             for (const cmd of commands.values()) {
                 const guild = this.client.guilds.cache.get(player?.guildId);
