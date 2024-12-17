@@ -59,6 +59,8 @@ $getFilter
 $hasPlayer
 $isCurrentExist
 $isPreviousExist
+$isSeekable
+$isStream
 $joinVc
 $leaveVc
 $loadTrackType
