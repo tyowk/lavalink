@@ -18,15 +18,13 @@ module.exports = async (d) => {
         .replace('youtubemusic', 'ytmsearch')
         .replace('applemusic', 'amsearch');
 
-    const player = d.client.queue.get(d.guild.id)
-    const res = (player && player?.responses && (player?.responses?.query === query.addBrackets()))
-        ? player.responses
+    const res = (d.data.tracks && (d.data.tracks?.query === query.addBrackets()))
+        ? d.data.tracks
         : await d.client.queue.search(query?.addBrackets(), type);
     
-    if (player) {
-        player.responses = res || null;
-        if (player.responses && typeof player.responses === 'object') player.responses.query = query.addBrackets();
-    };
+    d.data.tracks = res || null;
+    if (d.data.tracks && typeof d.data.tracks === 'object')
+        d.data.tracks.query = query.addBrackets();
     
     switch (res?.loadType) {
         case LoadType.TRACK:
