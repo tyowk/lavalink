@@ -6,6 +6,8 @@ module.exports = (d) => {
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
   
     const player = d.client.queue.get(guildId ? guildId : d.guild.id);
+    if (!player) return d.client.returnCode(d, data);
+    
     data.result = player?.previous ? true : false;
     
     return {
