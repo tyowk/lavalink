@@ -57,6 +57,8 @@ $destroyPlayer
 $disconnect
 $getFilter
 $hasPlayer
+$isCurrentExist
+$isPreviousExist
 $joinVc
 $leaveVc
 $loadTrackType
