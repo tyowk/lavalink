@@ -79,18 +79,6 @@ exports.Manager = class Manager extends Shoukaku {
         Object.keys(this.cmd).forEach((event) => this.#bindEvents(event));
     }
 
-    loadVoiceEvents(dir, debug = this.client.music.debug || false) {
-        if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
-        this.client.loader.load(this.cmd, dir, debug);
-    }
-
-    voiceEvent(name, evt = {}) {
-        if (!evt || !evt.code) return;
-        const cmd = this.cmd[name];
-        if (!cmd) return;
-        cmd.set(cmd.size, evt);
-    }
-
     #bindEvents(event) {
         this.on(event, async (player, track, dispatcher) => {
             const commands = this.client?.cmd?.[event] || this.cmd[event];
@@ -116,5 +104,81 @@ exports.Manager = class Manager extends Shoukaku {
                 };
             };
         });
+    }
+
+    loadVoiceEvents(dir, debug = this.client.music.debug || false) {
+        if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
+        this.client.loader.load(this.cmd, dir, debug);
+    }
+
+    voiceEvent(name, evt = {}) {
+        if (!evt || !evt.code) return;
+        const cmd = this.cmd[name];
+        if (!cmd) return;
+        cmd.set(cmd.size, evt);
+    }
+    
+    trackStart(cmd) {
+        this.voiceEvent('trackStart', cmd);
+    }
+
+    trackEnd(cmd) {
+        this.voiceEvent('trackStart', cmd);
+    }
+
+    queueStart(cmd) {
+        this.voiceEvent('queueStart', cmd);
+    }
+
+    queueEnd(cmd) {
+        this.voiceEvent('queueEnd', cmd);
+    }
+
+    trackStuck(cmd) {
+        this.voiceEvent('trackStuck', cmd);
+    }
+
+    trackPaused(cmd) {
+        this.voiceEvent('trackPaused', cmd);
+    }
+
+    trackResumed(cmd) {
+        this.voiceEvent('trackResumed', cmd);
+    }
+
+    nodeConnect(cmd) {
+        this.voiceEvent('nodeConnect', cmd);
+    }
+
+    nodeReconnect(cmd) {
+        this.voiceEvent('nodeReconnect', cmd);
+    }
+
+    nodeDisconnect(cmd) {
+        this.voiceEvent('nodeDisconnect', cmd);
+    }
+
+    nodeError(cmd) {
+        this.voiceEvent('nodeError', cmd);
+    }
+
+    nodeDestroy(cmd) {
+        this.voiceEvent('nodeDestroy', cmd);
+    }
+
+    nodeRaw(cmd) {
+        this.voiceEvent('nodeRaw', cmd);
+    }
+
+    socketClosed(cmd) {
+        this.voiceEvent('socketClosed', cmd);
+    }
+
+    playerCreate(cmd) {
+        this.voiceEvent('playerCreate', cmd);
+    }
+
+    playerDestroy(cmd) {
+        this.voiceEvent('playerDestroy', cmd);
     }
 };
