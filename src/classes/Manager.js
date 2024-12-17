@@ -23,6 +23,7 @@ exports.Manager = class Manager extends Shoukaku {
             .replace('spotify', 'spsearch')
             .replace('soundcloud', 'scsearch')
             .replace('deezer', 'dzsearch')
+            .replace('applemusic', 'amsearch')
             .replace('youtubemusic', 'ytmsearch') || 'ytsearch';
         
         super(new Connectors.DiscordJS(client), options.nodes, {
