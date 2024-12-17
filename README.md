@@ -149,7 +149,7 @@ voice.<eventName>({          // The event type, e.g., when a track starts playin
 const voice = new Manager({ ... });
 
 // Load custom music event handlers from a directory. 'false' disables debug logs.
-voice.loadEvents('./voice/', false);
+voice.loadVoiceEvents('./voice/', false);
 ```
 
 **Example Event File** (in `/voice/trackStart.js`):
