@@ -106,7 +106,7 @@ exports.Manager = class Manager extends Shoukaku {
         });
     }
 
-    loadVoiceEvents(dir, debug = this.client.music.debug || false) {
+    loadEvents(dir, debug = this.client.music.debug || false) {
         if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
         this.client.loader.load(this.cmd, dir, debug);
     }
