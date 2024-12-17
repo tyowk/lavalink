@@ -23,16 +23,16 @@ const client = new AoiClient({ ... });
 
 const voice = new Manager(client, {
     nodes: [{
-        name: 'my lavalink node',                // A custom name for the Lavalink node (can be any string).
-        host: 'yourdomain.com',                  // URL to your Lavalink node. Replace with your actual Lavalink server URL.
-        port: 0000,                              // Your lavalink server port.
-        auth: 'youshallnotpass',                 // Authentication password for the Lavalink node.
-        secure: false                            // Set to true if your Lavalink server uses SSL/TLS (HTTPS).
+        name: 'my lavalink node',              // A custom name for the Lavalink node (can be any string).
+        host: 'yourdomain.com',                // URL to your Lavalink node. Replace with your actual Lavalink server URL.
+        port: 0000,                            // Your lavalink server port.
+        auth: 'youshallnotpass',               // Authentication password for the Lavalink node.
+        secure: false                          // Set to true if your Lavalink server uses SSL/TLS (HTTPS).
     }],
-    maxQueueSize: 100,                           // Maximum number of tracks that can be queued for playback.                       # default is 100
-    maxPlaylistSize: 100,                        // Maximum number of tracks that can be in a playlist.                             # default is 100
-    searchEngine: 'ytsearch',                    // Default search engine. You can set this to 'ytsearch' or 'scsearch' or others.  # default is ytsearch
-    debug: false                                 // Whether to enable debug logs for the music client. default is false.            # default is false
+    maxQueueSize: 100,                         // Maximum number of tracks that can be queued for playback.                       # default is 100
+    maxPlaylistSize: 100,                      // Maximum number of tracks that can be in a playlist.                             # default is 100
+    searchEngine: 'ytsearch',                  // Default search engine. You can set this to 'ytsearch' or 'scsearch' or others.  # default is ytsearch
+    debug: false                               // Whether to enable debug logs for the music client. default is false.            # default is false
 });
 ```
 
@@ -42,8 +42,7 @@ see [here](https://guide.shoukaku.shipgirl.moe/guides/2-options/) for more clien
 
 <details>
 <summary>
-    
-## Functions
+<h2>Functions</h2>
 </summary>
 
 
@@ -90,9 +89,11 @@ $volume 
 
 ```bash
 $deleteNowPlaying
+$errorReason
 $lavalinkInfo
 $maxPlaylistSize
 $maxQueueSize
+$nodeName
 $playerChannelId
 $playerPing
 $prettyBytes
@@ -108,18 +109,47 @@ $setNowPlaying
 You can listen to various events such as when a track starts, when the player is paused, etc., and respond to them with custom code.
 
 ```js
-client.voiceEvent('trackStart', {     // The event type, e.g., when a track starts playing ('trackStart').
-    channel: '$channelId',            // The ID of the channel where the event will trigger (can be dynamic or static).
-    code: `$songInfo[title]`          // The action to take when the event is triggered. Here it will return the title of the song.
+const voice = new Manager({ ... });
+
+voice.<eventName>({          // The event type, e.g., when a track starts playing ('trackStart').
+    channel: '$channelId',   // The ID of the channel where the event will trigger (can be dynamic or static).
+    code: `$songInfo[title]` // The action to take when the event is triggered. Here it will return the title of the song.
 });
 ```
+<details>
+<summary>
+<h3>Available Events</h3>
+</summary>
+
+```javascript
++ trackStart
++ trackEnd
++ queueStart
++ queueEnd
++ trackStuck
++ trackPaused
++ trackResumed
++ nodeConnect
++ nodeReconnect
++ nodeDisconnect
++ nodeError
++ nodeDestroy
++ nodeRaw
++ socketClosed
++ playerCreate
++ playerDestroy 
+```
+</details>
 
 ---
 
 ## Handlers
 
 ```js
-client.loadVoiceEvents('./voice/', false);  // Load custom music event handlers from a directory. 'false' disables debug logs.
+const voice = new Manager({ ... });
+
+// Load custom music event handlers from a directory. 'false' disables debug logs.
+voice.loadEvents('./voice/', false);
 ```
 
 **Example Event File** (in `/voice/trackStart.js`):
