@@ -24,14 +24,9 @@ module.exports = async (d) => {
     if (player.channelId !== d.channel?.id) player.channelId = d.channel.id;
     
     let debugResult;
-    const res = (player.responses && player.responses?.query === query?.addBrackets())
-        ? player.responses
+    const res = (d.data.tracks && (d.data.tracks?.query === query?.addBrackets()))
+        ? d.data.tracks
         : await d.client.queue.search(query?.addBrackets(), type);
-    
-    setTimeout(() => {
-        if (player?.responses)
-            player.responses = null;
-    }, 5000);
     
     const maxQueueSize = Number(d.client.music.maxQueueSize) || 100;
     const maxPlaylistSize = Number(d.client.music.maxPlaylistSize) || 100;
