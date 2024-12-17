@@ -22,15 +22,9 @@ module.exports = async (d) => {
         .replace('youtubemusic', 'ytmsearch')
         .replace('applemusic', 'amsearch');
 
-    const player = d.client.queue.get(d.guild.id);
-    const res = (player && player?.responses && player?.responses?.query === query?.addBrackets())
-        ? player?.responses
+    const res = (d.data.tracks && d.data.tracks?.query === query?.addBrackets())
+        ? d.data.tracks
         : await d.client.queue.search(query?.addBrackets(), type);
-    
-    setTimeout(() => {
-        if (player?.responses)
-            player.responses = null;
-    }, 5000);
     
     switch (res?.loadType) {
         case LoadType.ERROR: {
