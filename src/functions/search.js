@@ -53,7 +53,9 @@ module.exports = async (d) => {
                 const replace = {
                     position: index + 1,
                     title: trackInfo.title,
+                    artworkUrl: trackInfo.artworkUrl,
                     artwork: trackInfo.artworkUrl,
+                    thumbnail: trackInfo.artworkUrl,
                     url: trackInfo.uri,
                     uri: trackInfo.uri,
                     duration: d.client.music.utils.formatTime(trackInfo.length),
