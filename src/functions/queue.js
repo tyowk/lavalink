@@ -17,7 +17,8 @@ module.exports = (d) => {
     
     const queue = player.queue.map((track, index) => {
         const trackInfo = track.info;
-        const requester = trackInfo.requester;
+        const requester = trackInfo?.requester;
+        const plugininfo = trackInfo?.plugininfo;
         const replace = {
             position: index + 1,
             title: trackInfo.title,
@@ -26,7 +27,6 @@ module.exports = (d) => {
             uri: trackInfo.uri,
             duration: d.client.music.utils.formatTime(trackInfo.length),
             author: trackInfo.author,
-            artist: trackInfo.artist,
             source: trackInfo.sourceName,
             identifier: trackInfo.identifier,
             isSeekable: trackInfo.isSeekable ? 'Yes' : 'No',
@@ -34,12 +34,19 @@ module.exports = (d) => {
             isrc: trackInfo.isrc || 'N/A',
             durationMs: trackInfo.length || 'N/A',
             queueLength: player.queue.length || 'N/A',
+            albumName: plugininfo?.albumName,
+            albumUrl: plugininfo?.albumUrl,
+            previewUrl: plugininfo?.previewUrl,
+            isPreview: plugininfo?.isPreview,
+            artist: trackInfo.artist,
+            'artist.artworkUrl': plugininfo?.artistArtworkUrl,
+            'artist.url': plugininfo?.artistUrl,
             'requester.username': requester.username,
             'requester.globalName': requester.globalName,
             'requester.id': requester.id,
             'requester.avatar': requester.avatar,
             'requester.banner': requester.banner,
-            'requester.mention': `<@${requester.id}>`
+            'requester.mention': requester.id ? `<@${requester.id}>` : null
         };
 
         return Object.entries(replace).reduce((formatted, [key, value]) => {
