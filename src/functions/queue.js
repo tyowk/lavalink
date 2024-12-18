@@ -18,7 +18,7 @@ module.exports = (d) => {
     const queue = player.queue.map((track, index) => {
         const trackInfo = track.info;
         const requester = trackInfo?.requester;
-        const plugininfo = trackInfo?.plugininfo;
+        const pluginInfo = trackInfo?.plugininfo;
         const replace = {
             position: index + 1,
             title: trackInfo.title,
@@ -34,13 +34,13 @@ module.exports = (d) => {
             isrc: trackInfo.isrc || 'N/A',
             durationMs: trackInfo.length || 'N/A',
             queueLength: player.queue.length || 'N/A',
-            albumName: plugininfo?.albumName,
-            albumUrl: plugininfo?.albumUrl,
-            previewUrl: plugininfo?.previewUrl,
-            isPreview: plugininfo?.isPreview,
+            albumName: pluginInfo?.albumName,
+            albumUrl: pluginInfo?.albumUrl,
+            previewUrl: pluginInfo?.previewUrl,
+            isPreview: pluginInfo?.isPreview,
             artist: trackInfo.artist,
-            'artist.artworkUrl': plugininfo?.artistArtworkUrl,
-            'artist.url': plugininfo?.artistUrl,
+            'artist.artworkUrl': pluginInfo?.artistArtworkUrl,
+            'artist.url': pluginInfo?.artistUrl,
             'requester.username': requester.username,
             'requester.globalName': requester.globalName,
             'requester.id': requester.id,
