@@ -110,6 +110,7 @@ exports.Manager = class Manager extends Shoukaku {
     loadVoiceEvents(dir, debug = this.client.music.debug || false) {
         if (!this.client.loader) this.client.loader = new LoadCommands(this.client);
         this.client.loader.load(this.cmd, dir, debug);
+        return this;
     }
 
     voiceEvent(name, evt = {}) {
@@ -117,69 +118,86 @@ exports.Manager = class Manager extends Shoukaku {
         const cmd = this.cmd[name];
         if (!cmd) return;
         cmd.set(cmd.size, evt);
+        return this;
     }
     
     trackStart(cmd) {
         this.voiceEvent('trackStart', cmd);
+        return this;
     }
 
     trackEnd(cmd) {
         this.voiceEvent('trackStart', cmd);
+        return this;
     }
 
     queueStart(cmd) {
         this.voiceEvent('queueStart', cmd);
+        return this;
     }
 
     queueEnd(cmd) {
         this.voiceEvent('queueEnd', cmd);
+        return this;
     }
 
     trackStuck(cmd) {
         this.voiceEvent('trackStuck', cmd);
+        return this;
     }
 
     trackPaused(cmd) {
         this.voiceEvent('trackPaused', cmd);
+        return this;
     }
 
     trackResumed(cmd) {
         this.voiceEvent('trackResumed', cmd);
+        return this;
     }
 
     nodeConnect(cmd) {
         this.voiceEvent('nodeConnect', cmd);
+        return this;
     }
 
     nodeReconnect(cmd) {
         this.voiceEvent('nodeReconnect', cmd);
+        return this;
     }
 
     nodeDisconnect(cmd) {
         this.voiceEvent('nodeDisconnect', cmd);
+        return this;
     }
 
     nodeError(cmd) {
         this.voiceEvent('nodeError', cmd);
+        return this;
     }
 
     nodeDestroy(cmd) {
         this.voiceEvent('nodeDestroy', cmd);
+        return this;
     }
 
     nodeRaw(cmd) {
         this.voiceEvent('nodeRaw', cmd);
+        return this;
     }
 
     socketClosed(cmd) {
         this.voiceEvent('socketClosed', cmd);
+        return this;
     }
 
     playerCreate(cmd) {
         this.voiceEvent('playerCreate', cmd);
+        return this;
     }
 
     playerDestroy(cmd) {
         this.voiceEvent('playerDestroy', cmd);
+        return this;
     }
 };
