@@ -49,22 +49,28 @@ module.exports = async (d) => {
 
             const result = res.data.map((track, index) => {
                 const trackInfo = track.info;
+                const pluginInfo = track.pluginInfo;
                 const replace = {
                     position: index + 1,
-                    encoded: track.encoded,
                     title: trackInfo.title,
                     artwork: trackInfo.artworkUrl,
                     url: trackInfo.uri,
                     uri: trackInfo.uri,
                     duration: d.client.music.utils.formatTime(trackInfo.length),
                     author: trackInfo.author,
-                    artist: trackInfo.author,
                     source: trackInfo.sourceName,
                     identifier: trackInfo.identifier,
                     isSeekable: trackInfo.isSeekable ? 'Yes' : 'No',
                     isStream: trackInfo.isStream ? 'Yes' : 'No',
                     isrc: trackInfo.isrc || 'N/A',
-                    durationMs: trackInfo.length || 'N/A'
+                    durationMs: trackInfo.length || 'N/A',
+                    albumName: pluginInfo?.albumName,
+                    albumUrl: pluginInfo?.albumUrl,
+                    previewUrl: pluginInfo?.previewUrl,
+                    isPreview: pluginInfo?.isPreview,
+                    artist: trackInfo.author,
+                    'artist.artworkUrl': pluginInfo?.artistArtworkUrl,
+                    'artist.url': pluginInfo?.artistUrl
                 };
 
                 return Object.entries(replace).reduce((formatted, [key, value]) => {
