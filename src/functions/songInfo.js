@@ -1,9 +1,7 @@
 module.exports = (d) => {
     const data = d.util.aoiFunc(d);
     let [type, index] = data.inside.splits;
-    if (!type) type = 'title';
-    type = type?.split('.') || [];
-
+    
     const manager = d.client.shoukaku;
     if (!manager) return d.aoiError.fnError(d, "custom", {}, `Voice manager is not defined.`);
     
@@ -12,17 +10,44 @@ module.exports = (d) => {
 
     const getResult = (res) => {
         if (!res) return null;
-        if (type[0] === 'requester') {
-            return res.requester?.[type[1]];
-        } else if (type[0] === 'plugininfo') {
-            return res.plugininfo?.[type[1]];
-        } else if (type[0] === 'userdata') {
-            return res.userdata?.[type[1]];
-        } else {
-            return res[type[0]];
-        }
-    };
+        const trackInfo = res;
+        const requester = trackInfo?.requester;
+        const pluginInfo = trackInfo?.plugininfo;
+        
+        const trackData = {
+            title: trackInfo.title,
+            artworkUrl: trackInfo.artworkUrl,
+            artwork: trackInfo.artworkUrl,
+            thumbnail: trackInfo.artworkUrl,
+            url: trackInfo.uri,
+            uri: trackInfo.uri,
+            duration: d.client.music.utils.formatTime(trackInfo.length),
+            author: trackInfo.author,
+            source: trackInfo.sourceName,
+            identifier: trackInfo.identifier,
+            isSeekable: trackInfo.isSeekable ? 'Yes' : 'No',
+            isStream: trackInfo.isStream ? 'Yes' : 'No',
+            isrc: trackInfo.isrc || 'N/A',
+            durationMs: trackInfo.length || 'N/A',
+            queueLength: player.queue.length || 'N/A',
+            albumName: pluginInfo?.albumName,
+            albumUrl: pluginInfo?.albumUrl,
+            previewUrl: pluginInfo?.previewUrl,
+            isPreview: pluginInfo?.isPreview,
+            artist: trackInfo.author,
+            'artist.artworkUrl': pluginInfo?.artistArtworkUrl,
+            'artist.url': pluginInfo?.artistUrl,
+            'requester.username': requester.username,
+            'requester.globalName': requester.globalName,
+            'requester.id': requester.id,
+            'requester.avatar': requester.avatar,
+            'requester.banner': requester.banner,
+            'requester.mention': requester.id ? `<@${requester.id}>` : null
+        };
 
+        return trackData[type];
+    };
+    
     if (index && !isNaN(index) && index > 0) {
         const res = player.queue[(index - 1)]?.info;
         data.result = getResult(res);
