@@ -198,7 +198,8 @@ exports.Dispatcher = class Dispatcher {
             this.isPlaying();
             return;
         }
-        this.stop();
+        
+        if (!this.queue.length) this.stop();
         return;
     }
 
